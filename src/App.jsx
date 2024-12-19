@@ -1,13 +1,11 @@
+// Components: Project
 import Container from 'react-bootstrap/Container';
 
-// Custom components
+// Components: Local
 import CardPreviewSlider from './components/CardPreviewSlider/CardPreviewSlider';
 
-// Styles
+// Styling: Local
 import './App.css';
-
-
-
 
 function App() {
 

@@ -1,16 +1,20 @@
+// Components: Project
 import Slider from 'react-slick';
 
+// Components: Local
 import CardPreview from '../CardPreview/CardPreview';
 
-
-// Styling
+// Styling: Project
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 
+// Styling: Local
 import './CardPreviewSlider.css';
 
+// Data: Local
 import { CARDS } from '../../../data';
 
+// Component
 export default function CardPreviewSlider() {
   const settings = {
     dots: true,
