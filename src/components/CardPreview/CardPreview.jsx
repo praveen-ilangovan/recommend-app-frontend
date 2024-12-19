@@ -1,5 +1,7 @@
 import Card from 'react-bootstrap/Card';
 
+import placeholderImg from '../../assets/placeholder-image.jpg';
+
 import "./CardPreview.css";
 
 export default function CardPreview({id, title, thumbnail}) {
@@ -10,11 +12,13 @@ export default function CardPreview({id, title, thumbnail}) {
     cardTitle = title.slice(0, titleLengthLimiter - 1) + '...';
   }
 
+  const img = thumbnail ? thumbnail : placeholderImg;
+
   return (
     <Card border="primary" data-toggle="tooltip" data-placement="bottom" title={title}>
-      <Card.Img variant="top" src={thumbnail} />
+      <Card.Img variant="top" src={img} />
       <Card.Body>
-        <Card.Title>{cardTitle}</Card.Title>
+        <Card.Title>{id + '.' + cardTitle}</Card.Title>
       </Card.Body>
     </Card>
   );
