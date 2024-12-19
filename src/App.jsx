@@ -1,16 +1,19 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
 
-import Button from 'react-bootstrap/Button';
+// Custom components
+import CardPreview from './components/CardPreview/CardPreview';
+
+// Styles
+import './App.css';
+
+// Data
+import { CARDS } from '../data';
+
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-      <Button variant="primary">Primary</Button>
+      {CARDS.map( (card) => <CardPreview key={card.id} {...card} /> )}
     </>
   )
 }
