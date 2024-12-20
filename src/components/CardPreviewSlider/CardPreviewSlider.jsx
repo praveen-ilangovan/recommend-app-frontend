@@ -16,10 +16,12 @@ import './CardPreviewSlider.css';
 import { CARDS } from '../../../data';
 
 // Component
-
-// TODO 3: Last item in the card should be a link to the board
-
 export default function CardPreviewSlider() {
+
+  function handleClick() {
+    console.log("Load the board!!")
+  }
+
   const settings = {
     dots: false,
     lazyLoad: true,
@@ -61,10 +63,10 @@ export default function CardPreviewSlider() {
   return (
     <div className="image-slider-container">
         <Slider {...settings}>
-            {CARDS.map( (card) => <div><CardPreview key={card.id} {...card} /></div> )}
+            {CARDS.map( (card) => <div key={card.id}><CardPreview key={card.id} {...card} /></div> )}
 
             <div data-toggle="tooltip" data-placement="bottom" title="Click to see all the cards">
-              <Card>
+              <Card onClick={handleClick}>
                 <Card.Body>Click to see more cards</Card.Body>
               </Card>
             </div>
