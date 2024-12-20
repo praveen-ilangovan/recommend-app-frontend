@@ -1,0 +1,14 @@
+.inline-block-child {
+    display: inline-block;
+}
+
+.icon-box {
+    align-items: center;
+    text-align: center;
+    justify-content: center;
+}
+
+.chevron-icon {
+    margin: 1px 10px;
+    font-size: 13px;
+}
