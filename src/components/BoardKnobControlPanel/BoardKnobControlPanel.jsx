@@ -14,6 +14,10 @@ import { faBan } from '@fortawesome/free-solid-svg-icons';
 // Styling: Local
 import './BoardKnobControlPanel.css';
 
+
+// TODO: Form Control width adjustment
+// https://stackoverflow.com/questions/64092841/react-how-to-make-an-input-only-as-wide-as-the-amount-of-text-provided
+
 export default function BoardKnobControlPanel({name, privateBoard}) {
 
   // Board properties
@@ -28,12 +32,10 @@ export default function BoardKnobControlPanel({name, privateBoard}) {
     setEditMode(true);
   }
 
-  function onEditFieldChange(event) {
-    setEditValue(event.target.value);
-  }
-
   function saveBoardName() {
-    setBoardName(editValue);
+    if (editValue) {
+      setBoardName(editValue);
+    }
     setEditMode(false);
   }
 
@@ -50,34 +52,42 @@ export default function BoardKnobControlPanel({name, privateBoard}) {
     <Container fluid>
       <div className='control-panel'>
 
-        <div className='inline-block-child'>
+        <div className='knob'>
           <div className={editMode ? 'hide' : ''}>
           <Form.Label>{boardName}</Form.Label>
           </div>
         </div>
 
-        <div className='inline-block-child'>
+        <div className='knob'>
           <div className={editMode ? '' : 'hide'}>
-            <Form.Control size="sm" type="text" placeholder={boardName} value={editValue} onChange={onEditFieldChange}/>
+            <Form.Control
+              size="sm"
+              type="text"
+              placeholder={boardName}
+              value={editValue}
+              onChange={(event) => {setEditValue(event.target.value)}}/>
           </div>
         </div>
-        <div className='inline-block-child'>
+
+        <div className='knob'>
           <div className={editMode ? 'hide' : ''}>
             <FontAwesomeIcon icon={faEdit} onClick={editBoardName}/>
           </div>
         </div>
-        <div className='inline-block-child'>
+        <div className='knob'>
           <div className={editMode ? '' : 'hide'}>
             <FontAwesomeIcon icon={faSave} onClick={saveBoardName}/>
           </div>
         </div>
-        <div className='inline-block-child'>
+        <div className='knob'>
           <div className={editMode ? '' : 'hide'}>
             <FontAwesomeIcon icon={faXmark} onClick={cancelEdit}/>
           </div>
         </div>
 
-        <div className='inline-block-child'>
+        <div className='spacer' />
+        
+        <div className='knob'>
           <Form.Check type="switch"
             id="custom-switch"
             label={isPrivate ? 'Private' : 'Public'}
@@ -85,7 +95,7 @@ export default function BoardKnobControlPanel({name, privateBoard}) {
           />
         </div>
 
-        <div className='inline-block-child'>
+        <div className='knob'>
           <div>
             <FontAwesomeIcon icon={faBan} onClick={deleteBoard}/>
           </div>

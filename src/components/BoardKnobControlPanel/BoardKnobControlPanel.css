@@ -1,13 +1,15 @@
 .control-panel {
-    /* background-color: blueviolet; */
-    padding: 10px;
+    display: flex;
 }
 
-.inline-block-child {
-    display: inline-block;
+.knob {
     margin: 0 5px;
 }
 
 .hide {
     display: none;
+}
+
+.spacer {
+    margin-inline-end: auto;
 }
