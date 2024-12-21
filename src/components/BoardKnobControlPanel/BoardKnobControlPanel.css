@@ -1,0 +1,13 @@
+.control-panel {
+    /* background-color: blueviolet; */
+    padding: 10px;
+}
+
+.inline-block-child {
+    display: inline-block;
+    margin: 0 5px;
+}
+
+.hide {
+    display: none;
+}
