@@ -1,0 +1,21 @@
+.card {
+    width: 20rem;
+}
+
+.control-panel {
+    display: flex;
+    justify-content: end;
+}
+
+.knob {
+    margin: 0 5px;
+}
+
+.hide {
+    display: none;
+}
+
+a {
+    color: inherit; /* blue colors for links too */
+    text-decoration: inherit; /* no underline */
+}

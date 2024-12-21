@@ -4,7 +4,8 @@ import Container from 'react-bootstrap/Container';
 // Components: Local
 // import BoardPreview from './components/BoardPreview/BoardPreview';
 // import CardGrid from './components/CardGrid/CardGrid';
-import BoardKnobControlPanel from './components/BoardKnobControlPanel/BoardKnobControlPanel';
+// import BoardKnobControlPanel from './components/BoardKnobControlPanel/BoardKnobControlPanel';
+import CardDetail from './components/CardDetail/CardDetail';
 
 // Styling: Local
 import './App.css';
@@ -21,9 +22,30 @@ function App() {
     //   <BoardPreview name="Must watch movies"/>
     // </Container>
 
-    // <CardGrid />
+    // <>
+    //   <BoardKnobControlPanel name="My first board" privateBoard={false}/>
+    //   <CardGrid />
+    // </>
 
-    <BoardKnobControlPanel name="My first board" privateBoard={false}/>
+    <>
+    <CardDetail
+      title="Drive"
+      description="A mysterious Hollywood action film stuntman gets in trouble with gangsters when he tries to help his neighbor's husband rob a pawn shop while serving as his getaway driver."
+      thumbnail="https://images.bauerhosting.com/legacy/empire-legacy/uploaded/alternative-drive-poster-3.jpg?auto=format&w=1440&q=80"
+      url="https://www.imdb.com/title/tt0780504/"
+      id="1"
+    />
+    <CardDetail
+      title="Pulp Fiction, Pulp Fiction, Pulp Fiction, Pulp Fiction"
+      description="The lives of two mob hitmen, a boxer, a gangster and his wife, and a pair of diner bandits intertwine in four tales of violence and redemption."
+      thumbnail="https://alternativemovieposters.com/wp-content/uploads/2021/04/RuizBurgos_PulpFiction.jpg"
+      url="https://www.imdb.com/title/tt0780504/"
+      id="2"
+      editable="true"
+    />
+    </>
+
+
   )
 }
 
