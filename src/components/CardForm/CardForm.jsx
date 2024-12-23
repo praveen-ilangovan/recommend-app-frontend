@@ -13,7 +13,7 @@ export default function CardForm({onUpdate}) {
   const schema = yup.object().shape({
     url: yup.string().url().required(),
     title: yup.string().required(),
-    image: yup.string().url(),
+    thumbnail: yup.string().url(),
     description: yup.string()
   });
 
@@ -28,7 +28,7 @@ export default function CardForm({onUpdate}) {
       initialValues={{
         url: '',
         title: '',
-        image: '',
+        thumbnail: '',
         description: ''
       }}
     >
@@ -42,18 +42,21 @@ function ActualForm({onUpdate}) {
 
   const formikProps = useFormikContext();
 
+  function handleUpdate(updatedData) {
+    if (onUpdate) {
+      onUpdate(updatedData)
+    }
+  }
+
   function handleOnChange(event, formikHandleChange) {
 
     // Handle the in
     formikHandleChange(event);
 
     // Callback
-    if (onUpdate) {
-      // console.log(formikProps.errors[event.target.name])
-      const updatedData = {}
-      updatedData[event.target.name] = event.target.value;
-      onUpdate(updatedData)
-    }
+    const updatedData = {};
+    updatedData[event.target.name] = event.target.value;
+    handleUpdate(updatedData);
   };
 
   function extract() {
@@ -61,23 +64,26 @@ function ActualForm({onUpdate}) {
 
     formikProps.setFieldValue('url', data.url);
     formikProps.setFieldValue('title', data.title);
-    formikProps.setFieldValue('image', data.image, true);
+    formikProps.setFieldValue('thumbnail', data.thumbnail, true);
     formikProps.setFieldValue('description', data.description);
 
     // Call the update
-    if (onUpdate) {
-      const updatedData = {
-        'url': data.url,
-        'title': data.title,
-        'image': data.image,
-        'description': data.description
-      }
-      onUpdate(updatedData)
-    }
+    const updatedData = {
+      'url': data.url,
+      'title': data.title,
+      'thumbnail': data.thumbnail,
+      'description': data.description
+    };
+    handleUpdate(updatedData);
+  }
+
+  function clearForm() {
+    formikProps.resetForm();
+    handleUpdate(null);
   }
 
   return (
-    <Form noValidate onSubmit={formikProps.handleSubmit} style={{ width: '35rem' }}>
+    <Form noValidate onSubmit={formikProps.handleSubmit}>
 
       <Form.Group
         md="6"
@@ -136,15 +142,15 @@ function ActualForm({onUpdate}) {
         <Form.Label>Image</Form.Label>
         <Form.Control
           type="url"
-          placeholder="Enter the url of an image (Optional)"
-          name="image"
-          value={formikProps.values.image}
+          placeholder="Enter the url for thumbnail (Optional)"
+          name="thumbnail"
+          value={formikProps.values.thumbnail}
           onChange={(event) => {handleOnChange(event, formikProps.handleChange)}}
-          isInvalid={!!formikProps.errors.image}
+          isInvalid={!!formikProps.errors.thumbnail}
         />
 
         <Form.Control.Feedback type="invalid" tooltip>
-          {formikProps.errors.image}
+          {formikProps.errors.thumbnail}
         </Form.Control.Feedback>
       </Form.Group>
 
@@ -160,7 +166,10 @@ function ActualForm({onUpdate}) {
         />
       </Form.Group>
 
-      <Button type="submit">Add Card</Button>
+      <div style={{ textAlign: "center" }}>
+        <Button style={{ margin: "10px" }} type="submit">Add Card</Button>
+        <Button style={{ margin: "10px" }} type="button" onClick={clearForm}>Clear</Button>
+      </div>
 
     </Form>
   );

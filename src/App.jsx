@@ -7,9 +7,10 @@ import Container from 'react-bootstrap/Container';
 // import BoardPreview from './components/BoardPreview/BoardPreview';
 // import CardGrid from './components/CardGrid/CardGrid';
 // import BoardKnobControlPanel from './components/BoardKnobControlPanel/BoardKnobControlPanel';
-import CardPreview from './components/CardPreview/CardPreview';
-import CardDetail from './components/CardDetail/CardDetail';
-import CardForm from './components/CardForm/CardForm';
+// import CardPreview from './components/CardPreview/CardPreview';
+// import CardDetail from './components/CardDetail/CardDetail';
+// import CardForm from './components/CardForm/CardForm';
+import CardComposer from './components/CardComposer/CardComposer';
 
 // Styling: Local
 import './App.css';
@@ -81,22 +82,24 @@ function App() {
     // />
     // </>
 
-    <Container fluid>
-      <div>
-        <CardForm onUpdate={testCallback}/>
-        <CardDetail
-          url={url}
-          title={title}
-          thumbnail={thumbnail}
-          description={description}
-        />
-        <CardPreview
-          id=""
-          title={title}
-          thumbnail={thumbnail}
-        />
-      </div>
-    </Container>
+    // <Container fluid>
+    //   <div>
+    //     <CardForm onUpdate={testCallback}/>
+    //     <CardDetail
+    //       url={url}
+    //       title={title}
+    //       thumbnail={thumbnail}
+    //       description={description}
+    //     />
+    //     <CardPreview
+    //       id=""
+    //       title={title}
+    //       thumbnail={thumbnail}
+    //     />
+    //   </div>
+    // </Container>
+
+    <CardComposer />
   )
 }
 
