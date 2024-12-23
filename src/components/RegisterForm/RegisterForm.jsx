@@ -4,24 +4,26 @@ import Form from 'react-bootstrap/Form';
 import {useFormikContext, Formik} from 'formik';
 import * as yup from 'yup';
 
-export default function LoginForm() {
+export default function RegisterForm() {
 
   const schema = yup.object().shape({
-    emailaddress: yup.string().required(),
-    password: yup.string().required()
+    emailaddress: yup.string().email().required(),
+    password: yup.string().required(),
+    passwordConfirmation: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match')
   });
 
-  function login(values) {
+  function register(values) {
     console.log(values);
   }
 
   return (
     <Formik
       validationSchema={schema}
-      onSubmit={login}
+      onSubmit={register}
       initialValues={{
         emailaddress: '',
-        password: ''
+        password: '',
+        passwordConfirmation: ''
       }}
     >
       <ActualForm />
@@ -37,7 +39,7 @@ function ActualForm() {
 
       <Form.Group
         md="6"
-        controlId="loginForm-emailaddressField"
+        controlId="registerForm-emailaddressField"
         className="position-relative"
       >
         <Form.Label>Email address *</Form.Label>
@@ -58,7 +60,7 @@ function ActualForm() {
 
       <Form.Group
         md="6"
-        controlId="loginForm-passwordField"
+        controlId="registerForm-passwordField"
         className="position-relative"
       >
         <Form.Label>Password *</Form.Label>
@@ -76,10 +78,31 @@ function ActualForm() {
         </Form.Control.Feedback>
       </Form.Group>
 
+      <Form.Group
+        md="6"
+        controlId="registerForm-passwordConfField"
+        className="position-relative"
+      >
+        <Form.Label>Confrim Password *</Form.Label>
+
+        <Form.Control
+          type="password"
+          name="passwordConfirmation"
+          value={formikProps.values.passwordConfirmation}
+          onChange={formikProps.handleChange}
+          isInvalid={formikProps.touched.passwordConfirmation && !!formikProps.errors.passwordConfirmation}
+        />
+
+        <Form.Control.Feedback type="invalid" tooltip>
+          {formikProps.errors.passwordConfirmation}
+        </Form.Control.Feedback>
+      </Form.Group>
+
       <div style={{ textAlign: "center" }}>
-        <Button style={{ margin: "10px" }} type="submit">Login</Button>
+        <Button style={{ margin: "10px" }} type="submit">Register</Button>
       </div>
 
     </Form>
   );
 }
+

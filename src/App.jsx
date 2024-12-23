@@ -12,6 +12,7 @@ import Container from 'react-bootstrap/Container';
 // import CardForm from './components/CardForm/CardForm';
 // import CardComposer from './components/CardComposer/CardComposer';
 import LoginForm from './components/LoginForm/LoginForm';
+import RegisterForm from './components/RegisterForm/RegisterForm';
 
 // Styling: Local
 import './App.css';
@@ -54,7 +55,9 @@ function App() {
 
     // <CardComposer />
 
-    <LoginForm />
+    // <LoginForm />
+
+    <RegisterForm />
   )
 }
 
