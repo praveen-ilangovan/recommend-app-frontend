@@ -10,44 +10,13 @@ import Container from 'react-bootstrap/Container';
 // import CardPreview from './components/CardPreview/CardPreview';
 // import CardDetail from './components/CardDetail/CardDetail';
 // import CardForm from './components/CardForm/CardForm';
-import CardComposer from './components/CardComposer/CardComposer';
+// import CardComposer from './components/CardComposer/CardComposer';
+import LoginForm from './components/LoginForm/LoginForm';
 
 // Styling: Local
 import './App.css';
 
-function TestComponent({title}) {
-  return (
-    <div>
-      <h5>{title}</h5>
-    </div>
-  );
-}
-
 function App() {
-
-  const [title, setTitle] = useState("Title");
-  const [url, setUrl] = useState("");
-  const [thumbnail, setThumbnail] = useState("");
-  const [description, setDescription] = useState("Description...")
-
-  function testCallback(values) {
-    // console.log(values)
-    if (values.title) {
-      setTitle(values.title);
-    }
-
-    if (values.url) {
-      setUrl(values.url)
-    }
-
-    if (values.image) {
-      setThumbnail(values.image)
-    }
-
-    if (values.description) {
-      setDescription(values.description)
-    }
-  }
 
   return (
     // <Container fluid>
@@ -82,24 +51,10 @@ function App() {
     // />
     // </>
 
-    // <Container fluid>
-    //   <div>
-    //     <CardForm onUpdate={testCallback}/>
-    //     <CardDetail
-    //       url={url}
-    //       title={title}
-    //       thumbnail={thumbnail}
-    //       description={description}
-    //     />
-    //     <CardPreview
-    //       id=""
-    //       title={title}
-    //       thumbnail={thumbnail}
-    //     />
-    //   </div>
-    // </Container>
 
-    <CardComposer />
+    // <CardComposer />
+
+    <LoginForm />
   )
 }
 
