@@ -20,10 +20,10 @@ export default function CardPreview({id, title, thumbnail}) {
   const img = thumbnail ? thumbnail : placeholderImg;
 
   return (
-    <Card data-toggle="tooltip" data-placement="bottom" title={title}>
-      <Card.Img variant="top" src={img} />
+    <Card className='card-preview' data-toggle="tooltip" data-placement="bottom" title={title}>
+      <Card.Img className='card-preview-img' variant="top" src={img} />
       <Card.Body>
-        <Card.Title>{id + '.' + cardTitle}</Card.Title>
+        <Card.Title className='card-preview-title'>{id + '.' + cardTitle}</Card.Title>
       </Card.Body>
     </Card>
   );

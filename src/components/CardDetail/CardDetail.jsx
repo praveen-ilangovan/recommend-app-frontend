@@ -1,6 +1,5 @@
 // Components: Project
 import Card from 'react-bootstrap/Card';
-import Button from 'react-bootstrap/Button';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEdit } from '@fortawesome/free-solid-svg-icons';
@@ -22,7 +21,7 @@ export default function CardDetail({title, description, thumbnail, url, id, edit
   const img = thumbnail ? thumbnail : placeholderImg;
 
   return (
-    <Card>
+    <Card style={{ width: '20rem' }}>
       <Card.Img variant="top" src={img} />
       <Card.Body>
         <Card.Title>{title}</Card.Title>
