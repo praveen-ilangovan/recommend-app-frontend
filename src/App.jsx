@@ -14,6 +14,7 @@ import Container from 'react-bootstrap/Container';
 // import LoginForm from './components/LoginForm/LoginForm';
 // import RegisterForm from './components/RegisterForm/RegisterForm';
 import RecommendBrandName from './components/RecommendBrandName/RecommendBrandName';
+import RecommendBrandSubText from './components/RecommendBrandSubText/RecommndBrandSubText';
 
 // Styling: Local
 import './App.css';
@@ -59,8 +60,10 @@ function App() {
     // <LoginForm />
 
     // <RegisterForm />
+
     <div style={{ margin: "30px" }}>
       <RecommendBrandName size="72px"/>
+      <RecommendBrandSubText />
     </div>
   )
 }
