@@ -13,8 +13,10 @@ import Container from 'react-bootstrap/Container';
 // import CardComposer from './components/CardComposer/CardComposer';
 // import LoginForm from './components/LoginForm/LoginForm';
 // import RegisterForm from './components/RegisterForm/RegisterForm';
-import RecommendBrandName from './components/RecommendBrandName/RecommendBrandName';
-import RecommendBrandSubText from './components/RecommendBrandSubText/RecommndBrandSubText';
+// import RecommendBrandName from './components/RecommendBrandName/RecommendBrandName';
+// import RecommendBrandSubText from './components/RecommendBrandSubText/RecommndBrandSubText';
+// import RecommendBrand from './components/RecommendBrand/RecommendBrand';
+import LoginPage from './components/LoginPage/LoginPage';
 
 // Styling: Local
 import './App.css';
@@ -61,10 +63,12 @@ function App() {
 
     // <RegisterForm />
 
-    <div style={{ margin: "30px" }}>
-      <RecommendBrandName size="72px"/>
-      <RecommendBrandSubText />
-    </div>
+    // <div style={{ margin: "30px" }}>
+    //   <RecommendBrand size="60px"/>
+    // </div>
+
+
+    <LoginPage />
   )
 }
 
