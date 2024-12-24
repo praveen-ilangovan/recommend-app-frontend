@@ -11,8 +11,9 @@ import Container from 'react-bootstrap/Container';
 // import CardDetail from './components/CardDetail/CardDetail';
 // import CardForm from './components/CardForm/CardForm';
 // import CardComposer from './components/CardComposer/CardComposer';
-import LoginForm from './components/LoginForm/LoginForm';
-import RegisterForm from './components/RegisterForm/RegisterForm';
+// import LoginForm from './components/LoginForm/LoginForm';
+// import RegisterForm from './components/RegisterForm/RegisterForm';
+import RecommendBrandName from './components/RecommendBrandName/RecommendBrandName';
 
 // Styling: Local
 import './App.css';
@@ -57,7 +58,10 @@ function App() {
 
     // <LoginForm />
 
-    <RegisterForm />
+    // <RegisterForm />
+    <div style={{ margin: "30px" }}>
+      <RecommendBrandName size="72px"/>
+    </div>
   )
 }
 
