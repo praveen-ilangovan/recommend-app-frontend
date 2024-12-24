@@ -1,3 +1,6 @@
+// React
+import { Link } from 'react-router-dom';
+
 // Components: Project
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
@@ -13,21 +16,21 @@ import RecommendBrandName from '../RecommendBrandName/RecommendBrandName';
 // Styling: Local
 import "./RecommendNavBar.css";
 
-export default function RecommendNavBar({isLoggedIn = true, user}) {
+export default function RecommendNavBar({isLoggedIn = false, user}) {
 
   const isUserLoggedIn = isLoggedIn;
   const loggedInUser = user;
 
   return (
     <Navbar className="bg-body-tertiary">
-      <Container>
+      <Container fluid>
         <Navbar.Brand href="#">
           <RecommendBrandName size="24px" />
         </Navbar.Brand>
 
         <Navbar.Collapse className="justify-content-end">
-          {!isUserLoggedIn ? <SignUpButtons /> : (<></>)}
-          {!loggedInUser ? <SignedInUser userInitial="P"/> : (<></>)}
+          {!isUserLoggedIn ? <SignUpButtons /> : undefined}
+          {loggedInUser ? <SignedInUser userInitial="P"/> : undefined}
         </Navbar.Collapse>
       </Container>
     </Navbar>
@@ -37,7 +40,15 @@ export default function RecommendNavBar({isLoggedIn = true, user}) {
 function SignUpButtons() {
   return (
     <div>
-      <Button variant="primary" type="button" className='navbar-signup-button'>Log in</Button>
+      <Link to="/session/new">
+        <Button
+          variant="primary"
+          type="button"
+          className='navbar-signup-button'
+        >
+          Log in
+        </Button>
+      </Link>
       <Button variant="success" type="button" className='navbar-signup-button'>Join Now</Button>
     </div>
   );

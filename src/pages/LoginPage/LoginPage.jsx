@@ -4,15 +4,15 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 
 // Components: Local
-import RecommendBrand from "../RecommendBrand/RecommendBrand";
-import LoginForm from "../LoginForm/LoginForm";
+import RecommendBrand from "../../components/RecommendBrand/RecommendBrand";
+import LoginForm from "../../components/LoginForm/LoginForm";
 
 // Styling: Local
 import "./LoginPage.css";
 
 export default function LoginPage() {
   return (
-    <Container fluid>
+    <Container fluid className='login-page-container'>
       <Row className='login-page-row'>
         <Col className='login-page-col'>
           <RecommendBrand size="60px"/>
