@@ -1,0 +1,9 @@
+.register-form-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.register-form-button {
+    text-align: center;
+    margin: 10px;
+}

@@ -4,6 +4,9 @@ import Form from 'react-bootstrap/Form';
 import {useFormikContext, Formik} from 'formik';
 import * as yup from 'yup';
 
+// Styling: Local
+import "./RegisterForm.css";
+
 export default function RegisterForm() {
 
   const schema = yup.object().shape({
@@ -40,7 +43,7 @@ function ActualForm() {
       <Form.Group
         md="6"
         controlId="registerForm-emailaddressField"
-        className="position-relative"
+        className="register-form-group"
       >
         <Form.Label>Email address *</Form.Label>
 
@@ -61,7 +64,7 @@ function ActualForm() {
       <Form.Group
         md="6"
         controlId="registerForm-passwordField"
-        className="position-relative"
+        className="register-form-group"
       >
         <Form.Label>Password *</Form.Label>
 
@@ -81,7 +84,7 @@ function ActualForm() {
       <Form.Group
         md="6"
         controlId="registerForm-passwordConfField"
-        className="position-relative"
+        className="register-form-group"
       >
         <Form.Label>Confrim Password *</Form.Label>
 
@@ -98,8 +101,8 @@ function ActualForm() {
         </Form.Control.Feedback>
       </Form.Group>
 
-      <div style={{ textAlign: "center" }}>
-        <Button style={{ margin: "10px" }} type="submit">Register</Button>
+      <div className='register-form-button'>
+        <Button type="submit">Create an account</Button>
       </div>
 
     </Form>

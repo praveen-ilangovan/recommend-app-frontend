@@ -17,6 +17,7 @@ import Container from 'react-bootstrap/Container';
 // import RecommendBrandSubText from './components/RecommendBrandSubText/RecommndBrandSubText';
 // import RecommendBrand from './components/RecommendBrand/RecommendBrand';
 import LoginPage from './components/LoginPage/LoginPage';
+import RegisterPage from "./components/RegisterPage/RegisterPage";
 
 // Styling: Local
 import './App.css';
@@ -68,7 +69,8 @@ function App() {
     // </div>
 
 
-    <LoginPage />
+    // <LoginPage />
+    <RegisterPage />
   )
 }
 
