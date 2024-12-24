@@ -10,8 +10,6 @@
     display: flex; /* or inline-flex */
     align-items: center; 
     justify-content: center;
-    mix-blend-mode: difference;
-    color: gray;
 }
 
 .signed-user-options {

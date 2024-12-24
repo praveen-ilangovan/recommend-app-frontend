@@ -45,13 +45,26 @@ function SignUpButtons() {
 
 function SignedInUser({userInitial}) {
 
-  const randomColor = '#' + Math.floor(Math.random()*16777215).toString(16);
-  // TODO: Find the contrast color for text at this point
+  function hexToRgb(hex) {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    return result ? {
+      r: parseInt(result[1], 16),
+      g: parseInt(result[2], 16),
+      b: parseInt(result[3], 16)
+    } : null;
+  }
+
+  const bgColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+  const rgbColor = hexToRgb(bgColor);
+  let textColor = "#ffffff";
+  if ( (rgbColor.r*0.299) + (rgbColor.g*0.587) + (rgbColor.b*0.114) > 186) {
+    textColor = "#000000";
+  }
 
   return (
     <div className='signed-user-options'>
       <FontAwesomeIcon icon={faPlus} className='signup-user-button'/>
-      <div style={{ backgroundColor: randomColor }} className='dot signup-user-button'>{userInitial}</div>
+      <div style={{ backgroundColor: bgColor, color: textColor }} className='dot signup-user-button'>{userInitial}</div>
     </div>
   )
 }
