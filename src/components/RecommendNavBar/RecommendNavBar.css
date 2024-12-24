@@ -1,0 +1,25 @@
+.navbar-signup-button {
+    margin: 0 10px;
+    font-size: 12px;
+}
+
+.dot {
+    height: 35px;
+    width: 35px;
+    border-radius: 50%;
+    display: flex; /* or inline-flex */
+    align-items: center; 
+    justify-content: center;
+    mix-blend-mode: difference;
+    color: gray;
+}
+
+.signed-user-options {
+    display: flex; /* or inline-flex */
+    align-items: center; 
+    justify-content: center;
+}
+
+.signup-user-button {
+    margin: 0 10px;
+}

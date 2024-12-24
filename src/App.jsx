@@ -16,8 +16,9 @@ import Container from 'react-bootstrap/Container';
 // import RecommendBrandName from './components/RecommendBrandName/RecommendBrandName';
 // import RecommendBrandSubText from './components/RecommendBrandSubText/RecommndBrandSubText';
 // import RecommendBrand from './components/RecommendBrand/RecommendBrand';
-import LoginPage from './components/LoginPage/LoginPage';
+// import LoginPage from './components/LoginPage/LoginPage';
 import RegisterPage from "./components/RegisterPage/RegisterPage";
+import RecommendNavBar from './components/RecommendNavBar/RecommendNavBar';
 
 // Styling: Local
 import './App.css';
@@ -70,7 +71,11 @@ function App() {
 
 
     // <LoginPage />
-    <RegisterPage />
+    <>
+      <RecommendNavBar />
+      <RegisterPage />
+    </>
+
   )
 }
 
