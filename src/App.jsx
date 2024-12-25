@@ -1,12 +1,10 @@
 // React
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
-// Components: Project
-import Container from 'react-bootstrap/Container';
-
 // Components: Local
 import RootPage from './pages/RootPage/RootPage';
 import LoginPage from './pages/LoginPage/LoginPage';
+import RegisterPage from './pages/RegisterPage/RegisterPage';
 
 // Styling: Local
 import './App.css';
@@ -16,7 +14,8 @@ const router = createBrowserRouter([
   {path: '/',
    element: <RootPage />,
    children: [
-    {path:'/session/new', element: <LoginPage />}
+    {path:'/session/new', element: <LoginPage />},
+    {path:'/users/new', element: <RegisterPage />}
    ]}
 ]);
 

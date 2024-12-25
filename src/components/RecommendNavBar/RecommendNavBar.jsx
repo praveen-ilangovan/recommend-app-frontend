@@ -22,7 +22,7 @@ export default function RecommendNavBar({isLoggedIn = false, user}) {
   const loggedInUser = user;
 
   return (
-    <Navbar className="bg-body-tertiary">
+    <Navbar className="navbar-light">
       <Container fluid>
         <Navbar.Brand href="#">
           <RecommendBrandName size="24px" />
@@ -49,7 +49,16 @@ function SignUpButtons() {
           Log in
         </Button>
       </Link>
-      <Button variant="success" type="button" className='navbar-signup-button'>Join Now</Button>
+
+      <Link to="/users/new">
+        <Button
+          variant="success"
+          type="button"
+          className='navbar-signup-button'
+        >
+          Join Now
+        </Button>
+      </Link>
     </div>
   );
 }

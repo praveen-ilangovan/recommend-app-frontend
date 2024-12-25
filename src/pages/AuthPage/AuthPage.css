@@ -1,25 +1,31 @@
-.login-page-container {
+.auth-page-container {
     width: 100%;
-    height: 90vh;
+    height: 80vh;
 }
 
-.login-page-row {
+.auth-page-row {
     height: 100%
 }
 
-.login-page-col {
+.auth-page-col {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 30px;
+    padding: 0 100px;
 }
 
-.login-page-form-div {
+.auth-page-brand-div {
+    margin: 20px;
+}
+
+.auth-page-form-box {
+    padding: 60px 20px;
+    border-radius: 5%;
     min-width: 25rem;
 }
 
-.login-page-header {
+.auth-page-header {
     text-align: center;
     margin-bottom: 30px;
 }
