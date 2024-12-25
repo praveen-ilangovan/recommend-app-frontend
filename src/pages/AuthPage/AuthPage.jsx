@@ -11,15 +11,15 @@ import "./AuthPage.css";
 
 export default function AuthPage({children}) {
   return (
-    <Container fluid className='auth-page-container'>
-      <Row className='auth-page-row'>
-        <Col className='auth-page-col'>
+    <Container fluid className='recommend-page-container'>
+      <Row className='recommend-grid-row'>
+        <Col className='recommend-grid-col auth-page-col'>
           <div className='auth-page-brand-div'>
             <RecommendBrand size="60px"/>
           </div>
         </Col>
-        <Col className='auth-page-col'>
-          <div className='shadow auth-page-form-box'>
+        <Col className='recommend-grid-col auth-page-col'>
+          <div className='shadow recommend-form-box'>
             {children}
           </div>
         </Col>

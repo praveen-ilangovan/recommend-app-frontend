@@ -11,9 +11,6 @@ import CardForm from '../CardForm/CardForm';
 import CardDetail from '../CardDetail/CardDetail';
 import CardPreview from '../CardPreview/CardPreview';
 
-// Styling: Local
-import "./CardComposer.css";
-
 export default function CardComposer() {
   // Default value
   const defaultCardData = {
@@ -35,26 +32,28 @@ export default function CardComposer() {
   }
 
   return (
-      <Container fluid>
-        <Row className='card-composer-row'>
-          <Col md={6} className='card-composer-col'>
-            <div className='card-composer-form-div'>
-              <div className='card-composer-header'>
+      <Container fluid className='recommend-page-container'>
+        <Row className='recommend-grid-row'>
+          <Col md={6} className='recommend-grid-col'>
+            <div className='shadow recommend-form-box'>
+              <div className='recommend-form-header'>
                 <h3>Compose the card</h3>
               </div>
-              <CardForm onUpdate={updateCardData} />
+              <div>
+                <CardForm onUpdate={updateCardData} />
+              </div>
             </div>
           </Col>
 
-          <Col className='card-composer-col'>
-            <div className='card-composer-header'>
+          <Col className='recommend-grid-col'>
+            <div className='recommend-form-header'>
               <h5>Preview</h5>
             </div>
             <CardPreview id="" title={cardData.title} thumbnail={cardData.thumbnail} />
           </Col>
   
-          <Col className='card-composer-col'>
-            <div className='card-composer-header'>
+          <Col className='recommend-grid-col'>
+            <div className='recommend-form-header'>
               <h5>Final</h5>
             </div>
             <CardDetail {...cardData} />

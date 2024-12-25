@@ -5,6 +5,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import RootPage from './pages/RootPage/RootPage';
 import LoginPage from './pages/LoginPage/LoginPage';
 import RegisterPage from './pages/RegisterPage/RegisterPage';
+import CardComposerPage from './pages/CardComposerPage/CardComposerPage';
 
 // Styling: Local
 import './App.css';
@@ -15,7 +16,8 @@ const router = createBrowserRouter([
    element: <RootPage />,
    children: [
     {path:'/session/new', element: <LoginPage />},
-    {path:'/users/new', element: <RegisterPage />}
+    {path:'/users/new', element: <RegisterPage />},
+    {path:'/cards/new', element: <CardComposerPage />}
    ]}
 ]);
 

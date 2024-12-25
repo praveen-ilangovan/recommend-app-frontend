@@ -88,7 +88,7 @@ function ActualForm({onUpdate}) {
       <Form.Group
         md="6"
         controlId="cardForm-urlField"
-        className="position-relative"
+        className="recommend-form-field-group"
       >
         <Form.Label>Url *</Form.Label>
 
@@ -118,7 +118,7 @@ function ActualForm({onUpdate}) {
       <Form.Group
         md="3"
         controlId="cardForm-titleField"
-        className="position-relative"
+        className="recommend-form-field-group"
       >
         <Form.Label>Title *</Form.Label>
         <Form.Control
@@ -137,7 +137,7 @@ function ActualForm({onUpdate}) {
       <Form.Group
         md="3"
         controlId="cardForm-imageField"
-        className="position-relative"
+        className="recommend-form-field-group"
       >
         <Form.Label>Image</Form.Label>
         <Form.Control
@@ -154,7 +154,10 @@ function ActualForm({onUpdate}) {
         </Form.Control.Feedback>
       </Form.Group>
 
-      <Form.Group className="mb-3" controlId="cardForm-descriptionField">
+      <Form.Group
+        mb="3"
+        className="recommend-form-field-group"
+        controlId="cardForm-descriptionField">
         <Form.Label>Description</Form.Label>
         <Form.Control
             as="textarea"
@@ -166,9 +169,9 @@ function ActualForm({onUpdate}) {
         />
       </Form.Group>
 
-      <div style={{ textAlign: "center" }}>
-        <Button style={{ margin: "10px" }} type="submit">Add Card</Button>
-        <Button style={{ margin: "10px" }} type="button" onClick={clearForm}>Clear</Button>
+      <div className='recommend-form-button'>
+        <Button style={{ margin: "0 10px" }} type="submit">Add Card</Button>
+        <Button style={{ margin: "0 10px" }} type="button" onClick={clearForm}>Clear</Button>
       </div>
 
     </Form>

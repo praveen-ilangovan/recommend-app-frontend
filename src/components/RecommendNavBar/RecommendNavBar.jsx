@@ -16,7 +16,7 @@ import RecommendBrandName from '../RecommendBrandName/RecommendBrandName';
 // Styling: Local
 import "./RecommendNavBar.css";
 
-export default function RecommendNavBar({isLoggedIn = false, user}) {
+export default function RecommendNavBar({isLoggedIn = false, user="hello"}) {
 
   const isUserLoggedIn = isLoggedIn;
   const loggedInUser = user;
@@ -83,7 +83,15 @@ function SignedInUser({userInitial}) {
 
   return (
     <div className='signed-user-options'>
-      <FontAwesomeIcon icon={faPlus} className='signup-user-button'/>
+      <Link to="/cards/new">
+        <FontAwesomeIcon
+          icon={faPlus}
+          className='signup-user-button'
+          data-toggle="tooltip"
+          data-placement="bottom"
+          title="Add a card"
+        />
+      </Link>
       <div style={{ backgroundColor: bgColor, color: textColor }} className='dot signup-user-button'>{userInitial}</div>
     </div>
   )

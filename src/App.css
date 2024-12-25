@@ -5,3 +5,56 @@
 .font-face-msc {
     font-family: "MacondoSwashCaps";
 }
+
+/*
+Container
+*/
+
+.recommend-page-container {
+    width: 100%;
+    height: 80vh;
+}
+
+/* 
+Grid
+*/
+
+.recommend-grid-row {
+    height: 100%
+}
+
+.recommend-grid-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+/* 
+Form related styling
+*/
+
+.recommend-form-box {
+    padding: 30px 20px;
+    border-radius: 5%;
+    min-width: 25rem;
+}
+
+.recommend-form-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.recommend-form-subtext-link {
+    font-size: 12px;
+}
+
+.recommend-form-field-group {
+    position: relative;
+    margin-bottom: 20px;
+}
+
+.recommend-form-button {
+    text-align: center;
+    margin: 10px;
+}
