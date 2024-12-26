@@ -29,7 +29,7 @@ export default function CardDetail({title, description, thumbnail, url, id, edit
         </Card.Text>
         <div className='control-panel'>
           <div>
-            <Link to="/cards/edit">
+            <Link to={`/cards/${id}/edit`}>
               <FontAwesomeIcon icon={faEdit} className={editable ? 'knob' : 'hide'}/>
             </Link>
           </div>

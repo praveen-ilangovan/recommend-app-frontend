@@ -11,13 +11,13 @@ import CardForm from '../CardForm/CardForm';
 import CardDetail from '../CardDetail/CardDetail';
 import CardPreview from '../CardPreview/CardPreview';
 
-export default function CardComposer() {
+export default function CardComposer({id, url, thumbnail, title="Title", description="Description..."}) {
   // Default value
   const defaultCardData = {
-    "url": "",
-    "title": "Title",
-    "thumbnail": "",
-    "description": "Description..."};
+    "url": url,
+    "title": title,
+    "thumbnail": thumbnail,
+    "description": description};
 
   // states
   const [cardData, setCardData] = useState(defaultCardData);
@@ -40,7 +40,13 @@ export default function CardComposer() {
                 <h3>Compose the card</h3>
               </div>
               <div>
-                <CardForm onUpdate={updateCardData} />
+                <CardForm
+                  id={id}
+                  url={url}
+                  title={title}
+                  description={description}
+                  thumbnail={thumbnail}
+                  onUpdate={updateCardData} />
               </div>
             </div>
           </Col>
@@ -49,7 +55,7 @@ export default function CardComposer() {
             <div className='recommend-form-header'>
               <h5>Preview</h5>
             </div>
-            <CardPreview id="" title={cardData.title} thumbnail={cardData.thumbnail} />
+            <CardPreview id={id} title={cardData.title} thumbnail={cardData.thumbnail} />
           </Col>
   
           <Col className='recommend-grid-col'>

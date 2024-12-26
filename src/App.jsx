@@ -23,8 +23,8 @@ const router = createBrowserRouter([
     {path:'/users/new', element: <RegisterPage />},
     {path:'/boards/:boardId', element: <BoardPage />},
     {path:'/cards/:cardId', element: <CardPage />},
-    {path:'/cards/new', element: <CardComposerPage />},
-    {path:'/cards/edit', element: <CardComposerPage />}
+    {path:'/cards/:cardId/edit', element: <CardComposerPage />},
+    {path:'/cards/new', element: <CardComposerPage />}
    ]}
 ]);
 

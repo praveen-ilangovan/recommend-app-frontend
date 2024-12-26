@@ -12,7 +12,7 @@ export default function LandingPage() {
   const boards = [];
   function populateBoards() {
     for (const [id, board] of Object.entries(BOARDS)) {
-      boards.push( <BoardPreview boardId={id}/> )
+      boards.push( <BoardPreview key={id} boardId={id}/> )
     }
   }
   populateBoards();

@@ -8,7 +8,7 @@ import * as yup from 'yup';
 // Data: Local
 import { TEST_EXTRACTED_DATA } from '../../../data';
 
-export default function CardForm({onUpdate}) {
+export default function CardForm({id, url='', title='', thumbnail='', description='', boardId, onUpdate}) {
 
   const schema = yup.object().shape({
     url: yup.string().url().required(),
@@ -26,10 +26,10 @@ export default function CardForm({onUpdate}) {
       validationSchema={schema}
       onSubmit={addCard}
       initialValues={{
-        url: '',
-        title: '',
-        thumbnail: '',
-        description: ''
+        url: url,
+        title: title,
+        thumbnail: thumbnail,
+        description: description
       }}
     >
       <ActualForm onUpdate={onUpdate}/>

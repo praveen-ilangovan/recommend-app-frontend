@@ -29,14 +29,6 @@ export default function CardPage() {
   return (
     <Container fluid className='recommend-page-container'>
       <div className='card-page-div'>
-        {/* <CardDetail 
-          title={card.title}
-          description={card.description}
-          thumbnail={card.thumbnail}
-          url={card.url}
-          id={card.id}
-          editable
-        /> */}
         <CardDetail {...card} editable />
       </div>
     </Container>
