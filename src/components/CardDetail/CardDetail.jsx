@@ -1,3 +1,6 @@
+// React
+import { Link } from 'react-router-dom';
+
 // Components: Project
 import Card from 'react-bootstrap/Card';
 
@@ -13,10 +16,6 @@ import placeholderImg from '../../assets/placeholder-image.jpg';
 
 export default function CardDetail({title, description, thumbnail, url, id, editable=false}) {
 
-  function editCard() {
-    console.log(id);
-  }
-
   // Set the image to a placeholder one if thumbnail is null or undefined.
   const img = thumbnail ? thumbnail : placeholderImg;
 
@@ -30,7 +29,9 @@ export default function CardDetail({title, description, thumbnail, url, id, edit
         </Card.Text>
         <div className='control-panel'>
           <div>
-            <FontAwesomeIcon icon={faEdit} className={editable ? 'knob' : 'hide'} onClick={editCard}/>
+            <Link to="/cards/edit">
+              <FontAwesomeIcon icon={faEdit} className={editable ? 'knob' : 'hide'}/>
+            </Link>
           </div>
 
           <a href={url} target="_blank" rel="noopener noreferrer" className='knob'>

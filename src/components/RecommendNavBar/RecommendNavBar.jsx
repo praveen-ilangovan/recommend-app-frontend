@@ -24,8 +24,10 @@ export default function RecommendNavBar({isLoggedIn = false, user="hello"}) {
   return (
     <Navbar className="navbar-light">
       <Container fluid>
-        <Navbar.Brand href="#">
-          <RecommendBrandName size="24px" />
+        <Navbar.Brand>
+          <Link to="/me">
+            <RecommendBrandName size="24px" />
+          </Link>
         </Navbar.Brand>
 
         <Navbar.Collapse className="justify-content-end">

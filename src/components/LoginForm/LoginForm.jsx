@@ -43,6 +43,7 @@ function ActualForm() {
         <Form.Label>Email address *</Form.Label>
 
         <Form.Control
+          size="sm"
           type="text"
           placeholder="name@example.com"
           name="emailaddress"
@@ -64,6 +65,7 @@ function ActualForm() {
         <Form.Label>Password *</Form.Label>
 
         <Form.Control
+          size="sm"
           type="password"
           name="password"
           value={formikProps.values.password}
@@ -77,7 +79,7 @@ function ActualForm() {
       </Form.Group>
 
       <div className='recommend-form-button'>
-        <Button type="submit">Login</Button>
+        <Button size="sm" type="submit">Login</Button>
       </div>
 
     </Form>

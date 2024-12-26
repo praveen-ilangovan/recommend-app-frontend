@@ -94,6 +94,7 @@ function ActualForm({onUpdate}) {
 
         <InputGroup className="mb-3">
           <Form.Control
+            size="sm"
             type="url"
             placeholder="Enter the url"
             name="url"
@@ -102,6 +103,7 @@ function ActualForm({onUpdate}) {
             isInvalid={formikProps.touched.url && !!formikProps.errors.url}
           />
           <Button
+            size="sm"
             variant="outline-primary"
             id="cardForm-extractButton"
             onClick={extract}
@@ -122,6 +124,7 @@ function ActualForm({onUpdate}) {
       >
         <Form.Label>Title *</Form.Label>
         <Form.Control
+          size="sm"
           type="text"
           placeholder="Title of the card"
           name="title"
@@ -141,6 +144,7 @@ function ActualForm({onUpdate}) {
       >
         <Form.Label>Image</Form.Label>
         <Form.Control
+          size="sm"
           type="url"
           placeholder="Enter the url for thumbnail (Optional)"
           name="thumbnail"
@@ -160,6 +164,7 @@ function ActualForm({onUpdate}) {
         controlId="cardForm-descriptionField">
         <Form.Label>Description</Form.Label>
         <Form.Control
+            size="sm"
             as="textarea"
             rows={3}
             name="description"
@@ -170,8 +175,8 @@ function ActualForm({onUpdate}) {
       </Form.Group>
 
       <div className='recommend-form-button'>
-        <Button style={{ margin: "0 10px" }} type="submit">Add Card</Button>
-        <Button style={{ margin: "0 10px" }} type="button" onClick={clearForm}>Clear</Button>
+        <Button size="sm" style={{ margin: "0 10px" }} type="submit">Add Card</Button>
+        <Button size="sm" style={{ margin: "0 10px" }} type="button" onClick={clearForm}>Clear</Button>
       </div>
 
     </Form>

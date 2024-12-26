@@ -1,3 +1,6 @@
+// React
+import { Link } from 'react-router-dom';
+
 // Components: Project
 import Card from 'react-bootstrap/Card';
 
@@ -10,7 +13,7 @@ import placeholderImg from '../../assets/placeholder-image.jpg';
 export default function CardPreview({id, title, thumbnail}) {
 
   // Trim the title
-  const titleLengthLimiter = 21;
+  const titleLengthLimiter = 36;
   let cardTitle = title;
   if (title.length > titleLengthLimiter) {
     cardTitle = title.slice(0, titleLengthLimiter - 1) + '...';
@@ -20,11 +23,13 @@ export default function CardPreview({id, title, thumbnail}) {
   const img = thumbnail ? thumbnail : placeholderImg;
 
   return (
-    <Card className='card-preview' data-toggle="tooltip" data-placement="bottom" title={title}>
-      <Card.Img className='card-preview-img' variant="top" src={img} />
-      <Card.Body>
-        <Card.Title className='card-preview-title'>{id + '.' + cardTitle}</Card.Title>
-      </Card.Body>
-    </Card>
+    <Link to={`/cards/${id}`}>
+      <Card className='card-preview' data-toggle="tooltip" data-placement="bottom" title={title}>
+          <Card.Img className='card-preview-img' variant="top" src={img} />
+          <Card.Body>
+            <Card.Title className='card-preview-title'>{cardTitle}</Card.Title>
+          </Card.Body>
+      </Card>
+    </Link>
   );
 }

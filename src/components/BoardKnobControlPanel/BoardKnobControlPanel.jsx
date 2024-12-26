@@ -18,11 +18,11 @@ import './BoardKnobControlPanel.css';
 // TODO: Form Control width adjustment
 // https://stackoverflow.com/questions/64092841/react-how-to-make-an-input-only-as-wide-as-the-amount-of-text-provided
 
-export default function BoardKnobControlPanel({name, privateBoard}) {
+export default function BoardKnobControlPanel({boardId, boardName, isPrivateBoard}) {
 
   // Board properties
-  const [boardName, setBoardName] = useState(name);
-  const [isPrivate, setPrivate] = useState(privateBoard);
+  const [name, setName] = useState(boardName);
+  const [isPrivate, setPrivate] = useState(isPrivateBoard);
 
   // Edit mode
   const [editMode, setEditMode] = useState(false);
@@ -34,7 +34,7 @@ export default function BoardKnobControlPanel({name, privateBoard}) {
 
   function saveBoardName() {
     if (editValue) {
-      setBoardName(editValue);
+      setName(editValue);
     }
     setEditMode(false);
   }
@@ -50,44 +50,44 @@ export default function BoardKnobControlPanel({name, privateBoard}) {
 
   return (
     <Container fluid>
-      <div className='control-panel'>
+      <div className='board-control-panel'>
 
-        <div className='knob'>
-          <div className={editMode ? 'hide' : ''}>
-          <Form.Label>{boardName}</Form.Label>
+        <div className='board-control-panel-knob'>
+          <div className={editMode ? 'board-control-panel-field-hide' : ''}>
+            <Form.Label>{name}</Form.Label>
           </div>
         </div>
 
-        <div className='knob'>
-          <div className={editMode ? '' : 'hide'}>
+        <div className='board-control-panel-knob'>
+          <div className={editMode ? '' : 'board-control-panel-field-hide'}>
             <Form.Control
               size="sm"
               type="text"
-              placeholder={boardName}
+              placeholder={name}
               value={editValue}
               onChange={(event) => {setEditValue(event.target.value)}}/>
           </div>
         </div>
 
-        <div className='knob'>
-          <div className={editMode ? 'hide' : ''}>
+        <div className='board-control-panel-knob'>
+          <div className={editMode ? 'board-control-panel-field-hide' : ''}>
             <FontAwesomeIcon icon={faEdit} onClick={editBoardName}/>
           </div>
         </div>
-        <div className='knob'>
-          <div className={editMode ? '' : 'hide'}>
+        <div className='board-control-panel-knob'>
+          <div className={editMode ? '' : 'board-control-panel-field-hide'}>
             <FontAwesomeIcon icon={faSave} onClick={saveBoardName}/>
           </div>
         </div>
-        <div className='knob'>
-          <div className={editMode ? '' : 'hide'}>
+        <div className='board-control-panel-knob'>
+          <div className={editMode ? '' : 'board-control-panel-field-hide'}>
             <FontAwesomeIcon icon={faXmark} onClick={cancelEdit}/>
           </div>
         </div>
 
-        <div className='spacer' />
+        <div className='board-control-panel-spacer' />
         
-        <div className='knob'>
+        <div className='board-control-panel-knob'>
           <Form.Check type="switch"
             id="custom-switch"
             label={isPrivate ? 'Private' : 'Public'}
@@ -95,7 +95,7 @@ export default function BoardKnobControlPanel({name, privateBoard}) {
           />
         </div>
 
-        <div className='knob'>
+        <div className='board-control-panel-knob'>
           <div>
             <FontAwesomeIcon icon={faBan} onClick={deleteBoard}/>
           </div>

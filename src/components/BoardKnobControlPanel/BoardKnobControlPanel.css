@@ -1,15 +1,19 @@
-.control-panel {
+.board-control-panel {
     display: flex;
 }
 
-.knob {
+.board-control-panel-knob {
     margin: 0 5px;
 }
 
-.hide {
+.board-control-panel-field-label {
+    font-size: 24px;
+}
+
+.board-control-panel-field-hide {
     display: none;
 }
 
-.spacer {
+.board-control-panel-spacer {
     margin-inline-end: auto;
 }

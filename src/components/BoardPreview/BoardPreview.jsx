@@ -1,3 +1,6 @@
+// React
+import { Link } from 'react-router-dom';
+
 // Components: Project
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons'
@@ -8,21 +11,33 @@ import CardPreviewSlider from "../CardPreviewSlider/CardPreviewSlider";
 // Styling: Local
 import "./BoardPreview.css";
 
-export default function BoardPreview({name}) {
+// Data
+import { BOARDS } from '../../../data';
 
-  function handleClick() {
-    console.log("Load the board!!")
+export default function BoardPreview({boardId}) {
+
+  function getBoardName() {
+    for (const [id, board] of Object.entries(BOARDS)) {
+      if (id === boardId) {
+        return board.name;
+      }
+    }
   }
+  const name = getBoardName();
 
   return (
-      <section>
+      <div>
           <div>
               <h5 className='inline-block-child'>{name}</h5>
               <div className='inline-block-child'>
-                <FontAwesomeIcon className='chevron-icon' icon={faChevronRight} onClick={handleClick}/>
+                <Link to={`/boards/${boardId}`}>
+                  <FontAwesomeIcon className='chevron-icon' icon={faChevronRight}/>
+                </Link>
               </div>
           </div>
-          <CardPreviewSlider />
-      </section>
+          <div>
+            <CardPreviewSlider boardId={boardId} />
+          </div>
+      </div>
   );
 }

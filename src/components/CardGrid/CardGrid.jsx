@@ -8,13 +8,33 @@ import CardPreview from '../CardPreview/CardPreview';
 import "./CardGrid.css";
 
 // Data: Local
-import { CARDS } from '../../../data';
+import { BOARDS, CAARDS } from '../../../data';
 
-export default function CardGrid() {
+export default function CardGrid({boardId}) {
+
+  const cards = [];
+  function populateCards() {
+    for (const [id, board] of Object.entries(BOARDS)) {
+      if (id === boardId) {
+        for (const cardId of board.cards) {
+          const card = CAARDS[cardId];
+          cards.push(
+            <Col key={cardId} className='recommend-grid-col card-grid-col'>
+              <div>
+                <CardPreview key={cardId} {...card} />
+              </div>
+            </Col>);
+        }
+        break;
+      }
+    }
+  }
+  populateCards();
+
   return (
-    <Container fluid>
-      <Row>
-        {CARDS.map( (card) => <Col key={card.id} className='col-style'><div><CardPreview key={card.id} {...card} /></div></Col> )}
+    <Container fluid className='recommend-page-container'>
+      <Row className='recommend-grid-row'>
+        {cards}
       </Row>
     </Container>
   );

@@ -1,3 +1,6 @@
+// React
+import { Link } from 'react-router-dom';
+
 // Components: Project
 import Slider from 'react-slick';
 import Card from 'react-bootstrap/Card';
@@ -13,14 +16,31 @@ import 'slick-carousel/slick/slick-theme.css';
 import './CardPreviewSlider.css';
 
 // Data: Local
-import { CARDS } from '../../../data';
+import { BOARDS, CAARDS } from '../../../data';
 
 // Component
-export default function CardPreviewSlider() {
+export default function CardPreviewSlider({boardId}) {
 
-  function handleClick() {
-    console.log("Load the board!!")
+  const cards = [];
+
+  function populateCards() {
+    for (const [id, board] of Object.entries(BOARDS)) {
+      if (id === boardId) {
+        let count = 0;
+        for (const cardId of board.cards) {
+          if (count > 9) {
+            break;
+          }
+          const card = CAARDS[cardId];
+          cards.push( <div key={cardId}><CardPreview key={cardId} {...card} /></div> );
+          count += 1;
+        }
+        break;
+      }
+    }
   }
+
+  populateCards();
 
   const settings = {
     dots: false,
@@ -63,11 +83,15 @@ export default function CardPreviewSlider() {
   return (
     <div className="image-slider-container">
         <Slider {...settings}>
-            {CARDS.map( (card) => <div key={card.id}><CardPreview key={card.id} {...card} /></div> )}
+            {cards}
 
             <div data-toggle="tooltip" data-placement="bottom" title="Click to see all the cards">
-              <Card onClick={handleClick}>
-                <Card.Body>Click to see more cards</Card.Body>
+              <Card>
+                <Card.Body>
+                  <Link to="/boards/id">
+                    Click to see more cards
+                  </Link>
+                </Card.Body>
               </Card>
             </div>
         </Slider>

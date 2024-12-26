@@ -10,6 +10,11 @@
 Container
 */
 
+.recommend-root-container {
+    width: 100%;
+    height: 100vh;
+}
+
 .recommend-page-container {
     width: 100%;
     height: 80vh;
@@ -28,6 +33,7 @@ Grid
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    border: 1px solid black;
 }
 
 /* 
