@@ -3,12 +3,14 @@ import { Link } from 'react-router-dom';
 
 // Components: Project
 import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import Button from 'react-bootstrap/Button';
+import NavDropdown from 'react-bootstrap/NavDropdown';
+
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-
 
 // Components: Local
 import RecommendBrandName from '../RecommendBrandName/RecommendBrandName';
@@ -94,7 +96,20 @@ function SignedInUser({userInitial}) {
           title="Add a card"
         />
       </Link>
-      <div style={{ backgroundColor: bgColor, color: textColor }} className='dot signup-user-button'>{userInitial}</div>
+
+      <Nav className="mr-sm-2">
+        <NavDropdown
+          alignRight
+          title={
+              <span style={{ backgroundColor: bgColor, color: textColor }} className='dot'>
+                {userInitial}
+              </span>
+          }>
+          <NavDropdown.Item href="/example-app/section-a/">Profile</NavDropdown.Item>
+          <NavDropdown.Item href="/logout">Logout</NavDropdown.Item>
+        </NavDropdown>
+      </Nav>
+
     </div>
   )
 }
