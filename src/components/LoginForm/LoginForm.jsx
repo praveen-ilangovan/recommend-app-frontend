@@ -1,3 +1,6 @@
+// React
+import { useMutation } from '@tanstack/react-query';
+
 // Components: Project
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -13,11 +16,20 @@ export default function LoginForm() {
     password: yup.string().required()
   });
 
+  // ReactQuery
+  const {mutateAsync, data, error} = useMutation({
+    mutationFn: login,
+    retry: false,
+    onSuccess(data) {
+      console.log("Successfully logged in!!", data);
+    },
+    onError(error) {
+      console.log("Failed to log in", error)
+    }
+  });
+
   async function onSubmit(values) {
-    // Let us make it reactQuery friendly
-    console.log(values);
-    const data = await login(values);
-    console.log(data);
+    await mutateAsync(values);
   }
 
   return (
