@@ -99,7 +99,6 @@ function SignedInUser({userInitial}) {
 
       <Nav className="mr-sm-2">
         <NavDropdown
-          alignRight
           title={
               <span style={{ backgroundColor: bgColor, color: textColor }} className='dot'>
                 {userInitial}
