@@ -66,7 +66,6 @@ export const CAARDS = {
   '10': {url: 'https://www.amazon.co.uk/gp/video/detail/B09KBTD1ZV',
          title: '21 Jump Street',
          description: 'Young cops go under cover as high-school students.',
-         thumbnail: 'https://images.store.sky.com/api/img/asset/en/66D8BB8A-E4E8-4422-9242-603110084545_A6D76119-E6CD-472C-86E0-7823CD90A408_2024-1-3-T4-15-21.jpg?s=260x371',
          id: '10'},
   '11': {url: 'https://www.imdb.com/title/tt14539740',
          title: 'Godzilla x Kong: The New Empire',

@@ -4,6 +4,8 @@ import Form from 'react-bootstrap/Form';
 import {useFormikContext, Formik} from 'formik';
 import * as yup from 'yup';
 
+import { login } from '../../api/auth';
+
 export default function LoginForm() {
 
   const schema = yup.object().shape({
@@ -11,14 +13,17 @@ export default function LoginForm() {
     password: yup.string().required()
   });
 
-  function login(values) {
+  async function onSubmit(values) {
+    // Let us make it reactQuery friendly
     console.log(values);
+    const data = await login(values);
+    console.log(data);
   }
 
   return (
     <Formik
       validationSchema={schema}
-      onSubmit={login}
+      onSubmit={onSubmit}
       initialValues={{
         emailaddress: '',
         password: ''

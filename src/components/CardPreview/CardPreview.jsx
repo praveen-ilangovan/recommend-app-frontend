@@ -8,7 +8,7 @@ import Card from 'react-bootstrap/Card';
 import "./CardPreview.css";
 
 // Data: Local
-import placeholderImg from '../../assets/placeholder-image.jpg';
+import placeholderImg from '../../assets/img/placeholder-image.jpg';
 
 export default function CardPreview({id, title, thumbnail}) {
 

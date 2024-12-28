@@ -5,8 +5,8 @@ import { createRoot } from 'react-dom/client'
 import 'bootstrap/dist/css/bootstrap.min.css';
 
 // Fonts
-import './fonts/magenta-rose/MagentaRose.ttf';
-import './fonts/macondo-swash-caps/MacondoSwashCaps-Regular.ttf';
+import './assets/fonts/magenta-rose/MagentaRose.ttf';
+import './assets/fonts/macondo-swash-caps/MacondoSwashCaps-Regular.ttf';
 
 import './index.css'
 import App from './App.jsx'
