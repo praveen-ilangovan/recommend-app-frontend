@@ -1,6 +1,7 @@
 // React
 import { useContext } from 'react';
 import { useQuery } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 
 // Components: Project
@@ -35,6 +36,11 @@ const getBoards = () => {
 export default function LandingPage() {
 
   const {auth} = useContext(AuthContext);
+  const redirect = useNavigate();
+
+  if (!auth.accessToken) {
+    redirect();
+  }
 
   // const {isLoading, data, isSuccess} = useQuery({
   //   queryKey: ['boards'],

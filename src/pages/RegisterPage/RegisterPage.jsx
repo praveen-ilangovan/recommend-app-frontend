@@ -5,6 +5,9 @@ import { Link } from 'react-router-dom';
 import AuthPage from '../AuthPage/AuthPage';
 import RegisterForm from "../../components/RegisterForm/RegisterForm";
 
+// Data
+import { ROUTE } from '../../constants';
+
 export default function LoginPage() {
   return (
     <AuthPage>
@@ -12,7 +15,7 @@ export default function LoginPage() {
         <h3>Create an account</h3>
         <div className='recommend-form-subtext-link'>
           <p>Already have an account? <span></span>
-            <Link to="/session/new">Log in</Link>
+            <Link to={ROUTE.LOGIN}>Log in</Link>
           </p>
         </div>
       </div>

@@ -22,6 +22,8 @@ import { AuthContext } from '../../store/AuthContext';
 // Styling: Local
 import "./RecommendNavBar.css";
 
+import { ROUTE } from '../../constants';
+
 export default function RecommendNavBar() {
 
   const {auth} = useContext(AuthContext);
@@ -30,7 +32,7 @@ export default function RecommendNavBar() {
     <Navbar className="navbar-light">
       <Container fluid>
         <Navbar.Brand>
-          <Link to="/">
+          <Link to={ROUTE.HOME}>
             <RecommendBrandName size="24px" />
           </Link>
         </Navbar.Brand>
@@ -48,7 +50,7 @@ export default function RecommendNavBar() {
 function SignUpButtons() {
   return (
     <div>
-      <Link to="/session/new">
+      <Link to={ROUTE.LOGIN}>
         <Button
           variant="primary"
           type="button"
@@ -58,7 +60,7 @@ function SignUpButtons() {
         </Button>
       </Link>
 
-      <Link to="/users/new">
+      <Link to={ROUTE.REGISTER}>
         <Button
           variant="success"
           type="button"
@@ -82,7 +84,7 @@ function SignedInUser() {
       userId: null,
       userFirstname: null
   });
-    redirect("/session/new");
+    redirect(ROUTE.LOGIN);
   }
 
   function hexToRgb(hex) {
@@ -103,7 +105,7 @@ function SignedInUser() {
 
   return (
     <div className='signed-user-options'>
-      <Link to="/cards/new">
+      <Link to={ROUTE.CREATE_CARD}>
         <FontAwesomeIcon
           icon={faPlus}
           className='signup-user-button'

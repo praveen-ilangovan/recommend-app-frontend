@@ -9,6 +9,7 @@ import "./CardPreview.css";
 
 // Data: Local
 import placeholderImg from '../../assets/img/placeholder-image.jpg';
+import { ROUTE } from '../../constants';
 
 export default function CardPreview({id, title, thumbnail}) {
 
@@ -23,7 +24,7 @@ export default function CardPreview({id, title, thumbnail}) {
   const img = thumbnail ? thumbnail : placeholderImg;
 
   return (
-    <Link to={`/cards/${id}`}>
+    <Link to={ROUTE.CARD.replace(":cardId", id)}>
       <Card className='card-preview' data-toggle="tooltip" data-placement="bottom" title={title}>
           <Card.Img className='card-preview-img' variant="top" src={img} />
           <Card.Body>

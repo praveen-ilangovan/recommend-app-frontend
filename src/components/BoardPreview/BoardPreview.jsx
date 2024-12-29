@@ -13,6 +13,7 @@ import "./BoardPreview.css";
 
 // Data
 import { BOARDS } from '../../../data';
+import { ROUTE } from '../../constants';
 
 export default function BoardPreview({boardId}) {
 
@@ -30,7 +31,7 @@ export default function BoardPreview({boardId}) {
           <div>
               <h5 className='inline-block-child'>{name}</h5>
               <div className='inline-block-child'>
-                <Link to={`/boards/${boardId}`}>
+                <Link to={ROUTE.BOARD.replace(":boardId", boardId)}>
                   <FontAwesomeIcon className='chevron-icon' icon={faChevronRight}/>
                 </Link>
               </div>

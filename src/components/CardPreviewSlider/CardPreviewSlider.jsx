@@ -17,6 +17,7 @@ import './CardPreviewSlider.css';
 
 // Data: Local
 import { BOARDS, CAARDS } from '../../../data';
+import { ROUTE } from '../../constants';
 
 // Component
 export default function CardPreviewSlider({boardId}) {
@@ -88,7 +89,7 @@ export default function CardPreviewSlider({boardId}) {
             <div data-toggle="tooltip" data-placement="bottom" title="Click to see all the cards">
               <Card>
                 <Card.Body>
-                  <Link to="/boards/id">
+                  <Link to={ROUTE.BOARD.replace(":boardId", boardId)}>
                     Click to see more cards
                   </Link>
                 </Card.Body>

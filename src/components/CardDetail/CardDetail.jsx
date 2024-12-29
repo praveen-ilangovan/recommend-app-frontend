@@ -13,6 +13,7 @@ import "./CardDetail.css";
 
 // Data: Local
 import placeholderImg from '../../assets/img/placeholder-image.jpg';
+import { ROUTE } from '../../constants';
 
 export default function CardDetail({title, description, thumbnail, url, id, editable=false}) {
 
@@ -29,7 +30,7 @@ export default function CardDetail({title, description, thumbnail, url, id, edit
         </Card.Text>
         <div className='control-panel'>
           <div>
-            <Link to={`/cards/${id}/edit`}>
+            <Link to={ROUTE.EDIT_CARD.replace(":cardId", id)}>
               <FontAwesomeIcon icon={faEdit} className={editable ? 'knob' : 'hide'}/>
             </Link>
           </div>
