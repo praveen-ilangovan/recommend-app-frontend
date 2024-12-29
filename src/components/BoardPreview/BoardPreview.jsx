@@ -12,33 +12,23 @@ import CardPreviewSlider from "../CardPreviewSlider/CardPreviewSlider";
 import "./BoardPreview.css";
 
 // Data
-import { BOARDS } from '../../../data';
 import { ROUTE } from '../../constants';
 
-export default function BoardPreview({boardId}) {
-
-  function getBoardName() {
-    for (const [id, board] of Object.entries(BOARDS)) {
-      if (id === boardId) {
-        return board.name;
-      }
-    }
-  }
-  const name = getBoardName();
+export default function BoardPreview({boardId, boardName}) {
 
   return (
       <div>
           <div>
-              <h5 className='inline-block-child'>{name}</h5>
+              <h5 className='inline-block-child'>{boardName}</h5>
               <div className='inline-block-child'>
                 <Link to={ROUTE.BOARD.replace(":boardId", boardId)}>
                   <FontAwesomeIcon className='chevron-icon' icon={faChevronRight}/>
                 </Link>
               </div>
           </div>
-          <div>
+          {/* <div>
             <CardPreviewSlider boardId={boardId} />
-          </div>
+          </div> */}
       </div>
   );
 }

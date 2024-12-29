@@ -99,7 +99,7 @@ function SignedInUser() {
   const bgColor = '#' + Math.floor(Math.random()*16777215).toString(16);
   const rgbColor = hexToRgb(bgColor);
   let textColor = "#ffffff";
-  if ( (rgbColor.r*0.299) + (rgbColor.g*0.587) + (rgbColor.b*0.114) > 186) {
+  if ( rgbColor && ( (rgbColor.r*0.299) + (rgbColor.g*0.587) + (rgbColor.b*0.114) > 186) ) {
     textColor = "#000000";
   }
 

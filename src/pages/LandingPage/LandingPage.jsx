@@ -1,8 +1,7 @@
 // React
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
-import axios from 'axios';
 
 // Components: Project
 import Container from 'react-bootstrap/Container';
@@ -10,63 +9,60 @@ import Container from 'react-bootstrap/Container';
 // Components: Local
 import BoardPreview from "../../components/BoardPreview/BoardPreview";
 
+// Hooks
 import { AuthContext } from '../../store/AuthContext';
+import { isTokenExpired } from '../../api/auth';
+import { getMe } from '../../api/app';
 
 // Data
-import { BOARDS } from '../../../data';
-
-const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJwcmF2ZWVuQG1haWwuY29tIiwiZW1haWxfYWRkcmVzcyI6InByYXZlZW5AbWFpbC5jb20iLCJpZCI6IjY3NTE5YTNmNmYyYjYzZGRjNzIzOWJhOSIsInVzZXJfbmFtZSI6InByYXZlZW4iLCJmaXJzdF9uYW1lIjoiUHJhdmVlbiIsImxhc3RfbmFtZSI6IklsYW5nb3ZhbiIsImV4cCI6MTczNTM4NzIwM30.6SPm9DmdPkqRjkSbHiOA_ipXTcmTQTZo-X3Dp1nz7PQ"
-
-// const getBoards = () => {
-//   return axios.get("http://127.0.0.1:8000/me/?show_page=false", {
-//     headers: {
-//       UserAuthData: JSON.stringify({"access_token": token}) //the token is a variable which holds the token
-//     }});
-// }
-
-const getBoards = () => {
-  return axios.get("http://127.0.0.1:8000/me/?show_page=false", {
-    headers: {
-      Authorization: "Bearer " + token,
-      "Content-Type": "application/json"
-    }
-  })
-}
+import { ROUTE } from '../../constants';
 
 export default function LandingPage() {
 
-  const {auth} = useContext(AuthContext);
+  const {auth, setAuth} = useContext(AuthContext);
   const redirect = useNavigate();
+  let boards = [];
 
-  if (!auth.accessToken) {
-    redirect();
+  // Redirect to login page if a user is not signed in
+  useEffect(() => {
+    if (!auth.accessToken) {
+      redirect(ROUTE.LOGIN);
+    }
+
+    if (isTokenExpired(auth.accessToken)) {
+      setAuth({
+        accessToken: null,
+        userId: null,
+        userFirstname: null
+    });
+      redirect(ROUTE.LOGIN);
+    }
+
+  }, [redirect]);
+
+  const {isLoading, data:meData, isSuccess, error, isError} = useQuery({
+    queryKey: ['me', auth.userId],
+    queryFn: async () => {
+      const data = await getMe(auth.accessToken);
+      return data;
+    }
+    // Stop loading and fetching until it is invalidated.
+  });
+
+  if (isError) {
+    return <h1>{error}</h1>
   }
 
-  // const {isLoading, data, isSuccess} = useQuery({
-  //   queryKey: ['boards'],
-  //   queryFn: getBoards
-  // });
-
-  // if (isSuccess) {
-  //   console.log(data);
-  // }
-
-  const boards = [];
-  function populateBoards() {
-    for (const [id, board] of Object.entries(BOARDS)) {
-      boards.push( <BoardPreview key={id} boardId={id}/> )
+  if (isSuccess) {
+    for (const board of meData?.data?.boards) {
+      boards.push( <BoardPreview key={board.id} boardId={board.id} boardName={board.name} /> )
     }
   }
-  populateBoards();
 
   return (
     <Container fluid className='recommend-page-container'>
         <div>
           {auth.userFirstname ? <h1>Hi, {auth.userFirstname}</h1> : <h1>No signed in..</h1>}
-
-          {/* <ul>
-            {data?.data.map( (board) => <li key={board.id}>{board.name}</li> )}
-          </ul> */}
           {boards}
         </div>
     </Container>

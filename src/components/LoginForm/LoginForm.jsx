@@ -12,6 +12,9 @@ import * as yup from 'yup';
 import { AuthContext } from '../../store/AuthContext';
 import { login } from '../../api/auth';
 
+// Data
+import { ROUTE } from '../../constants';
+
 export default function LoginForm() {
 
   // Validation schema
@@ -33,7 +36,7 @@ export default function LoginForm() {
       setAuth({accessToken: data.data.access_token,
                userId: data.data.id,
                userFirstname: data.data.first_name});
-      redirect("/me");
+      redirect(ROUTE.HOME);
     },
     onError(error) {
       console.log("Failed to log in", error)
