@@ -30,7 +30,7 @@ export default function RecommendNavBar() {
     <Navbar className="navbar-light">
       <Container fluid>
         <Navbar.Brand>
-          <Link to="/me">
+          <Link to="/">
             <RecommendBrandName size="24px" />
           </Link>
         </Navbar.Brand>
