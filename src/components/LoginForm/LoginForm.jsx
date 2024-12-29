@@ -1,5 +1,7 @@
 // React
+import { useContext } from 'react';
 import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 
 // Components: Project
 import Button from 'react-bootstrap/Button';
@@ -7,21 +9,31 @@ import Form from 'react-bootstrap/Form';
 import {useFormikContext, Formik} from 'formik';
 import * as yup from 'yup';
 
+import { AuthContext } from '../../store/AuthContext';
 import { login } from '../../api/auth';
 
 export default function LoginForm() {
 
+  // Validation schema
   const schema = yup.object().shape({
     emailaddress: yup.string().required(),
     password: yup.string().required()
   });
+
+  // Context
+  const {setAuth} = useContext(AuthContext);
+  const redirect = useNavigate();
 
   // ReactQuery
   const {mutateAsync, data, error} = useMutation({
     mutationFn: login,
     retry: false,
     onSuccess(data) {
-      console.log("Successfully logged in!!", data);
+      console.log("Successfully logged in!!", data.data);
+      setAuth({accessToken: data.data.access_token,
+               userId: data.data.id,
+               userFirstname: data.data.first_name});
+      redirect("/me");
     },
     onError(error) {
       console.log("Failed to log in", error)

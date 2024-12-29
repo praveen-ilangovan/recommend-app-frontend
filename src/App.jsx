@@ -1,4 +1,5 @@
 // React
+import { useState } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
@@ -11,6 +12,9 @@ import BoardPage from './pages/BoardPage/BoardPage';
 import CardPage from './pages/CardPage/CardPage';
 import CardComposerPage from './pages/CardComposerPage/CardComposerPage';
 
+// Hooks
+import { useSessionStorage } from './hooks/useSessionStorage';
+
 // Store
 import { AuthContext } from './store/AuthContext';
 
@@ -18,6 +22,7 @@ import { AuthContext } from './store/AuthContext';
 import './App.css';
 
 // Router
+// TODO: Add index & fallback
 const router = createBrowserRouter([
   {path: '/',
    element: <RootPage />,
@@ -36,8 +41,11 @@ const router = createBrowserRouter([
 const queryClient = new QueryClient();
 
 function App() {
+  // Auth state
+  const [auth, setAuth] = useSessionStorage('AuthData', {accessToken: null, userId: null, userFirstname: null});
+
   return (
-    <AuthContext.Provider value={null}>
+    <AuthContext.Provider value={{auth, setAuth}}>
       <QueryClientProvider client={queryClient}>
         <RouterProvider router={router}/>
       </QueryClientProvider>

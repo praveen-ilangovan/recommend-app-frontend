@@ -1,5 +1,6 @@
 // React
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
 
 // Components: Project
 import Container from 'react-bootstrap/Container';
@@ -15,13 +16,15 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 // Components: Local
 import RecommendBrandName from '../RecommendBrandName/RecommendBrandName';
 
+// Context
+import { AuthContext } from '../../store/AuthContext';
+
 // Styling: Local
 import "./RecommendNavBar.css";
 
-export default function RecommendNavBar({isLoggedIn = false, user="hello"}) {
+export default function RecommendNavBar() {
 
-  const isUserLoggedIn = isLoggedIn;
-  const loggedInUser = user;
+  const {auth} = useContext(AuthContext);
 
   return (
     <Navbar className="navbar-light">
@@ -33,8 +36,9 @@ export default function RecommendNavBar({isLoggedIn = false, user="hello"}) {
         </Navbar.Brand>
 
         <Navbar.Collapse className="justify-content-end">
-          {!isUserLoggedIn ? <SignUpButtons /> : undefined}
-          {loggedInUser ? <SignedInUser userInitial="P"/> : undefined}
+          {!auth.accessToken ?
+            <SignUpButtons /> :
+            <SignedInUser />}
         </Navbar.Collapse>
       </Container>
     </Navbar>
@@ -67,7 +71,19 @@ function SignUpButtons() {
   );
 }
 
-function SignedInUser({userInitial}) {
+function SignedInUser() {
+
+  const {auth, setAuth} = useContext(AuthContext);
+  const redirect = useNavigate();
+
+  function logout() {
+    setAuth({
+      accessToken: null,
+      userId: null,
+      userFirstname: null
+  });
+    redirect("/session/new");
+  }
 
   function hexToRgb(hex) {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
@@ -101,11 +117,12 @@ function SignedInUser({userInitial}) {
         <NavDropdown
           title={
               <span style={{ backgroundColor: bgColor, color: textColor }} className='dot'>
-                {userInitial}
+                {auth.userFirstname[0].toUpperCase()}
               </span>
           }>
+          <NavDropdown.Item>Hi, {auth.userFirstname}</NavDropdown.Item>
           <NavDropdown.Item href="/example-app/section-a/">Profile</NavDropdown.Item>
-          <NavDropdown.Item href="/logout">Logout</NavDropdown.Item>
+          <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
         </NavDropdown>
       </Nav>
 

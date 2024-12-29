@@ -1,4 +1,5 @@
 // React
+import { useContext } from 'react';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
@@ -7,6 +8,8 @@ import Container from 'react-bootstrap/Container';
 
 // Components: Local
 import BoardPreview from "../../components/BoardPreview/BoardPreview";
+
+import { AuthContext } from '../../store/AuthContext';
 
 // Data
 import { BOARDS } from '../../../data';
@@ -31,6 +34,8 @@ const getBoards = () => {
 
 export default function LandingPage() {
 
+  const {auth} = useContext(AuthContext);
+
   // const {isLoading, data, isSuccess} = useQuery({
   //   queryKey: ['boards'],
   //   queryFn: getBoards
@@ -51,6 +56,8 @@ export default function LandingPage() {
   return (
     <Container fluid className='recommend-page-container'>
         <div>
+          {auth.userFirstname ? <h1>Hi, {auth.userFirstname}</h1> : <h1>No signed in..</h1>}
+
           {/* <ul>
             {data?.data.map( (board) => <li key={board.id}>{board.name}</li> )}
           </ul> */}
