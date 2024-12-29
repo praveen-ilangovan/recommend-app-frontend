@@ -14,7 +14,7 @@ import { ROUTE } from '../../constants';
 export default function CardPreview({id, title, thumbnail}) {
 
   // Trim the title
-  const titleLengthLimiter = 36;
+  const titleLengthLimiter = 30;
   let cardTitle = title;
   if (title.length > titleLengthLimiter) {
     cardTitle = title.slice(0, titleLengthLimiter - 1) + '...';

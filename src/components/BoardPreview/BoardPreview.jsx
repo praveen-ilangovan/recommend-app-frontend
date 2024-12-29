@@ -26,9 +26,9 @@ export default function BoardPreview({boardId, boardName}) {
                 </Link>
               </div>
           </div>
-          {/* <div>
+          <div>
             <CardPreviewSlider boardId={boardId} />
-          </div> */}
+          </div>
       </div>
   );
 }

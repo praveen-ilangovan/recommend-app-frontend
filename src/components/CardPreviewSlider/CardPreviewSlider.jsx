@@ -1,5 +1,8 @@
 // React
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+
 
 // Components: Project
 import Slider from 'react-slick';
@@ -15,33 +18,37 @@ import 'slick-carousel/slick/slick-theme.css';
 // Styling: Local
 import './CardPreviewSlider.css';
 
+import { AuthContext } from '../../store/AuthContext';
+import { getBoard } from '../../api/app';
+
 // Data: Local
-import { BOARDS, CAARDS } from '../../../data';
 import { ROUTE } from '../../constants';
 
 // Component
 export default function CardPreviewSlider({boardId}) {
 
+  const {auth} = useContext(AuthContext);
   const cards = [];
 
-  function populateCards() {
-    for (const [id, board] of Object.entries(BOARDS)) {
-      if (id === boardId) {
-        let count = 0;
-        for (const cardId of board.cards) {
-          if (count > 9) {
-            break;
-          }
-          const card = CAARDS[cardId];
-          cards.push( <div key={cardId}><CardPreview key={cardId} {...card} /></div> );
-          count += 1;
-        }
-        break;
+  const {isLoading, data, isSuccess, error, isError} = useQuery({
+    queryKey: ['boards', boardId],
+    queryFn: async () => {
+      const board = await getBoard(auth.accessToken, boardId);
+      return board;
+    }
+  });
+
+  if (isSuccess) {
+    let count = 0;
+    for (const card of data?.data?.cards) {
+      if (count > 9) {
+        break
       }
+
+      cards.push( <div key={card.id}><CardPreview key={card.id} {...card} /></div> )
+      count += 1;
     }
   }
-
-  populateCards();
 
   const settings = {
     dots: false,
