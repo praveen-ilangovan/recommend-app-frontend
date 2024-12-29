@@ -45,7 +45,8 @@ export default function LandingPage() {
     queryFn: async () => {
       const data = await getMe(auth.accessToken);
       return data;
-    }
+    },
+    refetchIntervalInBackground: false
     // Stop loading and fetching until it is invalidated.
   });
 
@@ -54,8 +55,11 @@ export default function LandingPage() {
   }
 
   if (isSuccess) {
-    for (const board of meData?.data?.boards) {
-      boards.push( <BoardPreview key={board.id} boardId={board.id} boardName={board.name} /> )
+    console.log("Got me data!!")
+    if (meData?.data?.boards) {
+      for (const board of meData?.data?.boards) {
+        boards.push( <BoardPreview key={board.id} boardId={board.id} boardName={board.name} /> )
+      }
     }
   }
 

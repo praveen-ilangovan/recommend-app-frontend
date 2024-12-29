@@ -1,5 +1,7 @@
 // React
+import { useContext } from 'react';
 import { useParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
 
 // Components: Project
 import Container from 'react-bootstrap/Container';
@@ -10,21 +12,27 @@ import CardDetail from '../../components/CardDetail/CardDetail';
 // Styling: Local
 import "./CardPage.css";
 
-// Data: Local
-import { CAARDS } from '../../../data';
+import { AuthContext } from '../../store/AuthContext';
+import { getCard } from '../../api/app';
 
 export default function CardPage() {
 
   const params = useParams();
+  const {auth} = useContext(AuthContext);
+  let card = {}
 
-  function getCard(cardId) {
-    for (const [id, card] of Object.entries(CAARDS)) {
-      if (id === cardId) {
-        return card;
-      }
-    }
+  const {isLoading, data, isSuccess, error, isError} = useQuery({
+    queryKey: ['cards', params.cardId],
+    queryFn: async () => {
+      const card1 = await getCard(auth.accessToken, params.cardId);
+      return card1;
+    },
+    refetchIntervalInBackground: false
+  });
+
+  if (isSuccess) {
+    card = data?.data;
   }
-  const card = getCard(params.cardId);
 
   return (
     <Container fluid className='recommend-page-container'>

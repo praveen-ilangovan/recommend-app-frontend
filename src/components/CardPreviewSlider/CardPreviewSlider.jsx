@@ -35,7 +35,8 @@ export default function CardPreviewSlider({boardId}) {
     queryFn: async () => {
       const board = await getBoard(auth.accessToken, boardId);
       return board;
-    }
+    },
+    refetchIntervalInBackground: false
   });
 
   if (isSuccess) {
