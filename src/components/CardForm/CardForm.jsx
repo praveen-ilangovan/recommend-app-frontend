@@ -14,6 +14,7 @@ import { AuthContext } from '../../store/AuthContext';
 import { getMe, addCard, scrapData } from '../../api/app';
 import { ROUTE } from '../../constants';
 
+import "./CardForm.css";
 
 export default function CardForm({id, url='', title='', thumbnail='', description='', boardId, onUpdate}) {
 
@@ -23,12 +24,14 @@ export default function CardForm({id, url='', title='', thumbnail='', descriptio
     title: yup.string().required(),
     thumbnail: yup.string().url(),
     description: yup.string(),
-    selectedBoardId: yup.string()
+    selectedBoardId: yup.string(),
+    boardType: yup.string(),
+    boardName: yup.string()
   });
 
   // Get the boards and find the initial board value!
   const {auth, setAuth} = useContext(AuthContext);
-  let firstBoard = null;
+  let firstBoard = '';
   const availableBoards = [];
 
   const {isLoading, data:meData, isSuccess, error, isError} = useQuery({
@@ -71,11 +74,11 @@ export default function CardForm({id, url='', title='', thumbnail='', descriptio
   // Callbacks
   async function onSubmit(values) {
     console.log(values);
-    return await mutateAsync({
-      accessToken: auth.accessToken,
-      boardId: values.selectedBoardId,
-      data: {url: values.url, title: values.title, thumbnail: values.thumbnail, description: values.description}
-    })
+    // return await mutateAsync({
+    //   accessToken: auth.accessToken,
+    //   boardId: values.selectedBoardId,
+    //   data: {url: values.url, title: values.title, thumbnail: values.thumbnail, description: values.description}
+    // })
   }
 
 
@@ -88,7 +91,9 @@ export default function CardForm({id, url='', title='', thumbnail='', descriptio
         title: title,
         thumbnail: thumbnail,
         description: description,
-        selectedBoardId: firstBoard
+        selectedBoardId: firstBoard,
+        boardType: 'select',
+        boardName: ''
       }}
     >
       <ActualForm availableBoards={availableBoards} onUpdate={onUpdate}/>
@@ -100,6 +105,7 @@ export default function CardForm({id, url='', title='', thumbnail='', descriptio
 function ActualForm({availableBoards, onUpdate}) {
 
   const selectBoardOptions = [];
+  const [showSelectBoardField, setShowSelectBoardField] = useState(true);
   const {auth, setAuth} = useContext(AuthContext);
   const formikProps = useFormikContext();
 
@@ -126,11 +132,27 @@ function ActualForm({availableBoards, onUpdate}) {
     // Handle the in
     formikHandleChange(event);
 
+    if (!['url', 'title', 'description', 'thumbnail'].includes(event.target.name)) {
+      return
+    }
+
+    // Hack to initialise the selectedBoardId value with the first item in the list
+    // If not, it will be an empty string
+    if (event.target.name == 'url' && formikProps.values.selectedBoardId === '' && availableBoards && availableBoards.length) {
+      formikProps.setFieldValue('selectedBoardId', availableBoards[0].id);
+    }
+
     // Callback
     const updatedData = {};
     updatedData[event.target.name] = event.target.value;
     handleUpdate(updatedData);
   };
+
+  function onBoardTypeChange(event, formikHandleChange) {
+    // Handle the in
+    formikHandleChange(event);
+    setShowSelectBoardField(event.target.value === 'select')
+  }
 
   async function extract() {
     const data = await mutateAsync({accessToken: auth.accessToken, url: formikProps.values.url});
@@ -256,11 +278,34 @@ function ActualForm({availableBoards, onUpdate}) {
         />
       </Form.Group>
 
+      <div className="add-card-form-board">
+        <Form.Check
+          checked={formikProps.values.boardType === 'select'}
+          className='add-card-form-board-radio'
+          type="radio"
+          label="Select a board"
+          id="cardForm-selectABoardRadio"
+          name="boardType"
+          value="select"
+          onChange={(event) => {onBoardTypeChange(event, formikProps.handleChange)}}
+        />
+
+        <Form.Check
+          checked={formikProps.values.boardType === 'create'}
+          className='add-card-form-board-radio'
+          type="radio"
+          label="Create a board"
+          id="cardForm-createABoardRadio"
+          name="boardType"
+          value="create"
+          onChange={(event) => {onBoardTypeChange(event, formikProps.handleChange)}}
+        />
+      </div>
+
       <Form.Group
         mb="3"
-        className="recommend-form-field-group"
+        className={showSelectBoardField ? "recommend-form-field-group" : "add-card-form-board-hide-field"}
         controlId="cardForm-boardSelection">
-        <Form.Label>Select the board</Form.Label>
         <Form.Select
           size="sm"
           name="selectedBoardId"
@@ -271,6 +316,26 @@ function ActualForm({availableBoards, onUpdate}) {
 
         <Form.Control.Feedback type="invalid" tooltip>
           {formikProps.errors.selectedBoardId}
+        </Form.Control.Feedback>
+      </Form.Group>
+
+      <Form.Group
+        md="3"
+        controlId="cardForm-imageField"
+        className={showSelectBoardField ? "add-card-form-board-hide-field" : "recommend-form-field-group"}
+      >
+        <Form.Control
+          size="sm"
+          type="text"
+          placeholder="Enter the name of the board"
+          name="boardName"
+          value={formikProps.values.boardName}
+          onChange={formikProps.handleChange}
+          isInvalid={!!formikProps.errors.boardName}
+        />
+
+        <Form.Control.Feedback type="invalid" tooltip>
+          {formikProps.errors.boardName}
         </Form.Control.Feedback>
       </Form.Group>
 

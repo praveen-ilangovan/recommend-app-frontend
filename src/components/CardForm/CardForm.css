@@ -1,0 +1,13 @@
+.add-card-form-board {
+  display: flex;
+  flex-direction: row;
+}
+
+.add-card-form-board-radio {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+
+.add-card-form-board-hide-field {
+  display: none;
+}
