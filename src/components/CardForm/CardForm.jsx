@@ -14,8 +14,6 @@ import { AuthContext } from '../../store/AuthContext';
 import { getMe, addCard, scrapData } from '../../api/app';
 import { ROUTE } from '../../constants';
 
-// Data: Local
-import { TEST_EXTRACTED_DATA } from '../../../data';
 
 export default function CardForm({id, url='', title='', thumbnail='', description='', boardId, onUpdate}) {
 
@@ -135,8 +133,6 @@ function ActualForm({availableBoards, onUpdate}) {
   };
 
   async function extract() {
-    // const data = TEST_EXTRACTED_DATA[Math.floor(Math.random() * 3)]
-    console.log("url", formikProps.values.url)
     const data = await mutateAsync({accessToken: auth.accessToken, url: formikProps.values.url});
 
     if (!data?.data) {

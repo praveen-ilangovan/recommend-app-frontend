@@ -58,7 +58,6 @@ export const getCard = (accessToken, cardId) => {
 
 // Scrapper
 export const scrapData = ({accessToken, url}) => {
-  console.log("scrapper", url)
   return axios.get(`${RECOMMEND_APP_URL}/scrapper/?url=${url}`, {
     headers: {
       Authorization: "Bearer " + accessToken,
