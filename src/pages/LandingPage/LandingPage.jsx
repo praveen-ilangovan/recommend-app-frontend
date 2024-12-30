@@ -29,7 +29,7 @@ export default function LandingPage() {
       redirect(ROUTE.LOGIN);
     }
 
-    if (isTokenExpired(auth.accessToken)) {
+    if (auth.accessToken && isTokenExpired(auth.accessToken)) {
       setAuth({
         accessToken: null,
         userId: null,
