@@ -15,6 +15,16 @@ export const getMe = (accessToken) => {
 }
 
 // Board
+
+export const addBoard = ({accessToken, data}) => {
+  return axios.post(`${RECOMMEND_APP_URL}/boards/`, data, {
+    headers: {
+      Authorization: "Bearer " + accessToken,
+      "Content-Type": "application/json"
+    }
+  })
+}
+
 export const getBoard = (accessToken, boardId) => {
   const endpoint = ROUTE.BOARD.replace(":boardId", boardId);
   return axios.get(`${RECOMMEND_APP_URL}${endpoint}?show_page=false`, {

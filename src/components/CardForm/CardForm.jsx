@@ -11,7 +11,7 @@ import {useFormikContext, Formik} from 'formik';
 import * as yup from 'yup';
 
 import { AuthContext } from '../../store/AuthContext';
-import { getMe, addCard, scrapData } from '../../api/app';
+import { getMe, addCard, scrapData, addBoard } from '../../api/app';
 import { ROUTE } from '../../constants';
 
 import "./CardForm.css";
@@ -57,6 +57,16 @@ export default function CardForm({id, url='', title='', thumbnail='', descriptio
     }
   }
 
+  // Create board mutation
+  const {mutateAsync: addBoardAsync, data: addedBoardData, error:addBoardError} = useMutation({
+    mutationFn: addBoard,
+    retry: false,
+    onError(error) {
+      console.log("Failed to log in", error)
+    }
+  });
+  let addedBoardId = addedBoardData?.data?.id;
+
   // Add card mutation
   const redirect = useNavigate();
   const {mutateAsync, data, error:addCardError} = useMutation({
@@ -66,19 +76,32 @@ export default function CardForm({id, url='', title='', thumbnail='', descriptio
       console.log("Successfully added a card!!", data);
       redirect(ROUTE.HOME);
     },
-    onError(addCardError) {
-      console.log("Failed to log in", addCardError)
-    }
+    onError(error) {
+      console.log("Failed to log in", error)
+    },
+    enabled: !!addedBoardId
   });
 
   // Callbacks
   async function onSubmit(values) {
-    console.log(values);
-    // return await mutateAsync({
-    //   accessToken: auth.accessToken,
-    //   boardId: values.selectedBoardId,
-    //   data: {url: values.url, title: values.title, thumbnail: values.thumbnail, description: values.description}
-    // })
+    if (values.boardType === 'create') {
+      const board = await addBoardAsync({
+        accessToken: auth.accessToken,
+        data: {name: values.boardName, private: false}
+      })
+      
+      if (board?.status === 201 && board?.data) {
+        addedBoardId = board.data.id;
+      }
+    } else {
+      addedBoardId = values.selectedBoardId;
+    }
+
+    return await mutateAsync({
+      accessToken: auth.accessToken,
+      boardId: addedBoardId,
+      data: {url: values.url, title: values.title, thumbnail: values.thumbnail, description: values.description}
+    })
   }
 
 
