@@ -1,3 +1,8 @@
+// React
+import { useState, useContext } from 'react';
+import { useQuery, useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
+
 // Components: Project
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
@@ -5,41 +10,98 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import {useFormikContext, Formik} from 'formik';
 import * as yup from 'yup';
 
+import { AuthContext } from '../../store/AuthContext';
+import { getMe, addCard } from '../../api/app';
+import { ROUTE } from '../../constants';
+
 // Data: Local
 import { TEST_EXTRACTED_DATA } from '../../../data';
 
 export default function CardForm({id, url='', title='', thumbnail='', description='', boardId, onUpdate}) {
 
+  // Validation schema
   const schema = yup.object().shape({
     url: yup.string().url().required(),
     title: yup.string().required(),
     thumbnail: yup.string().url(),
-    description: yup.string()
+    description: yup.string(),
+    selectedBoardId: yup.string()
   });
 
-  function addCard(values) {
-    console.log(values);
+  // Get the boards and find the initial board value!
+  const {auth, setAuth} = useContext(AuthContext);
+  let firstBoard = null;
+  const availableBoards = [];
+
+  const {isLoading, data:meData, isSuccess, error, isError} = useQuery({
+    queryKey: ['me', auth.userId],
+    queryFn: async () => {
+      const data = await getMe(auth.accessToken);
+      return data;
+    },
+    refetchIntervalInBackground: false
+    // Stop loading and fetching until it is invalidated.
+  });
+
+  if (isError) {
+    return <h1>{error}</h1>
   }
+
+  if (isSuccess) {
+    if (meData?.data?.boards) {
+      for (const board of meData?.data?.boards) {
+        availableBoards.push( {id: board.id, name: board.name} )
+      }
+      firstBoard = meData?.data?.boards[0].id;
+    }
+  }
+
+  // Add card mutation
+  const redirect = useNavigate();
+  const {mutateAsync, data, error:addCardError} = useMutation({
+    mutationFn: addCard,
+    retry: false,
+    onSuccess(data) {
+      console.log("Successfully added a card!!", data);
+      redirect(ROUTE.HOME);
+    },
+    onError(addCardError) {
+      console.log("Failed to log in", addCardError)
+    }
+  });
+
+  // Callbacks
+  async function onSubmit(values) {
+    console.log(values);
+    return await mutateAsync({
+      accessToken: auth.accessToken,
+      boardId: values.selectedBoardId,
+      data: {url: values.url, title: values.title, thumbnail: values.thumbnail, description: values.description}
+    })
+  }
+
 
   return (
     <Formik
       validationSchema={schema}
-      onSubmit={addCard}
+      onSubmit={onSubmit}
       initialValues={{
         url: url,
         title: title,
         thumbnail: thumbnail,
-        description: description
+        description: description,
+        selectedBoardId: firstBoard
       }}
     >
-      <ActualForm onUpdate={onUpdate}/>
+      <ActualForm availableBoards={availableBoards} onUpdate={onUpdate}/>
     </Formik>
   );
 }
 
 // Actual Form Component
-function ActualForm({onUpdate}) {
+function ActualForm({availableBoards, onUpdate}) {
 
+  const selectBoardOptions = [];
   const formikProps = useFormikContext();
 
   function handleUpdate(updatedData) {
@@ -80,6 +142,11 @@ function ActualForm({onUpdate}) {
   function clearForm() {
     formikProps.resetForm();
     handleUpdate(null);
+  }
+
+  // Populate the options
+  for (const op of availableBoards) {
+    selectBoardOptions.push( <option key={op.id} value={op.id}>{op.name}</option> )
   }
 
   return (
@@ -172,6 +239,24 @@ function ActualForm({onUpdate}) {
             value={formikProps.values.description}
             onChange={(event) => {handleOnChange(event, formikProps.handleChange)}}
         />
+      </Form.Group>
+
+      <Form.Group
+        mb="3"
+        className="recommend-form-field-group"
+        controlId="cardForm-boardSelection">
+        <Form.Label>Select the board</Form.Label>
+        <Form.Select
+          size="sm"
+          name="selectedBoardId"
+          value={formikProps.values.selectedBoardId}
+          onChange={(event) => {handleOnChange(event, formikProps.handleChange)}}>
+          {selectBoardOptions}
+        </Form.Select>
+
+        <Form.Control.Feedback type="invalid" tooltip>
+          {formikProps.errors.selectedBoardId}
+        </Form.Control.Feedback>
       </Form.Group>
 
       <div className='recommend-form-button'>

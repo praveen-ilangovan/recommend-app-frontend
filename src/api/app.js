@@ -14,6 +14,7 @@ export const getMe = (accessToken) => {
   })
 }
 
+// Board
 export const getBoard = (accessToken, boardId) => {
   const endpoint = ROUTE.BOARD.replace(":boardId", boardId);
   return axios.get(`${RECOMMEND_APP_URL}${endpoint}?show_page=false`, {
@@ -27,6 +28,17 @@ export const getBoard = (accessToken, boardId) => {
 export const updateBoard = ({accessToken, boardId, data}) => {
   const endpoint = ROUTE.BOARD.replace(":boardId", boardId);
   return axios.put(`${RECOMMEND_APP_URL}${endpoint}`, data, {
+    headers: {
+      Authorization: "Bearer " + accessToken,
+      "Content-Type": "application/json"
+    }
+  })
+}
+
+// Card
+
+export const addCard = ({accessToken, boardId, data}) => {
+  return axios.post(`${RECOMMEND_APP_URL}/boards/${boardId}/cards`, data, {
     headers: {
       Authorization: "Bearer " + accessToken,
       "Content-Type": "application/json"
