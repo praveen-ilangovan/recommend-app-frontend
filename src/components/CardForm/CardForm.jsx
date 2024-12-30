@@ -11,7 +11,7 @@ import {useFormikContext, Formik} from 'formik';
 import * as yup from 'yup';
 
 import { AuthContext } from '../../store/AuthContext';
-import { getMe, addCard } from '../../api/app';
+import { getMe, addCard, scrapData } from '../../api/app';
 import { ROUTE } from '../../constants';
 
 // Data: Local
@@ -102,7 +102,20 @@ export default function CardForm({id, url='', title='', thumbnail='', descriptio
 function ActualForm({availableBoards, onUpdate}) {
 
   const selectBoardOptions = [];
+  const {auth, setAuth} = useContext(AuthContext);
   const formikProps = useFormikContext();
+
+  // Mutation
+  const {mutateAsync, data, error} = useMutation({
+    mutationFn: scrapData,
+    retry: false,
+    onSuccess(data) {
+      console.log("Successfully added a card!!", data);
+    },
+    onError(error) {
+      console.log("Failed to log in", error)
+    }
+  });
 
   function handleUpdate(updatedData) {
     if (onUpdate) {
@@ -121,20 +134,26 @@ function ActualForm({availableBoards, onUpdate}) {
     handleUpdate(updatedData);
   };
 
-  function extract() {
-    const data = TEST_EXTRACTED_DATA[Math.floor(Math.random() * 3)]
+  async function extract() {
+    // const data = TEST_EXTRACTED_DATA[Math.floor(Math.random() * 3)]
+    console.log("url", formikProps.values.url)
+    const data = await mutateAsync({accessToken: auth.accessToken, url: formikProps.values.url});
 
-    formikProps.setFieldValue('url', data.url);
-    formikProps.setFieldValue('title', data.title);
-    formikProps.setFieldValue('thumbnail', data.thumbnail, true);
-    formikProps.setFieldValue('description', data.description);
+    if (!data?.data) {
+      return
+    }
+
+    formikProps.setFieldValue('url', data.data.url);
+    formikProps.setFieldValue('title', data.data.title);
+    formikProps.setFieldValue('thumbnail', data.data.thumbnail, true);
+    formikProps.setFieldValue('description', data.data.description);
 
     // Call the update
     const updatedData = {
-      'url': data.url,
-      'title': data.title,
-      'thumbnail': data.thumbnail,
-      'description': data.description
+      'url': data.data.url,
+      'title': data.data.title,
+      'thumbnail': data.data.thumbnail,
+      'description': data.data.description
     };
     handleUpdate(updatedData);
   }
