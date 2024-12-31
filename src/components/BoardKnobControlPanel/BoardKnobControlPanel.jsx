@@ -1,6 +1,7 @@
 // React
 import { useState, useContext } from 'react';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
 
 // Components: Project
 import Container from 'react-bootstrap/Container';
@@ -16,7 +17,8 @@ import { faBan } from '@fortawesome/free-solid-svg-icons';
 import './BoardKnobControlPanel.css';
 
 import { AuthContext } from '../../store/AuthContext';
-import { updateBoard } from '../../api/app';
+import { updateBoard, deleteBoard } from '../../api/app';
+import { ROUTE } from '../../constants';
 
 
 // TODO: Form Control width adjustment
@@ -25,6 +27,7 @@ import { updateBoard } from '../../api/app';
 export default function BoardKnobControlPanel({boardId, boardName, isPrivateBoard}) {
 
   const {auth} = useContext(AuthContext);
+  const queryClient = useQueryClient();
 
   // Board properties
   const [name, setName] = useState(boardName);
@@ -40,6 +43,21 @@ export default function BoardKnobControlPanel({boardId, boardName, isPrivateBoar
     retry: false,
     onSuccess(data) {
       console.log("Successfully updated!!", data);
+    },
+    onError(error) {
+      console.log("Failed to log in", error)
+    }
+  });
+
+  const redirect = useNavigate();
+  const {mutateAsync:deleteBoardAsync, error:deleteBoardError} = useMutation({
+    mutationFn: deleteBoard,
+    retry: false,
+    onSuccess(data) {
+      // These queryClient calls doesn't seem to do much
+      queryClient.removeQueries({queryKey: ['boards', boardId], exact: true})
+      queryClient.invalidateQueries({ queryKey: ['me', auth.userId] })
+      redirect(ROUTE.HOME);
     },
     onError(error) {
       console.log("Failed to log in", error)
@@ -79,8 +97,11 @@ export default function BoardKnobControlPanel({boardId, boardName, isPrivateBoar
     await callUpdateBoard({private: !isPrivate})
   }
 
-  function deleteBoard() {
+  async function onBoardDelete() {
     console.log("Delete board");
+    return await deleteBoardAsync( {
+      accessToken: auth.accessToken,
+      boardId: boardId} )
   }
 
   return (
@@ -133,7 +154,7 @@ export default function BoardKnobControlPanel({boardId, boardName, isPrivateBoar
 
         <div className='board-control-panel-knob'>
           <div>
-            <FontAwesomeIcon icon={faBan} onClick={deleteBoard}/>
+            <FontAwesomeIcon icon={faBan} onClick={onBoardDelete}/>
           </div>
         </div>
 

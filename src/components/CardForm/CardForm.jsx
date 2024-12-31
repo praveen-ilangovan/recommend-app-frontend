@@ -16,7 +16,7 @@ import { ROUTE } from '../../constants';
 
 import "./CardForm.css";
 
-export default function CardForm({id, url='', title='', thumbnail='', description='', boardId, onUpdate}) {
+export default function CardForm({card, onUpdate}) {
 
   // Validation schema
   const schema = yup.object().shape({
@@ -110,10 +110,10 @@ export default function CardForm({id, url='', title='', thumbnail='', descriptio
       validationSchema={schema}
       onSubmit={onSubmit}
       initialValues={{
-        url: url,
-        title: title,
-        thumbnail: thumbnail,
-        description: description,
+        url: card.url,
+        title: card.title,
+        thumbnail: card.thumbnail,
+        description: card.description,
         selectedBoardId: firstBoard,
         boardType: 'select',
         boardName: ''

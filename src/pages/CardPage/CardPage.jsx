@@ -1,5 +1,5 @@
 // React
-import { useContext } from 'react';
+import { useState, useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 
@@ -8,6 +8,8 @@ import Container from 'react-bootstrap/Container';
 
 // Components: Local
 import CardDetail from '../../components/CardDetail/CardDetail';
+// import CardEditForm from '../../components/CardEditForm/CardEditForm';
+import CardComposer from '../../components/CardComposer/CardComposer';
 
 // Styling: Local
 import "./CardPage.css";
@@ -19,13 +21,15 @@ export default function CardPage() {
 
   const params = useParams();
   const {auth} = useContext(AuthContext);
+  const [editMode, setEditMode] = useState(false);
+
   let card = {}
 
+  // ReactQuery
   const {isLoading, data, isSuccess, error, isError} = useQuery({
     queryKey: ['cards', params.cardId],
     queryFn: async () => {
-      const card1 = await getCard(auth.accessToken, params.cardId);
-      return card1;
+      return await getCard(auth.accessToken, params.cardId);
     },
     refetchIntervalInBackground: false
   });
@@ -36,8 +40,12 @@ export default function CardPage() {
 
   return (
     <Container fluid className='recommend-page-container'>
-      <div className='card-page-div'>
-        <CardDetail {...card} editable />
+      <div className={editMode ? 'card-page-hide-component' : 'card-page-div'}>
+        <CardDetail {...card} editable onEdit={() => setEditMode(true)} />
+      </div>
+
+      <div className={editMode ? 'card-page-div' : 'card-page-hide-component'}>
+        <CardComposer card={card} onSave={() => setEditMode(false)} onCancel={() => setEditMode(false)} mode="edit"/>
       </div>
     </Container>
   );

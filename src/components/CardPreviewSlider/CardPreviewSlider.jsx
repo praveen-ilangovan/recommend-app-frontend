@@ -94,15 +94,18 @@ export default function CardPreviewSlider({boardId}) {
         <Slider {...settings}>
             {cards}
 
-            <div data-toggle="tooltip" data-placement="bottom" title="Click to see all the cards">
-              <Card>
-                <Card.Body>
-                  <Link to={ROUTE.BOARD.replace(":boardId", boardId)}>
-                    Click to see more cards
-                  </Link>
-                </Card.Body>
-              </Card>
-            </div>
+            {cards.length > 10 ?
+              <div> 
+                <Card>
+                  <Card.Body>
+                    <Link to={ROUTE.BOARD.replace(":boardId", boardId)}>
+                      Click to see more cards
+                    </Link>
+                  </Card.Body>
+                </Card>
+              </div>: <></>
+            }
+
         </Slider>
     </div>
   );

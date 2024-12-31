@@ -8,16 +8,17 @@ import Col from 'react-bootstrap/Col';
 
 // Components: Local
 import CardForm from '../CardForm/CardForm';
+import CardEditForm from '../CardEditForm/CardEditForm';
 import CardDetail from '../CardDetail/CardDetail';
 import CardPreview from '../CardPreview/CardPreview';
 
-export default function CardComposer({id, url, thumbnail, title="Title", description="Description..."}) {
+export default function CardComposer({card, onSave, onCancel, mode='create'}) {
   // Default value
   const defaultCardData = {
-    "url": url,
-    "title": title,
-    "thumbnail": thumbnail,
-    "description": description};
+    "url": card.url,
+    "title": card.title,
+    "thumbnail": card.thumbnail,
+    "description": card.description};
 
   // states
   const [cardData, setCardData] = useState(defaultCardData);
@@ -37,16 +38,14 @@ export default function CardComposer({id, url, thumbnail, title="Title", descrip
           <Col md={6} className='recommend-grid-col'>
             <div className='shadow recommend-form-box'>
               <div className='recommend-form-header'>
-                <h3>Compose the card</h3>
+                <h3>{mode === 'create'? 'Create a card' : 'Edit the card'}</h3>
               </div>
-              <div>
-                <CardForm
-                  id={id}
-                  url={url}
-                  title={title}
-                  description={description}
-                  thumbnail={thumbnail}
-                  onUpdate={updateCardData} />
+              <div className={mode === 'create' ? undefined : 'recommend-component-hide'}>
+                <CardForm card={card} onUpdate={updateCardData} />
+              </div>
+
+              <div className={mode === 'create' ? 'recommend-component-hide' : undefined}>
+                <CardEditForm card={card} onSave={onSave} onCancel={onCancel} onUpdate={updateCardData} />
               </div>
             </div>
           </Col>
@@ -55,7 +54,7 @@ export default function CardComposer({id, url, thumbnail, title="Title", descrip
             <div className='recommend-form-header'>
               <h5>Preview</h5>
             </div>
-            <CardPreview id={id} title={cardData.title} thumbnail={cardData.thumbnail} />
+            <CardPreview id={card.id} title={cardData.title} thumbnail={cardData.thumbnail} />
           </Col>
   
           <Col className='recommend-grid-col'>

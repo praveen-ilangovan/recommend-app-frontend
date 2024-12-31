@@ -1,6 +1,3 @@
-// React
-import { Link } from 'react-router-dom';
-
 // Components: Project
 import Card from 'react-bootstrap/Card';
 
@@ -13,12 +10,18 @@ import "./CardDetail.css";
 
 // Data: Local
 import placeholderImg from '../../assets/img/placeholder-image.jpg';
-import { ROUTE } from '../../constants';
 
-export default function CardDetail({title, description, thumbnail, url, id, editable=false}) {
+export default function CardDetail({id, url, title, thumbnail, description, board_id, editable=false, onEdit}) {
 
   // Set the image to a placeholder one if thumbnail is null or undefined.
   const img = thumbnail ? thumbnail : placeholderImg;
+
+  // Callback
+  const editClicked = () => {
+    if (onEdit) {
+      onEdit();
+    }
+  }
 
   return (
     <Card style={{ width: '20rem' }}>
@@ -30,9 +33,7 @@ export default function CardDetail({title, description, thumbnail, url, id, edit
         </Card.Text>
         <div className='control-panel'>
           <div>
-            <Link to={ROUTE.EDIT_CARD.replace(":cardId", id)}>
-              <FontAwesomeIcon icon={faEdit} className={editable ? 'knob' : 'hide'}/>
-            </Link>
+            <FontAwesomeIcon icon={faEdit} className={editable ? 'knob' : 'hide'} onClick={onEdit}/>
           </div>
 
           <a href={url} target="_blank" rel="noopener noreferrer" className='knob'>

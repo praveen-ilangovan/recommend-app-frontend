@@ -63,3 +63,9 @@ Form related styling
     text-align: center;
     margin: 10px;
 }
+
+/* Misc */
+
+.recommend-component-hide {
+  display: none;
+}

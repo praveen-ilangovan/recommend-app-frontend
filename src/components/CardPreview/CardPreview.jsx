@@ -11,7 +11,7 @@ import "./CardPreview.css";
 import placeholderImg from '../../assets/img/placeholder-image.jpg';
 import { ROUTE } from '../../constants';
 
-export default function CardPreview({id, title, thumbnail}) {
+export default function CardPreview({id, title='', thumbnail=''}) {
 
   // Trim the title
   const titleLengthLimiter = 30;
