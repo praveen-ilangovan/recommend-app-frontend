@@ -94,7 +94,7 @@ export default function CardPreviewSlider({boardId}) {
         <Slider {...settings}>
             {cards}
 
-            {cards.length > 10 ?
+            {data?.data?.cards.length > 10 ?
               <div> 
                 <Card>
                   <Card.Body>

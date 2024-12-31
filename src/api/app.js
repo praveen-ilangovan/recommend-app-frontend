@@ -86,6 +86,16 @@ export const updateCard = ({accessToken, cardId, data}) => {
   })
 }
 
+export const deleteCard = ({accessToken, cardId}) => {
+  const endpoint = ROUTE.CARD.replace(":cardId", cardId);
+  return axios.delete(`${RECOMMEND_APP_URL}${endpoint}`, {
+    headers: {
+      Authorization: "Bearer " + accessToken,
+      "Content-Type": "application/json"
+    }
+  })
+}
+
 // Scrapper
 export const scrapData = ({accessToken, url}) => {
   return axios.get(`${RECOMMEND_APP_URL}/scrapper/?url=${url}`, {
