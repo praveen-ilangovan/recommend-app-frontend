@@ -13,6 +13,16 @@ export const isTokenExpired = (token) => {
 }
 
 // API Calls
+export const registerUser = (data) => {
+  return axios.post(`${RECOMMEND_APP_URL}/users/`, data,
+  {
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  })
+}
+
+
 export const login = ({emailaddress, password}) => {
   return axios.post(`${RECOMMEND_APP_URL}/session/`, {
     username: emailaddress,

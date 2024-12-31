@@ -1,27 +1,61 @@
+import { useMutation } from '@tanstack/react-query';
+import { useNavigate } from 'react-router-dom';
+
 // Components: Project
 import Button from 'react-bootstrap/Button';
 import Form from 'react-bootstrap/Form';
 import {useFormikContext, Formik} from 'formik';
 import * as yup from 'yup';
 
+import { registerUser } from '../../api/auth';
+import { ROUTE } from '../../constants';
+
 export default function RegisterForm() {
 
+  const redirect = useNavigate();
+
   const schema = yup.object().shape({
+    firstname: yup.string().required(),
+    lastname: yup.string().required(),
     emailaddress: yup.string().email().required(),
+    username: yup.string().required(),
     password: yup.string().required(),
     passwordConfirmation: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match')
   });
 
-  function register(values) {
+  // ReactQuery
+  const {mutateAsync: registerUserAsync} = useMutation({
+    mutationFn: registerUser,
+    retry: false,
+    onSuccess(data) {
+      console.log("Successfully added a card!!", data);
+      redirect(ROUTE.LOGIN);
+    },
+    onError(error) {
+      console.log("Failed to log in", error)
+    }
+  });
+
+  // Callback
+  async function onSubmit(values) {
     console.log(values);
+    await registerUserAsync({
+      first_name: values.firstname,
+      last_name: values.lastname,
+      email_address: values.emailaddress,
+      user_name: values.username,
+      password: values.password})
   }
 
   return (
     <Formik
       validationSchema={schema}
-      onSubmit={register}
+      onSubmit={onSubmit}
       initialValues={{
+        firstname: '',
+        lastname: '',
         emailaddress: '',
+        username: '',
         password: '',
         passwordConfirmation: ''
       }}
@@ -36,6 +70,50 @@ function ActualForm() {
 
   return (
     <Form noValidate onSubmit={formikProps.handleSubmit}>
+
+      <Form.Group
+        md="6"
+        controlId="registerForm-firstnameField"
+        className="recommend-form-field-group"
+      >
+        <Form.Label>First name *</Form.Label>
+
+        <Form.Control
+          size="sm"
+          type="text"
+          placeholder="John"
+          name="firstname"
+          value={formikProps.values.firstname}
+          onChange={formikProps.handleChange}
+          isInvalid={!!formikProps.errors.firstname}
+        />
+
+        <Form.Control.Feedback type="invalid" tooltip>
+          {formikProps.errors.firstname}
+        </Form.Control.Feedback>
+      </Form.Group>
+
+      <Form.Group
+        md="6"
+        controlId="registerForm-lastnameField"
+        className="recommend-form-field-group"
+      >
+        <Form.Label>Last name *</Form.Label>
+
+        <Form.Control
+          size="sm"
+          type="text"
+          placeholder="Doe"
+          name="lastname"
+          value={formikProps.values.lastname}
+          onChange={formikProps.handleChange}
+          isInvalid={!!formikProps.errors.lastname}
+        />
+
+        <Form.Control.Feedback type="invalid" tooltip>
+          {formikProps.errors.lastname}
+        </Form.Control.Feedback>
+      </Form.Group>
 
       <Form.Group
         md="6"
@@ -56,6 +134,28 @@ function ActualForm() {
 
         <Form.Control.Feedback type="invalid" tooltip>
           {formikProps.errors.emailaddress}
+        </Form.Control.Feedback>
+      </Form.Group>
+
+      <Form.Group
+        md="6"
+        controlId="registerForm-usernameField"
+        className="recommend-form-field-group"
+      >
+        <Form.Label>Username *</Form.Label>
+
+        <Form.Control
+          size="sm"
+          type="text"
+          placeholder="name123"
+          name="username"
+          value={formikProps.values.username}
+          onChange={formikProps.handleChange}
+          isInvalid={!!formikProps.errors.username}
+        />
+
+        <Form.Control.Feedback type="invalid" tooltip>
+          {formikProps.errors.username}
         </Form.Control.Feedback>
       </Form.Group>
 
