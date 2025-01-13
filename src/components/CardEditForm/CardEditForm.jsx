@@ -50,6 +50,7 @@ export default function CardEditForm({card, onUpdate, onSave, onCancel}) {
     }
   }
 
+  console.log("Incoming title: ", card.title);
   return (
     <Formik
       validationSchema={schema}
@@ -69,6 +70,7 @@ export default function CardEditForm({card, onUpdate, onSave, onCancel}) {
 function ActualForm({onUpdate, onCancel}) {
 
   const formikProps = useFormikContext();
+  console.log("formikProps title: ", formikProps.values.title);
 
   // Callback
   function handleUpdate(updatedData) {
@@ -78,7 +80,6 @@ function ActualForm({onUpdate, onCancel}) {
   }
 
   function handleOnChange(event, formikHandleChange) {
-
     // Handle the in
     formikHandleChange(event);
 

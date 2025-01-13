@@ -45,9 +45,11 @@ export default function CardPage() {
           <CardDetail {...card} editable onEdit={() => setEditMode(true)} />
         </div>
 
-        <div className={editMode ? 'card-page-div' : 'card-page-hide-component'}>
-          <CardComposer card={card} onSave={() => setEditMode(false)} onCancel={() => setEditMode(false)} mode="edit"/>
-        </div>
+        {Object.keys(card).length ?
+            <div className={editMode ? 'card-page-div' : 'card-page-hide-component'}>
+              <CardComposer card={card} onSave={() => setEditMode(false)} onCancel={() => setEditMode(false)} mode="edit"/>
+            </div>
+        : <></> }
       </Container>
     </ProtectedPage>
   );
