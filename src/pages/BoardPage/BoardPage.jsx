@@ -13,6 +13,8 @@ import CardGrid from '../../components/CardGrid/CardGrid';
 // Styling: Local
 import "./BoardPage.css";
 
+import ProtectedPage from '../ProtectedPage/ProtectedPage';
+
 import { AuthContext } from '../../store/AuthContext';
 import { getBoard } from '../../api/app';
 
@@ -38,16 +40,18 @@ export default function BoardPage() {
   }
 
   return (
-    <Container fluid className='recommend-page-container'>
-      <div className='board-page-control-panel'>
-        <BoardKnobControlPanel
-          boardId={params.boardId}
-          boardName={name}
-          isPrivateBoard={isPrivateBoard} />
-      </div>
-      <div>
-        <CardGrid boardId={params.boardId} />
-      </div>
-    </Container>
+    <ProtectedPage>
+      <Container fluid className='recommend-page-container'>
+        <div className='board-page-control-panel'>
+          <BoardKnobControlPanel
+            boardId={params.boardId}
+            boardName={name}
+            isPrivateBoard={isPrivateBoard} />
+        </div>
+        <div>
+          <CardGrid boardId={params.boardId} />
+        </div>
+      </Container>
+    </ProtectedPage>
   );
 }

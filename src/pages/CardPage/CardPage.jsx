@@ -15,6 +15,7 @@ import "./CardPage.css";
 
 import { AuthContext } from '../../store/AuthContext';
 import { getCard } from '../../api/app';
+import ProtectedPage from '../ProtectedPage/ProtectedPage';
 
 export default function CardPage() {
 
@@ -38,14 +39,16 @@ export default function CardPage() {
   }
 
   return (
-    <Container fluid className='recommend-page-container'>
-      <div className={editMode ? 'card-page-hide-component' : 'card-page-div'}>
-        <CardDetail {...card} editable onEdit={() => setEditMode(true)} />
-      </div>
+    <ProtectedPage>
+      <Container fluid className='recommend-page-container'>
+        <div className={editMode ? 'card-page-hide-component' : 'card-page-div'}>
+          <CardDetail {...card} editable onEdit={() => setEditMode(true)} />
+        </div>
 
-      <div className={editMode ? 'card-page-div' : 'card-page-hide-component'}>
-        <CardComposer card={card} onSave={() => setEditMode(false)} onCancel={() => setEditMode(false)} mode="edit"/>
-      </div>
-    </Container>
+        <div className={editMode ? 'card-page-div' : 'card-page-hide-component'}>
+          <CardComposer card={card} onSave={() => setEditMode(false)} onCancel={() => setEditMode(false)} mode="edit"/>
+        </div>
+      </Container>
+    </ProtectedPage>
   );
 }

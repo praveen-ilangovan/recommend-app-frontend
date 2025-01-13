@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 
 // Components: Local
 import CardComposer from '../../components/CardComposer/CardComposer';
+import ProtectedPage from '../ProtectedPage/ProtectedPage';
 
 export default function CardComposerPage() {
 
@@ -14,6 +15,8 @@ export default function CardComposerPage() {
               description: "Description..."};
 
   return (
-    <CardComposer card={card} mode='create' />
+    <ProtectedPage>
+      <CardComposer card={card} mode='create' />
+    </ProtectedPage>
   );
 }
