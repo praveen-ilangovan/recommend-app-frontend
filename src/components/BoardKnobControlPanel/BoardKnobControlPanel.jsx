@@ -2,6 +2,7 @@
 import { useState, useContext } from 'react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 // Components: Project
 import Container from 'react-bootstrap/Container';
@@ -38,7 +39,7 @@ export default function BoardKnobControlPanel({boardId, boardName, isPrivateBoar
   const [editValue, setEditValue] = useState("");
 
   // ReactQuery
-  const {mutateAsync, data, error} = useMutation({
+  const {mutateAsync} = useMutation({
     mutationFn: updateBoard,
     retry: false,
     onSuccess(data) {
@@ -50,10 +51,10 @@ export default function BoardKnobControlPanel({boardId, boardName, isPrivateBoar
   });
 
   const redirect = useNavigate();
-  const {mutateAsync:deleteBoardAsync, error:deleteBoardError} = useMutation({
+  const {mutateAsync:deleteBoardAsync} = useMutation({
     mutationFn: deleteBoard,
     retry: false,
-    onSuccess(data) {
+    onSuccess() {
       // These queryClient calls doesn't seem to do much
       queryClient.removeQueries({queryKey: ['boards', boardId], exact: true})
       queryClient.invalidateQueries({ queryKey: ['me', auth.userId] })
@@ -162,3 +163,9 @@ export default function BoardKnobControlPanel({boardId, boardName, isPrivateBoar
     </Container>
   );
 }
+
+BoardKnobControlPanel.propTypes = {
+  boardId: PropTypes.string,
+  boardName: PropTypes.string,
+  isPrivateBoard: PropTypes.bool
+};

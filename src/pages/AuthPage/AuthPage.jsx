@@ -1,3 +1,5 @@
+import PropTypes from 'prop-types';
+
 // Components: Project
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
@@ -27,3 +29,8 @@ export default function AuthPage({children}) {
     </Container>
   );
 }
+
+AuthPage.propTypes = {
+  children: PropTypes.node
+};
+

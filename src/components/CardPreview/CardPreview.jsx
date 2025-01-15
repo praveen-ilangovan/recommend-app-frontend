@@ -1,5 +1,6 @@
 // React
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 // Components: Project
 import Card from 'react-bootstrap/Card';
@@ -34,3 +35,9 @@ export default function CardPreview({id, title='', thumbnail=''}) {
     </Link>
   );
 }
+
+CardPreview.propTypes = {
+  id: PropTypes.string,
+  title: PropTypes.string,
+  thumbnail: PropTypes.string
+};

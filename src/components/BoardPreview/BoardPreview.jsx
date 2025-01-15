@@ -1,5 +1,6 @@
 // React
 import { Link } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 // Components: Project
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -32,3 +33,8 @@ export default function BoardPreview({boardId, boardName}) {
       </div>
   );
 }
+
+BoardPreview.propTypes = {
+  boardId: PropTypes.string,
+  boardName: PropTypes.string,
+};

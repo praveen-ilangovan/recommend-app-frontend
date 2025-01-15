@@ -1,21 +1,19 @@
 // React
-import { useContext, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
-import { AuthContext } from '../../store/AuthContext';
-import { isTokenExpired } from '../../api/auth';
+import { AuthContext } from "../../store/AuthContext";
+import { isTokenExpired } from "../../api/auth";
 
-import { ROUTE } from '../../constants';
+import { ROUTE } from "../../constants";
 
-export default function ProtectedPage({children}) {
-
-  const {auth, setAuth} = useContext(AuthContext);
+export default function ProtectedPage({ children }) {
+  const { auth, setAuth } = useContext(AuthContext);
   const redirect = useNavigate();
 
   useEffect(() => {
-
     const isLoggedIn = () => {
-
       console.log("Running isLoggedIn..");
 
       // If there is no access token, redirect to the login page
@@ -28,8 +26,7 @@ export default function ProtectedPage({children}) {
         setAuth({ accessToken: null, userId: null, userFirstname: null });
         redirect(ROUTE.LOGIN);
       }
-
-    }
+    };
 
     isLoggedIn();
 
@@ -42,9 +39,9 @@ export default function ProtectedPage({children}) {
     return () => clearInterval(interval);
   }, []);
 
-  return (
-    <>
-      {children}
-    </>
-  );
+  return <>{children}</>;
 }
+
+ProtectedPage.propTypes = {
+  children: PropTypes.node,
+};

@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 
 // Components: Local
 import RecommendBrandName from "../RecommendBrandName/RecommendBrandName";
@@ -19,3 +20,7 @@ export default function RecommendBrand({size}) {
     </div>
   );
 }
+
+RecommendBrand.propTypes = {
+  size: PropTypes.string
+};

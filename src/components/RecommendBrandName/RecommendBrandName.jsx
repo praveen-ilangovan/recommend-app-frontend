@@ -1,4 +1,6 @@
-export default function RecommendBrandName({size="24px"}) {
+import PropTypes from "prop-types";
+
+export default function RecommendBrandName({ size = "24px" }) {
   return (
     <div>
       <div className="font-face-mr" style={{ fontSize: size }}>
@@ -7,3 +9,7 @@ export default function RecommendBrandName({size="24px"}) {
     </div>
   );
 }
+
+RecommendBrandName.propTypes = {
+  size: PropTypes.string
+};

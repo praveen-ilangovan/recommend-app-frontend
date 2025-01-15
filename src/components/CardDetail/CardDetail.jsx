@@ -2,6 +2,7 @@
 import { useContext } from 'react';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 // Components: Project
 import Card from 'react-bootstrap/Card';
@@ -31,10 +32,10 @@ export default function CardDetail({id, url, title, thumbnail, description, boar
   const img = thumbnail ? thumbnail : placeholderImg;
 
   // ReactQuery
-  const {mutateAsync:deleteCardAsync, error:deleteCardError} = useMutation({
+  const {mutateAsync:deleteCardAsync} = useMutation({
     mutationFn: deleteCard,
     retry: false,
-    onSuccess(data) {
+    onSuccess() {
       // These queryClient calls doesn't seem to do much
       queryClient.removeQueries({queryKey: ['cards', id]})
       queryClient.invalidateQueries({ queryKey: ['boards', board_id] })
@@ -47,11 +48,11 @@ export default function CardDetail({id, url, title, thumbnail, description, boar
   });
 
   // Callback
-  const editClicked = () => {
-    if (onEdit) {
-      onEdit();
-    }
-  }
+  // const editClicked = () => {
+  //   if (onEdit) {
+  //     onEdit();
+  //   }
+  // }
 
   const onDeleteClicked = async () => {
     return await deleteCardAsync( {
@@ -81,3 +82,15 @@ export default function CardDetail({id, url, title, thumbnail, description, boar
     </Card>
   );
 }
+
+
+CardDetail.propTypes = {
+  id: PropTypes.string,
+  url: PropTypes.string,
+  title: PropTypes.string,
+  thumbnail: PropTypes.string,
+  description: PropTypes.string,
+  board_id: PropTypes.string,
+  editable: PropTypes.bool,
+  onEdit: PropTypes.func
+};

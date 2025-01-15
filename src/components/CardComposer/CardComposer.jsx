@@ -11,6 +11,7 @@ import CardForm from '../CardForm/CardForm';
 import CardEditForm from '../CardEditForm/CardEditForm';
 import CardDetail from '../CardDetail/CardDetail';
 import CardPreview from '../CardPreview/CardPreview';
+import PropTypes from 'prop-types';
 
 export default function CardComposer({card, onSave, onCancel, mode='create'}) {
   // Default value
@@ -68,3 +69,10 @@ export default function CardComposer({card, onSave, onCancel, mode='create'}) {
     </Container>
   );
 }
+
+CardComposer.propTypes = {
+  card: PropTypes.object,
+  onSave: PropTypes.func,
+  onCancel: PropTypes.func,
+  mode: PropTypes.string
+};

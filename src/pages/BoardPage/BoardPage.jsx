@@ -25,7 +25,7 @@ export default function BoardPage() {
   let name = ''
   let isPrivateBoard = false
 
-  const {isLoading, data, isSuccess, error, isError} = useQuery({
+  const {data, isSuccess} = useQuery({
     queryKey: ['boards', params.boardId],
     queryFn: async () => {
       const board1 = await getBoard(auth.accessToken, params.boardId);

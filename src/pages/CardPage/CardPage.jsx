@@ -26,7 +26,7 @@ export default function CardPage() {
   let card = {}
 
   // ReactQuery
-  const {isLoading, data, isSuccess, error, isError} = useQuery({
+  const {data, isSuccess} = useQuery({
     queryKey: ['cards', params.cardId],
     queryFn: async () => {
       return await getCard(auth.accessToken, params.cardId);

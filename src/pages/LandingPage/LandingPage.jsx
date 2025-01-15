@@ -15,10 +15,10 @@ import { getMe } from '../../api/app';
 
 export default function LandingPage() {
 
-  const {auth, setAuth} = useContext(AuthContext);
+  const {auth} = useContext(AuthContext);
   let boards = [];
 
-  const {isLoading, data:meData, isSuccess, error, isError} = useQuery({
+  const {data:meData, isSuccess, error, isError} = useQuery({
     queryKey: ['me', auth.userId],
     queryFn: async () => {
       const data = await getMe(auth.accessToken);
@@ -35,7 +35,7 @@ export default function LandingPage() {
   if (isSuccess) {
     // console.log("Got me data!!")
     if (meData?.data?.boards) {
-      for (const board of meData?.data?.boards) {
+      for (const board of meData?.data?.boards || {}) {
         boards.push( <BoardPreview key={board.id} boardId={board.id} boardName={board.name} /> )
       }
     }

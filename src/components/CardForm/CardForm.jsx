@@ -2,6 +2,7 @@
 import { useState, useContext } from 'react';
 import { useQuery, useMutation } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
 
 // Components: Project
 import Button from 'react-bootstrap/Button';
@@ -30,11 +31,11 @@ export default function CardForm({card, onUpdate}) {
   });
 
   // Get the boards and find the initial board value!
-  const {auth, setAuth} = useContext(AuthContext);
+  const {auth} = useContext(AuthContext);
   let firstBoard = '';
   const availableBoards = [];
 
-  const {isLoading, data:meData, isSuccess, error, isError} = useQuery({
+  const {data:meData, isSuccess} = useQuery({
     queryKey: ['me', auth.userId],
     queryFn: async () => {
       const data = await getMe(auth.accessToken);
@@ -44,13 +45,13 @@ export default function CardForm({card, onUpdate}) {
     // Stop loading and fetching until it is invalidated.
   });
 
-  if (isError) {
-    return <h1>{error}</h1>
-  }
+  // if (isError) {
+  //   return <h1>{error}</h1>
+  // }
 
   if (isSuccess) {
     if (meData?.data?.boards) {
-      for (const board of meData?.data?.boards) {
+      for (const board of meData?.data?.boards || {}) {
         availableBoards.push( {id: board.id, name: board.name} )
       }
       firstBoard = meData?.data?.boards[0].id;
@@ -58,7 +59,7 @@ export default function CardForm({card, onUpdate}) {
   }
 
   // Create board mutation
-  const {mutateAsync: addBoardAsync, data: addedBoardData, error:addBoardError} = useMutation({
+  const {mutateAsync: addBoardAsync, data: addedBoardData} = useMutation({
     mutationFn: addBoard,
     retry: false,
     onError(error) {
@@ -69,7 +70,7 @@ export default function CardForm({card, onUpdate}) {
 
   // Add card mutation
   const redirect = useNavigate();
-  const {mutateAsync, data, error:addCardError} = useMutation({
+  const {mutateAsync} = useMutation({
     mutationFn: addCard,
     retry: false,
     onSuccess(data) {
@@ -129,11 +130,11 @@ function ActualForm({availableBoards, onUpdate}) {
 
   const selectBoardOptions = [];
   const [showSelectBoardField, setShowSelectBoardField] = useState(true);
-  const {auth, setAuth} = useContext(AuthContext);
+  const {auth} = useContext(AuthContext);
   const formikProps = useFormikContext();
 
   // Mutation
-  const {mutateAsync, data, error} = useMutation({
+  const {mutateAsync} = useMutation({
     mutationFn: scrapData,
     retry: false,
     onSuccess(data) {
@@ -370,3 +371,13 @@ function ActualForm({availableBoards, onUpdate}) {
     </Form>
   );
 }
+
+CardForm.propTypes = {
+  card: PropTypes.object,
+  onUpdate: PropTypes.func
+};
+
+ActualForm.propTypes = {
+  availableBoards: PropTypes.array,
+  onUpdate: PropTypes.func
+};

@@ -2,6 +2,7 @@
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
+import PropTypes from 'prop-types';
 
 
 // Components: Project
@@ -30,7 +31,7 @@ export default function CardPreviewSlider({boardId}) {
   const {auth} = useContext(AuthContext);
   const cards = [];
 
-  const {isLoading, data, isSuccess, error, isError} = useQuery({
+  const {data, isSuccess} = useQuery({
     queryKey: ['boards', boardId],
     queryFn: async () => {
       const board = await getBoard(auth.accessToken, boardId);
@@ -41,7 +42,7 @@ export default function CardPreviewSlider({boardId}) {
 
   if (isSuccess) {
     let count = 0;
-    for (const card of data?.data?.cards) {
+    for (const card of data?.data?.cards || {}) {
       if (count > 9) {
         break
       }
@@ -110,3 +111,7 @@ export default function CardPreviewSlider({boardId}) {
     </div>
   );
 }
+
+CardPreviewSlider.propTypes = {
+  boardId: PropTypes.string
+};

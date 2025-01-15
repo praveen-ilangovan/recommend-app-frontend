@@ -28,7 +28,7 @@ export default function LoginForm() {
   const redirect = useNavigate();
 
   // ReactQuery
-  const {mutateAsync, data, error} = useMutation({
+  const {mutateAsync} = useMutation({
     mutationFn: login,
     retry: false,
     onSuccess(data) {

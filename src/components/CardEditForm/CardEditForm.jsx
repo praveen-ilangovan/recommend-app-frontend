@@ -1,6 +1,7 @@
 // React
 import { useContext } from 'react';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
+import PropTypes from 'prop-types';
 
 // Components: Project
 import Button from 'react-bootstrap/Button';
@@ -24,7 +25,7 @@ export default function CardEditForm({card, onUpdate, onSave, onCancel}) {
   });
 
   // ReactQuery
-  const {mutateAsync: updateCardAsync, data, error} = useMutation({
+  const {mutateAsync: updateCardAsync} = useMutation({
     mutationFn: updateCard,
     retry: false,
     onSuccess(data) {
@@ -167,3 +168,15 @@ function ActualForm({onUpdate, onCancel}) {
     </Form>
   );
 }
+
+CardEditForm.propTypes = {
+  card: PropTypes.object,
+  onUpdate: PropTypes.func,
+  onSave: PropTypes.func,
+  onCancel: PropTypes.func
+};
+
+ActualForm.propTypes = {
+  onUpdate: PropTypes.func,
+  onCancel: PropTypes.func
+};
