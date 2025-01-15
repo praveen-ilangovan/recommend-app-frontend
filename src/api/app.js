@@ -6,7 +6,7 @@ import { RECOMMEND_APP_URL } from "./constants";
 import { ROUTE } from "../constants";
 
 export const getMe = (accessToken) => {
-  return axios.get(`${RECOMMEND_APP_URL}/me/?show_page=false`, {
+  return axios.get(`${RECOMMEND_APP_URL}/me/`, {
     headers: {
       Authorization: "Bearer " + accessToken,
       "Content-Type": "application/json"
@@ -27,7 +27,7 @@ export const addBoard = ({accessToken, data}) => {
 
 export const getBoard = (accessToken, boardId) => {
   const endpoint = ROUTE.BOARD.replace(":boardId", boardId);
-  return axios.get(`${RECOMMEND_APP_URL}${endpoint}?show_page=false`, {
+  return axios.get(`${RECOMMEND_APP_URL}${endpoint}`, {
     headers: {
       Authorization: "Bearer " + accessToken,
       "Content-Type": "application/json"
@@ -68,7 +68,7 @@ export const addCard = ({accessToken, boardId, data}) => {
 
 export const getCard = (accessToken, cardId) => {
   const endpoint = ROUTE.CARD.replace(":cardId", cardId);
-  return axios.get(`${RECOMMEND_APP_URL}${endpoint}?show_page=false`, {
+  return axios.get(`${RECOMMEND_APP_URL}${endpoint}`, {
     headers: {
       Authorization: "Bearer " + accessToken,
       "Content-Type": "application/json"
