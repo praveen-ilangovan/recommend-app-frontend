@@ -1,32 +1,30 @@
 // React
-import { Link, useNavigate } from 'react-router-dom';
-import { useContext } from 'react';
+import { Link, useNavigate } from "react-router-dom";
+import { useContext } from "react";
 
 // Components: Project
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import Button from 'react-bootstrap/Button';
-import NavDropdown from 'react-bootstrap/NavDropdown';
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import Button from "react-bootstrap/Button";
+import NavDropdown from "react-bootstrap/NavDropdown";
 
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
 // Components: Local
-import RecommendBrandName from '../RecommendBrandName/RecommendBrandName';
+import RecommendBrandName from "../RecommendBrandName/RecommendBrandName";
 
 // Context
-import { AuthContext } from '../../store/AuthContext';
+import { AuthContext } from "../../store/AuthContext";
 
 // Styling: Local
 import "./RecommendNavBar.css";
 
-import { ROUTE } from '../../constants';
+import { ROUTE } from "../../constants";
 
 export default function RecommendNavBar() {
-
-  const {auth} = useContext(AuthContext);
+  const { auth } = useContext(AuthContext);
 
   return (
     <Navbar className="navbar-light">
@@ -38,9 +36,7 @@ export default function RecommendNavBar() {
         </Navbar.Brand>
 
         <Navbar.Collapse className="justify-content-end">
-          {!auth.accessToken ?
-            <SignUpButtons /> :
-            <SignedInUser />}
+          {!auth.accessToken ? <SignUpButtons /> : <SignedInUser />}
         </Navbar.Collapse>
       </Container>
     </Navbar>
@@ -54,7 +50,7 @@ function SignUpButtons() {
         <Button
           variant="primary"
           type="button"
-          className='navbar-signup-button'
+          className="navbar-signup-button"
         >
           Log in
         </Button>
@@ -64,7 +60,7 @@ function SignUpButtons() {
         <Button
           variant="success"
           type="button"
-          className='navbar-signup-button'
+          className="navbar-signup-button"
         >
           Join Now
         </Button>
@@ -74,41 +70,45 @@ function SignUpButtons() {
 }
 
 function SignedInUser() {
-
-  const {auth, setAuth} = useContext(AuthContext);
+  const { auth, setAuth } = useContext(AuthContext);
   const redirect = useNavigate();
 
   function logout() {
     setAuth({
       accessToken: null,
       userId: null,
-      userFirstname: null
-  });
+      userFirstname: null,
+    });
     redirect(ROUTE.LOGIN);
   }
 
   function hexToRgb(hex) {
     const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-    return result ? {
-      r: parseInt(result[1], 16),
-      g: parseInt(result[2], 16),
-      b: parseInt(result[3], 16)
-    } : null;
+    return result
+      ? {
+          r: parseInt(result[1], 16),
+          g: parseInt(result[2], 16),
+          b: parseInt(result[3], 16),
+        }
+      : null;
   }
 
-  const bgColor = '#' + Math.floor(Math.random()*16777215).toString(16);
+  const bgColor = "#" + Math.floor(Math.random() * 16777215).toString(16);
   const rgbColor = hexToRgb(bgColor);
   let textColor = "#ffffff";
-  if ( rgbColor && ( (rgbColor.r*0.299) + (rgbColor.g*0.587) + (rgbColor.b*0.114) > 186) ) {
+  if (
+    rgbColor &&
+    rgbColor.r * 0.299 + rgbColor.g * 0.587 + rgbColor.b * 0.114 > 186
+  ) {
     textColor = "#000000";
   }
 
   return (
-    <div className='signed-user-options'>
+    <div className="signed-user-options">
       <Link to={ROUTE.CREATE_CARD}>
         <FontAwesomeIcon
           icon={faPlus}
-          className='signup-user-button'
+          className="signup-user-button"
           data-toggle="tooltip"
           data-placement="bottom"
           title="Add a card"
@@ -118,16 +118,21 @@ function SignedInUser() {
       <Nav className="mr-sm-2">
         <NavDropdown
           title={
-              <span style={{ backgroundColor: bgColor, color: textColor }} className='dot'>
-                {auth.userFirstname[0].toUpperCase()}
-              </span>
-          }>
+            <span
+              style={{ backgroundColor: bgColor, color: textColor }}
+              className="dot"
+            >
+              {auth.userFirstname[0].toUpperCase()}
+            </span>
+          }
+        >
           <NavDropdown.Item>Hi, {auth.userFirstname}</NavDropdown.Item>
-          <NavDropdown.Item href="/example-app/section-a/">Profile</NavDropdown.Item>
+          <NavDropdown.Item href="/example-app/section-a/">
+            Profile
+          </NavDropdown.Item>
           <NavDropdown.Item onClick={logout}>Logout</NavDropdown.Item>
         </NavDropdown>
       </Nav>
-
     </div>
-  )
+  );
 }

@@ -1,9 +1,9 @@
 .card-page-div {
-    margin: 20px;
-    display: flex; /* or inline-flex */
-    align-items: center; 
-    justify-content: center;
-    height: 100%
+  margin: 20px;
+  display: flex; /* or inline-flex */
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
 
 .card-page-hide-component {

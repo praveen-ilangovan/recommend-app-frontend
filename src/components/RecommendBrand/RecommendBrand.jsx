@@ -7,11 +7,11 @@ import RecommendBrandSubText from "../RecommendBrandSubText/RecommndBrandSubText
 // Styling: Local
 import "./RecommendBrand.css";
 
-export default function RecommendBrand({size}) {
+export default function RecommendBrand({ size }) {
   return (
     <div>
       <div className="brand-name">
-        <RecommendBrandName size={size}/>
+        <RecommendBrandName size={size} />
       </div>
 
       <div className="brand-subtext">
@@ -22,5 +22,5 @@ export default function RecommendBrand({size}) {
 }
 
 RecommendBrand.propTypes = {
-  size: PropTypes.string
+  size: PropTypes.string,
 };

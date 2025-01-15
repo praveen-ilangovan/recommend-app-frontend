@@ -13,14 +13,17 @@
 
 @font-face {
   font-family: "MagentaRose";
-  src: local("MagentaRose"),
-   url("./assets/fonts/magenta-rose/MagentaRose.ttf") format("truetype");
+  src:
+    local("MagentaRose"),
+    url("./assets/fonts/magenta-rose/MagentaRose.ttf") format("truetype");
   font-weight: Regular;
 }
 
 @font-face {
   font-family: "MacondoSwashCaps";
-  src: local("MacondoSwashCaps-Regular"),
-   url("./assets/fonts/macondo-swash-caps/MacondoSwashCaps-Regular.ttf") format("truetype");
+  src:
+    local("MacondoSwashCaps-Regular"),
+    url("./assets/fonts/macondo-swash-caps/MacondoSwashCaps-Regular.ttf")
+      format("truetype");
   font-weight: Regular;
 }

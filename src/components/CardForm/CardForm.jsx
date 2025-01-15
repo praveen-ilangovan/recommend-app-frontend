@@ -1,24 +1,23 @@
 // React
-import { useState, useContext } from 'react';
-import { useQuery, useMutation } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
-import PropTypes from 'prop-types';
+import { useState, useContext } from "react";
+import { useQuery, useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
+import PropTypes from "prop-types";
 
 // Components: Project
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import InputGroup from 'react-bootstrap/InputGroup';
-import {useFormikContext, Formik} from 'formik';
-import * as yup from 'yup';
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import InputGroup from "react-bootstrap/InputGroup";
+import { useFormikContext, Formik } from "formik";
+import * as yup from "yup";
 
-import { AuthContext } from '../../store/AuthContext';
-import { getMe, addCard, scrapData, addBoard } from '../../api/app';
-import { ROUTE } from '../../constants';
+import { AuthContext } from "../../store/AuthContext";
+import { getMe, addCard, scrapData, addBoard } from "../../api/app";
+import { ROUTE } from "../../constants";
 
 import "./CardForm.css";
 
-export default function CardForm({card, onUpdate}) {
-
+export default function CardForm({ card, onUpdate }) {
   // Validation schema
   const schema = yup.object().shape({
     url: yup.string().url().required(),
@@ -27,21 +26,21 @@ export default function CardForm({card, onUpdate}) {
     description: yup.string(),
     selectedBoardId: yup.string(),
     boardType: yup.string(),
-    boardName: yup.string()
+    boardName: yup.string(),
   });
 
   // Get the boards and find the initial board value!
-  const {auth} = useContext(AuthContext);
-  let firstBoard = '';
+  const { auth } = useContext(AuthContext);
+  let firstBoard = "";
   const availableBoards = [];
 
-  const {data:meData, isSuccess} = useQuery({
-    queryKey: ['me', auth.userId],
+  const { data: meData, isSuccess } = useQuery({
+    queryKey: ["me", auth.userId],
     queryFn: async () => {
       const data = await getMe(auth.accessToken);
       return data;
     },
-    refetchIntervalInBackground: false
+    refetchIntervalInBackground: false,
     // Stop loading and fetching until it is invalidated.
   });
 
@@ -52,25 +51,25 @@ export default function CardForm({card, onUpdate}) {
   if (isSuccess) {
     if (meData?.data?.boards) {
       for (const board of meData?.data?.boards || {}) {
-        availableBoards.push( {id: board.id, name: board.name} )
+        availableBoards.push({ id: board.id, name: board.name });
       }
       firstBoard = meData?.data?.boards[0].id;
     }
   }
 
   // Create board mutation
-  const {mutateAsync: addBoardAsync, data: addedBoardData} = useMutation({
+  const { mutateAsync: addBoardAsync, data: addedBoardData } = useMutation({
     mutationFn: addBoard,
     retry: false,
     onError(error) {
-      console.log("Failed to log in", error)
-    }
+      console.log("Failed to log in", error);
+    },
   });
   let addedBoardId = addedBoardData?.data?.id;
 
   // Add card mutation
   const redirect = useNavigate();
-  const {mutateAsync} = useMutation({
+  const { mutateAsync } = useMutation({
     mutationFn: addCard,
     retry: false,
     onSuccess(data) {
@@ -78,19 +77,19 @@ export default function CardForm({card, onUpdate}) {
       redirect(ROUTE.HOME);
     },
     onError(error) {
-      console.log("Failed to log in", error)
+      console.log("Failed to log in", error);
     },
-    enabled: !!addedBoardId
+    enabled: !!addedBoardId,
   });
 
   // Callbacks
   async function onSubmit(values) {
-    if (values.boardType === 'create') {
+    if (values.boardType === "create") {
       const board = await addBoardAsync({
         accessToken: auth.accessToken,
-        data: {name: values.boardName, private: false}
-      })
-      
+        data: { name: values.boardName, private: false },
+      });
+
       if (board?.status === 201 && board?.data) {
         addedBoardId = board.data.id;
       }
@@ -101,10 +100,14 @@ export default function CardForm({card, onUpdate}) {
     return await mutateAsync({
       accessToken: auth.accessToken,
       boardId: addedBoardId,
-      data: {url: values.url, title: values.title, thumbnail: values.thumbnail, description: values.description}
-    })
+      data: {
+        url: values.url,
+        title: values.title,
+        thumbnail: values.thumbnail,
+        description: values.description,
+      },
+    });
   }
-
 
   return (
     <Formik
@@ -116,86 +119,94 @@ export default function CardForm({card, onUpdate}) {
         thumbnail: card.thumbnail,
         description: card.description,
         selectedBoardId: firstBoard,
-        boardType: 'select',
-        boardName: ''
+        boardType: "select",
+        boardName: "",
       }}
     >
-      <ActualForm availableBoards={availableBoards} onUpdate={onUpdate}/>
+      <ActualForm availableBoards={availableBoards} onUpdate={onUpdate} />
     </Formik>
   );
 }
 
 // Actual Form Component
-function ActualForm({availableBoards, onUpdate}) {
-
+function ActualForm({ availableBoards, onUpdate }) {
   const selectBoardOptions = [];
   const [showSelectBoardField, setShowSelectBoardField] = useState(true);
-  const {auth} = useContext(AuthContext);
+  const { auth } = useContext(AuthContext);
   const formikProps = useFormikContext();
 
   // Mutation
-  const {mutateAsync} = useMutation({
+  const { mutateAsync } = useMutation({
     mutationFn: scrapData,
     retry: false,
     onSuccess(data) {
       console.log("Successfully added a card!!", data);
     },
     onError(error) {
-      console.log("Failed to log in", error)
-    }
+      console.log("Failed to log in", error);
+    },
   });
 
   function handleUpdate(updatedData) {
     if (onUpdate) {
-      onUpdate(updatedData)
+      onUpdate(updatedData);
     }
   }
 
   function handleOnChange(event, formikHandleChange) {
-
     // Handle the in
     formikHandleChange(event);
 
-    if (!['url', 'title', 'description', 'thumbnail'].includes(event.target.name)) {
-      return
+    if (
+      !["url", "title", "description", "thumbnail"].includes(event.target.name)
+    ) {
+      return;
     }
 
     // Hack to initialise the selectedBoardId value with the first item in the list
     // If not, it will be an empty string
-    if (event.target.name == 'url' && formikProps.values.selectedBoardId === '' && availableBoards && availableBoards.length) {
-      formikProps.setFieldValue('selectedBoardId', availableBoards[0].id);
+    if (
+      event.target.name == "url" &&
+      formikProps.values.selectedBoardId === "" &&
+      availableBoards &&
+      availableBoards.length
+    ) {
+      formikProps.setFieldValue("selectedBoardId", availableBoards[0].id);
     }
 
     // Callback
     const updatedData = {};
     updatedData[event.target.name] = event.target.value;
     handleUpdate(updatedData);
-  };
+  }
 
   function onBoardTypeChange(event, formikHandleChange) {
     // Handle the in
     formikHandleChange(event);
-    setShowSelectBoardField(event.target.value === 'select')
+    setShowSelectBoardField(event.target.value === "select");
   }
 
   async function extract() {
-    const data = await mutateAsync({accessToken: auth.accessToken, url: formikProps.values.url});
+    const data = await mutateAsync({
+      accessToken: auth.accessToken,
+      url: formikProps.values.url,
+    });
 
     if (!data?.data) {
-      return
+      return;
     }
 
-    formikProps.setFieldValue('url', data.data.url);
-    formikProps.setFieldValue('title', data.data.title);
-    formikProps.setFieldValue('thumbnail', data.data.thumbnail, true);
-    formikProps.setFieldValue('description', data.data.description);
+    formikProps.setFieldValue("url", data.data.url);
+    formikProps.setFieldValue("title", data.data.title);
+    formikProps.setFieldValue("thumbnail", data.data.thumbnail, true);
+    formikProps.setFieldValue("description", data.data.description);
 
     // Call the update
     const updatedData = {
-      'url': data.data.url,
-      'title': data.data.title,
-      'thumbnail': data.data.thumbnail,
-      'description': data.data.description
+      url: data.data.url,
+      title: data.data.title,
+      thumbnail: data.data.thumbnail,
+      description: data.data.description,
     };
     handleUpdate(updatedData);
   }
@@ -207,12 +218,15 @@ function ActualForm({availableBoards, onUpdate}) {
 
   // Populate the options
   for (const op of availableBoards) {
-    selectBoardOptions.push( <option key={op.id} value={op.id}>{op.name}</option> )
+    selectBoardOptions.push(
+      <option key={op.id} value={op.id}>
+        {op.name}
+      </option>,
+    );
   }
 
   return (
     <Form noValidate onSubmit={formikProps.handleSubmit}>
-
       <Form.Group
         md="6"
         controlId="cardForm-urlField"
@@ -227,7 +241,9 @@ function ActualForm({availableBoards, onUpdate}) {
             placeholder="Enter the url"
             name="url"
             value={formikProps.values.url}
-            onChange={(event) => {handleOnChange(event, formikProps.handleChange)}}
+            onChange={(event) => {
+              handleOnChange(event, formikProps.handleChange);
+            }}
             isInvalid={formikProps.touched.url && !!formikProps.errors.url}
           />
           <Button
@@ -257,7 +273,9 @@ function ActualForm({availableBoards, onUpdate}) {
           placeholder="Title of the card"
           name="title"
           value={formikProps.values.title}
-          onChange={(event) => {handleOnChange(event, formikProps.handleChange)}}
+          onChange={(event) => {
+            handleOnChange(event, formikProps.handleChange);
+          }}
           isInvalid={formikProps.touched.title && !!formikProps.errors.title}
         />
         <Form.Control.Feedback type="invalid" tooltip>
@@ -277,7 +295,9 @@ function ActualForm({availableBoards, onUpdate}) {
           placeholder="Enter the url for thumbnail (Optional)"
           name="thumbnail"
           value={formikProps.values.thumbnail}
-          onChange={(event) => {handleOnChange(event, formikProps.handleChange)}}
+          onChange={(event) => {
+            handleOnChange(event, formikProps.handleChange);
+          }}
           isInvalid={!!formikProps.errors.thumbnail}
         />
 
@@ -289,52 +309,67 @@ function ActualForm({availableBoards, onUpdate}) {
       <Form.Group
         mb="3"
         className="recommend-form-field-group"
-        controlId="cardForm-descriptionField">
+        controlId="cardForm-descriptionField"
+      >
         <Form.Label>Description</Form.Label>
         <Form.Control
-            size="sm"
-            as="textarea"
-            rows={3}
-            name="description"
-            placeholder='Write a breif description (Optional)'
-            value={formikProps.values.description}
-            onChange={(event) => {handleOnChange(event, formikProps.handleChange)}}
+          size="sm"
+          as="textarea"
+          rows={3}
+          name="description"
+          placeholder="Write a breif description (Optional)"
+          value={formikProps.values.description}
+          onChange={(event) => {
+            handleOnChange(event, formikProps.handleChange);
+          }}
         />
       </Form.Group>
 
       <div className="add-card-form-board">
         <Form.Check
-          checked={formikProps.values.boardType === 'select'}
-          className='add-card-form-board-radio'
+          checked={formikProps.values.boardType === "select"}
+          className="add-card-form-board-radio"
           type="radio"
           label="Select a board"
           id="cardForm-selectABoardRadio"
           name="boardType"
           value="select"
-          onChange={(event) => {onBoardTypeChange(event, formikProps.handleChange)}}
+          onChange={(event) => {
+            onBoardTypeChange(event, formikProps.handleChange);
+          }}
         />
 
         <Form.Check
-          checked={formikProps.values.boardType === 'create'}
-          className='add-card-form-board-radio'
+          checked={formikProps.values.boardType === "create"}
+          className="add-card-form-board-radio"
           type="radio"
           label="Create a board"
           id="cardForm-createABoardRadio"
           name="boardType"
           value="create"
-          onChange={(event) => {onBoardTypeChange(event, formikProps.handleChange)}}
+          onChange={(event) => {
+            onBoardTypeChange(event, formikProps.handleChange);
+          }}
         />
       </div>
 
       <Form.Group
         mb="3"
-        className={showSelectBoardField ? "recommend-form-field-group" : "add-card-form-board-hide-field"}
-        controlId="cardForm-boardSelection">
+        className={
+          showSelectBoardField
+            ? "recommend-form-field-group"
+            : "add-card-form-board-hide-field"
+        }
+        controlId="cardForm-boardSelection"
+      >
         <Form.Select
           size="sm"
           name="selectedBoardId"
           value={formikProps.values.selectedBoardId}
-          onChange={(event) => {handleOnChange(event, formikProps.handleChange)}}>
+          onChange={(event) => {
+            handleOnChange(event, formikProps.handleChange);
+          }}
+        >
           {selectBoardOptions}
         </Form.Select>
 
@@ -346,7 +381,11 @@ function ActualForm({availableBoards, onUpdate}) {
       <Form.Group
         md="3"
         controlId="cardForm-imageField"
-        className={showSelectBoardField ? "add-card-form-board-hide-field" : "recommend-form-field-group"}
+        className={
+          showSelectBoardField
+            ? "add-card-form-board-hide-field"
+            : "recommend-form-field-group"
+        }
       >
         <Form.Control
           size="sm"
@@ -363,21 +402,29 @@ function ActualForm({availableBoards, onUpdate}) {
         </Form.Control.Feedback>
       </Form.Group>
 
-      <div className='recommend-form-button'>
-        <Button size="sm" style={{ margin: "0 10px" }} type="submit">Add Card</Button>
-        <Button size="sm" style={{ margin: "0 10px" }} type="button" onClick={clearForm}>Clear</Button>
+      <div className="recommend-form-button">
+        <Button size="sm" style={{ margin: "0 10px" }} type="submit">
+          Add Card
+        </Button>
+        <Button
+          size="sm"
+          style={{ margin: "0 10px" }}
+          type="button"
+          onClick={clearForm}
+        >
+          Clear
+        </Button>
       </div>
-
     </Form>
   );
 }
 
 CardForm.propTypes = {
   card: PropTypes.object,
-  onUpdate: PropTypes.func
+  onUpdate: PropTypes.func,
 };
 
 ActualForm.propTypes = {
   availableBoards: PropTypes.array,
-  onUpdate: PropTypes.func
+  onUpdate: PropTypes.func,
 };

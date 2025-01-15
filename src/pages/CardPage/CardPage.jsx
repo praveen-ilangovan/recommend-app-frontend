@@ -1,37 +1,36 @@
 // React
-import { useState, useContext } from 'react';
-import { useParams } from 'react-router-dom';
-import { useQuery } from '@tanstack/react-query';
+import { useState, useContext } from "react";
+import { useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 
 // Components: Project
-import Container from 'react-bootstrap/Container';
+import Container from "react-bootstrap/Container";
 
 // Components: Local
-import CardDetail from '../../components/CardDetail/CardDetail';
-import CardComposer from '../../components/CardComposer/CardComposer';
+import CardDetail from "../../components/CardDetail/CardDetail";
+import CardComposer from "../../components/CardComposer/CardComposer";
 
 // Styling: Local
 import "./CardPage.css";
 
-import { AuthContext } from '../../store/AuthContext';
-import { getCard } from '../../api/app';
-import ProtectedPage from '../ProtectedPage/ProtectedPage';
+import { AuthContext } from "../../store/AuthContext";
+import { getCard } from "../../api/app";
+import ProtectedPage from "../ProtectedPage/ProtectedPage";
 
 export default function CardPage() {
-
   const params = useParams();
-  const {auth} = useContext(AuthContext);
+  const { auth } = useContext(AuthContext);
   const [editMode, setEditMode] = useState(false);
 
-  let card = {}
+  let card = {};
 
   // ReactQuery
-  const {data, isSuccess} = useQuery({
-    queryKey: ['cards', params.cardId],
+  const { data, isSuccess } = useQuery({
+    queryKey: ["cards", params.cardId],
     queryFn: async () => {
       return await getCard(auth.accessToken, params.cardId);
     },
-    refetchIntervalInBackground: false
+    refetchIntervalInBackground: false,
   });
 
   if (isSuccess) {
@@ -40,16 +39,27 @@ export default function CardPage() {
 
   return (
     <ProtectedPage>
-      <Container fluid className='recommend-page-container'>
-        <div className={editMode ? 'card-page-hide-component' : 'card-page-div'}>
+      <Container fluid className="recommend-page-container">
+        <div
+          className={editMode ? "card-page-hide-component" : "card-page-div"}
+        >
           <CardDetail {...card} editable onEdit={() => setEditMode(true)} />
         </div>
 
-        {Object.keys(card).length ?
-            <div className={editMode ? 'card-page-div' : 'card-page-hide-component'}>
-              <CardComposer card={card} onSave={() => setEditMode(false)} onCancel={() => setEditMode(false)} mode="edit"/>
-            </div>
-        : <></> }
+        {Object.keys(card).length ? (
+          <div
+            className={editMode ? "card-page-div" : "card-page-hide-component"}
+          >
+            <CardComposer
+              card={card}
+              onSave={() => setEditMode(false)}
+              onCancel={() => setEditMode(false)}
+              mode="edit"
+            />
+          </div>
+        ) : (
+          <></>
+        )}
       </Container>
     </ProtectedPage>
   );

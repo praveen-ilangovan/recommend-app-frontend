@@ -2,7 +2,7 @@
 
 // ROUTES
 export const ROUTE = {
-  HOME : "/",
+  HOME: "/",
   LOGIN: "/session/new",
   REGISTER: "/users/new",
   BOARD: "/boards/:boardId",
@@ -10,5 +10,5 @@ export const ROUTE = {
   CREATE_CARD: "/cards/new",
   EDIT_CARD: "/cards/:cardId/edit",
   BOARD_ROOT: "/boards",
-  CARD_ROOT: "/cards"
-}
+  CARD_ROOT: "/cards",
+};

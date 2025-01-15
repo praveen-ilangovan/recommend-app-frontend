@@ -11,5 +11,5 @@ export default function RecommendBrandName({ size = "24px" }) {
 }
 
 RecommendBrandName.propTypes = {
-  size: PropTypes.string
+  size: PropTypes.string,
 };

@@ -1,46 +1,47 @@
 // React
-import { useContext } from 'react';
-import { useMutation } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
+import { useContext } from "react";
+import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 // Components: Project
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import {useFormikContext, Formik} from 'formik';
-import * as yup from 'yup';
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import { useFormikContext, Formik } from "formik";
+import * as yup from "yup";
 
-import { AuthContext } from '../../store/AuthContext';
-import { login } from '../../api/auth';
+import { AuthContext } from "../../store/AuthContext";
+import { login } from "../../api/auth";
 
 // Data
-import { ROUTE } from '../../constants';
+import { ROUTE } from "../../constants";
 
 export default function LoginForm() {
-
   // Validation schema
   const schema = yup.object().shape({
     emailaddress: yup.string().required(),
-    password: yup.string().required()
+    password: yup.string().required(),
   });
 
   // Context
-  const {setAuth} = useContext(AuthContext);
+  const { setAuth } = useContext(AuthContext);
   const redirect = useNavigate();
 
   // ReactQuery
-  const {mutateAsync} = useMutation({
+  const { mutateAsync } = useMutation({
     mutationFn: login,
     retry: false,
     onSuccess(data) {
       console.log("Successfully logged in!!", data.data);
-      setAuth({accessToken: data.data.access_token,
-               userId: data.data.id,
-               userFirstname: data.data.first_name});
+      setAuth({
+        accessToken: data.data.access_token,
+        userId: data.data.id,
+        userFirstname: data.data.first_name,
+      });
       redirect(ROUTE.HOME);
     },
     onError(error) {
-      console.log("Failed to log in", error)
-    }
+      console.log("Failed to log in", error);
+    },
   });
 
   async function onSubmit(values) {
@@ -52,8 +53,8 @@ export default function LoginForm() {
       validationSchema={schema}
       onSubmit={onSubmit}
       initialValues={{
-        emailaddress: '',
-        password: ''
+        emailaddress: "",
+        password: "",
       }}
     >
       <ActualForm />
@@ -66,7 +67,6 @@ function ActualForm() {
 
   return (
     <Form noValidate onSubmit={formikProps.handleSubmit}>
-
       <Form.Group
         md="6"
         controlId="loginForm-emailaddressField"
@@ -102,7 +102,9 @@ function ActualForm() {
           name="password"
           value={formikProps.values.password}
           onChange={formikProps.handleChange}
-          isInvalid={formikProps.touched.password && !!formikProps.errors.password}
+          isInvalid={
+            formikProps.touched.password && !!formikProps.errors.password
+          }
         />
 
         <Form.Control.Feedback type="invalid" tooltip>
@@ -110,10 +112,11 @@ function ActualForm() {
         </Form.Control.Feedback>
       </Form.Group>
 
-      <div className='recommend-form-button'>
-        <Button size="sm" type="submit">Login</Button>
+      <div className="recommend-form-button">
+        <Button size="sm" type="submit">
+          Login
+        </Button>
       </div>
-
     </Form>
   );
 }

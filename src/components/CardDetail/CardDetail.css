@@ -1,18 +1,17 @@
-
 .control-panel {
-    display: flex;
-    justify-content: end;
+  display: flex;
+  justify-content: end;
 }
 
 .knob {
-    margin: 0 5px;
+  margin: 0 5px;
 }
 
 .hide {
-    display: none;
+  display: none;
 }
 
 a {
-    color: inherit; /* blue colors for links too */
-    text-decoration: inherit; /* no underline */
+  color: inherit; /* blue colors for links too */
+  text-decoration: inherit; /* no underline */
 }

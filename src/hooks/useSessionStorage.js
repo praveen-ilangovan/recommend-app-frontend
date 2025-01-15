@@ -10,7 +10,7 @@ function getSessionStorageOrDefault(key, defaultValue) {
 
 export function useSessionStorage(key, defaultValue) {
   const [value, setValue] = useState(
-    getSessionStorageOrDefault(key, defaultValue)
+    getSessionStorageOrDefault(key, defaultValue),
   );
 
   useEffect(() => {

@@ -1,17 +1,16 @@
-import { useMutation } from '@tanstack/react-query';
-import { useNavigate } from 'react-router-dom';
+import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 // Components: Project
-import Button from 'react-bootstrap/Button';
-import Form from 'react-bootstrap/Form';
-import {useFormikContext, Formik} from 'formik';
-import * as yup from 'yup';
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import { useFormikContext, Formik } from "formik";
+import * as yup from "yup";
 
-import { registerUser } from '../../api/auth';
-import { ROUTE } from '../../constants';
+import { registerUser } from "../../api/auth";
+import { ROUTE } from "../../constants";
 
 export default function RegisterForm() {
-
   const redirect = useNavigate();
 
   const schema = yup.object().shape({
@@ -20,11 +19,13 @@ export default function RegisterForm() {
     emailaddress: yup.string().email().required(),
     username: yup.string().required(),
     password: yup.string().required(),
-    passwordConfirmation: yup.string().oneOf([yup.ref('password'), null], 'Passwords must match')
+    passwordConfirmation: yup
+      .string()
+      .oneOf([yup.ref("password"), null], "Passwords must match"),
   });
 
   // ReactQuery
-  const {mutateAsync: registerUserAsync} = useMutation({
+  const { mutateAsync: registerUserAsync } = useMutation({
     mutationFn: registerUser,
     retry: false,
     onSuccess(data) {
@@ -32,8 +33,8 @@ export default function RegisterForm() {
       redirect(ROUTE.LOGIN);
     },
     onError(error) {
-      console.log("Failed to log in", error)
-    }
+      console.log("Failed to log in", error);
+    },
   });
 
   // Callback
@@ -44,7 +45,8 @@ export default function RegisterForm() {
       last_name: values.lastname,
       email_address: values.emailaddress,
       user_name: values.username,
-      password: values.password})
+      password: values.password,
+    });
   }
 
   return (
@@ -52,12 +54,12 @@ export default function RegisterForm() {
       validationSchema={schema}
       onSubmit={onSubmit}
       initialValues={{
-        firstname: '',
-        lastname: '',
-        emailaddress: '',
-        username: '',
-        password: '',
-        passwordConfirmation: ''
+        firstname: "",
+        lastname: "",
+        emailaddress: "",
+        username: "",
+        password: "",
+        passwordConfirmation: "",
       }}
     >
       <ActualForm />
@@ -70,7 +72,6 @@ function ActualForm() {
 
   return (
     <Form noValidate onSubmit={formikProps.handleSubmit}>
-
       <Form.Group
         md="6"
         controlId="registerForm-firstnameField"
@@ -172,7 +173,9 @@ function ActualForm() {
           name="password"
           value={formikProps.values.password}
           onChange={formikProps.handleChange}
-          isInvalid={formikProps.touched.password && !!formikProps.errors.password}
+          isInvalid={
+            formikProps.touched.password && !!formikProps.errors.password
+          }
         />
 
         <Form.Control.Feedback type="invalid" tooltip>
@@ -193,7 +196,10 @@ function ActualForm() {
           name="passwordConfirmation"
           value={formikProps.values.passwordConfirmation}
           onChange={formikProps.handleChange}
-          isInvalid={formikProps.touched.passwordConfirmation && !!formikProps.errors.passwordConfirmation}
+          isInvalid={
+            formikProps.touched.passwordConfirmation &&
+            !!formikProps.errors.passwordConfirmation
+          }
         />
 
         <Form.Control.Feedback type="invalid" tooltip>
@@ -201,11 +207,11 @@ function ActualForm() {
         </Form.Control.Feedback>
       </Form.Group>
 
-      <div className='recommend-form-button'>
-        <Button size="sm" type="submit">Create an account</Button>
+      <div className="recommend-form-button">
+        <Button size="sm" type="submit">
+          Create an account
+        </Button>
       </div>
-
     </Form>
   );
 }
-
