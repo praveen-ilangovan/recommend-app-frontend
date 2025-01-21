@@ -1,6 +1,7 @@
 // React
 import { useContext } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 // Components: Project
 import Container from "react-bootstrap/Container";
@@ -13,31 +14,33 @@ import ProtectedPage from "../ProtectedPage/ProtectedPage";
 import { AuthContext } from "../../store/AuthContext";
 import { getMe } from "../../api/app";
 
+import { ROUTE } from "../../constants";
+
 export default function LandingPage() {
   const { auth } = useContext(AuthContext);
+  const redirect = useNavigate();
   let boards = [];
 
   const {
     data: meData,
-    isSuccess,
-    error,
-    isError,
+    isSuccess
   } = useQuery({
     queryKey: ["me", auth.userId],
     queryFn: async () => {
-      const data = await getMe(auth.accessToken);
+      const data = await getMe();
+      console.log("Me data :", data);
       return data;
     },
+    onError() {
+      console.log("re-route")
+      redirect(ROUTE.LOGIN);
+    },
+    retry: 1,
     refetchIntervalInBackground: false,
     // Stop loading and fetching until it is invalidated.
   });
 
-  if (isError) {
-    return <h1>{error}</h1>;
-  }
-
   if (isSuccess) {
-    // console.log("Got me data!!")
     if (meData?.data?.boards) {
       for (const board of meData?.data?.boards || {}) {
         boards.push(
@@ -58,7 +61,7 @@ export default function LandingPage() {
           {auth.userFirstname ? (
             <h1>Hi, {auth.userFirstname}</h1>
           ) : (
-            <h1>No signed in..</h1>
+            <h1>Loading..</h1>
           )}
           {boards}
         </div>

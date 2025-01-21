@@ -34,6 +34,7 @@ export default function LoginForm() {
       console.log("Successfully logged in!!", data.data);
       setAuth({
         accessToken: data.data.access_token,
+        refreshToken: data.data.refresh_token,
         userId: data.data.id,
         userFirstname: data.data.first_name,
       });

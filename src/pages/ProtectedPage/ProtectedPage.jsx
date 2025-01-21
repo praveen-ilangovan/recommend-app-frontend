@@ -9,35 +9,35 @@ import { isTokenExpired } from "../../api/auth";
 import { ROUTE } from "../../constants";
 
 export default function ProtectedPage({ children }) {
-  const { auth, setAuth } = useContext(AuthContext);
-  const redirect = useNavigate();
+  // const { auth, setAuth } = useContext(AuthContext);
+  // const redirect = useNavigate();
 
-  useEffect(() => {
-    const isLoggedIn = () => {
-      console.log("Running isLoggedIn..");
+  // useEffect(() => {
+  //   const isLoggedIn = () => {
+  //     console.log("Running isLoggedIn..");
 
-      // If there is no access token, redirect to the login page
-      if (!auth.accessToken) {
-        redirect(ROUTE.LOGIN);
-      }
+  //     // If there is no access token, redirect to the login page
+  //     if (!auth.accessToken) {
+  //       redirect(ROUTE.LOGIN);
+  //     }
 
-      // If there is an access token, but it is expired, then redirect
-      if (auth.accessToken && isTokenExpired(auth.accessToken)) {
-        setAuth({ accessToken: null, userId: null, userFirstname: null });
-        redirect(ROUTE.LOGIN);
-      }
-    };
+  //     // If there is an access token, but it is expired, then redirect
+  //     if (auth.accessToken && isTokenExpired(auth.accessToken)) {
+  //       setAuth({ accessToken: null, userId: null, userFirstname: null });
+  //       redirect(ROUTE.LOGIN);
+  //     }
+  //   };
 
-    isLoggedIn();
+  //   isLoggedIn();
 
-    //Implementing the setInterval method
-    const interval = setInterval(() => {
-      isLoggedIn();
-    }, 30000);
+  //   //Implementing the setInterval method
+  //   const interval = setInterval(() => {
+  //     isLoggedIn();
+  //   }, 30000);
 
-    //Clearing the interval
-    return () => clearInterval(interval);
-  }, []);
+  //   //Clearing the interval
+  //   return () => clearInterval(interval);
+  // }, []);
 
   return <>{children}</>;
 }

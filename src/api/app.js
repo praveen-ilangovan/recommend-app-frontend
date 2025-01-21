@@ -1,107 +1,81 @@
-// Third Party Imports
-import axios from "axios";
 
 // Local Imports
-import { RECOMMEND_APP_URL } from "./constants";
 import { ROUTE } from "../constants";
+import { client, getAccessToken } from "./client";
 
-export const getMe = (accessToken) => {
-  return axios.get(`${RECOMMEND_APP_URL}/me/`, {
-    headers: {
-      Authorization: "Bearer " + accessToken,
-      "Content-Type": "application/json",
-    },
+const getHeaders = () => {
+  return {
+    Authorization: "Bearer " + getAccessToken(),
+    "Content-Type": "application/json",
+  };
+}
+
+export const getMe = () => {
+  return client.get("/me/", {
+    headers: getHeaders(),
   });
 };
 
 // Board
-
 export const addBoard = ({ accessToken, data }) => {
-  return axios.post(`${RECOMMEND_APP_URL}/boards/`, data, {
-    headers: {
-      Authorization: "Bearer " + accessToken,
-      "Content-Type": "application/json",
-    },
+  return client.post("/boards/", data, {
+    headers: getHeaders(),
   });
 };
 
 export const getBoard = (accessToken, boardId) => {
   const endpoint = ROUTE.BOARD.replace(":boardId", boardId);
-  return axios.get(`${RECOMMEND_APP_URL}${endpoint}`, {
-    headers: {
-      Authorization: "Bearer " + accessToken,
-      "Content-Type": "application/json",
-    },
+  return client.get(endpoint, {
+    headers: getHeaders(),
   });
 };
 
 export const updateBoard = ({ accessToken, boardId, data }) => {
   const endpoint = ROUTE.BOARD.replace(":boardId", boardId);
-  return axios.put(`${RECOMMEND_APP_URL}${endpoint}`, data, {
-    headers: {
-      Authorization: "Bearer " + accessToken,
-      "Content-Type": "application/json",
-    },
+  return client.put(endpoint, data, {
+    headers: getHeaders(),
   });
 };
 
 export const deleteBoard = ({ accessToken, boardId }) => {
   const endpoint = ROUTE.BOARD.replace(":boardId", boardId);
-  return axios.delete(`${RECOMMEND_APP_URL}${endpoint}`, {
-    headers: {
-      Authorization: "Bearer " + accessToken,
-      "Content-Type": "application/json",
-    },
+  return client.delete(endpoint, {
+    headers: getHeaders(),
   });
 };
 
 // Card
 
 export const addCard = ({ accessToken, boardId, data }) => {
-  return axios.post(`${RECOMMEND_APP_URL}/boards/${boardId}/cards`, data, {
-    headers: {
-      Authorization: "Bearer " + accessToken,
-      "Content-Type": "application/json",
-    },
+  return client.post(`/boards/${boardId}/cards`, data, {
+    headers: getHeaders(),
   });
 };
 
 export const getCard = (accessToken, cardId) => {
   const endpoint = ROUTE.CARD.replace(":cardId", cardId);
-  return axios.get(`${RECOMMEND_APP_URL}${endpoint}`, {
-    headers: {
-      Authorization: "Bearer " + accessToken,
-      "Content-Type": "application/json",
-    },
+  return client.get(endpoint, {
+    headers: getHeaders(),
   });
 };
 
 export const updateCard = ({ accessToken, cardId, data }) => {
   const endpoint = ROUTE.CARD.replace(":cardId", cardId);
-  return axios.put(`${RECOMMEND_APP_URL}${endpoint}`, data, {
-    headers: {
-      Authorization: "Bearer " + accessToken,
-      "Content-Type": "application/json",
-    },
+  return client.put(endpoint, data, {
+    headers: getHeaders(),
   });
 };
 
 export const deleteCard = ({ accessToken, cardId }) => {
   const endpoint = ROUTE.CARD.replace(":cardId", cardId);
-  return axios.delete(`${RECOMMEND_APP_URL}${endpoint}`, {
-    headers: {
-      Authorization: "Bearer " + accessToken,
-      "Content-Type": "application/json",
-    },
+  return client.delete(endpoint, {
+    headers: getHeaders(),
   });
 };
 
 // Scrapper
 export const scrapData = ({ accessToken, url }) => {
-  return axios.get(`${RECOMMEND_APP_URL}/scrapper/?url=${url}`, {
-    headers: {
-      Authorization: "Bearer " + accessToken,
-      "Content-Type": "application/json",
-    },
+  return client.get(`/scrapper/?url=${url}`, {
+    headers: getHeaders(),
   });
 };
