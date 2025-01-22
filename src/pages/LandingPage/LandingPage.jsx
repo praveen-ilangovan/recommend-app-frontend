@@ -35,7 +35,7 @@ export default function LandingPage() {
       console.log("re-route")
       redirect(ROUTE.LOGIN);
     },
-    retry: 1,
+    retry: 0,
     refetchIntervalInBackground: false,
     // Stop loading and fetching until it is invalidated.
   });
