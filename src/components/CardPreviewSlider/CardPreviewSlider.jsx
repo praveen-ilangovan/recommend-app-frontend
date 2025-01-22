@@ -1,7 +1,5 @@
 // React
-import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
 import PropTypes from "prop-types";
 
 // Components: Project
@@ -18,25 +16,15 @@ import "slick-carousel/slick/slick-theme.css";
 // Styling: Local
 import "./CardPreviewSlider.css";
 
-import { AuthContext } from "../../store/AuthContext";
-import { getBoard } from "../../api/app";
+import { useGetBoard } from "../../rqhooks/useGetBoard";
 
 // Data: Local
 import { ROUTE } from "../../constants";
 
 // Component
 export default function CardPreviewSlider({ boardId }) {
-  const { auth } = useContext(AuthContext);
   const cards = [];
-
-  const { data, isSuccess } = useQuery({
-    queryKey: ["boards", boardId],
-    queryFn: async () => {
-      const board = await getBoard(auth.accessToken, boardId);
-      return board;
-    },
-    refetchIntervalInBackground: false,
-  });
+  const { data, isSuccess } = useGetBoard(boardId);
 
   if (isSuccess) {
     let count = 0;

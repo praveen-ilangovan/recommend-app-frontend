@@ -1,7 +1,5 @@
 // React
 import { useState, useContext } from "react";
-import { useQuery, useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
 // Components: Project
@@ -12,8 +10,11 @@ import { useFormikContext, Formik } from "formik";
 import * as yup from "yup";
 
 import { AuthContext } from "../../store/AuthContext";
-import { getMe, addCard, scrapData, addBoard } from "../../api/app";
-import { ROUTE } from "../../constants";
+
+import { useGetLoggedInUserData } from "../../rqhooks/useGetLoggedInUserData";
+import { useCreateBoard } from "../../rqhooks/useCreateBoard";
+import { useCreateCard } from "../../rqhooks/useCreateCard";
+import { useScrapper } from "../../rqhooks/useScrapper";
 
 import "./CardForm.css";
 
@@ -34,79 +35,48 @@ export default function CardForm({ card, onUpdate }) {
   let firstBoard = "";
   const availableBoards = [];
 
-  const { data: meData, isSuccess } = useQuery({
-    queryKey: ["me", auth.userId],
-    queryFn: async () => {
-      const data = await getMe(auth.accessToken);
-      return data;
-    },
-    refetchIntervalInBackground: false,
-    // Stop loading and fetching until it is invalidated.
-  });
-
-  // if (isError) {
-  //   return <h1>{error}</h1>
-  // }
-
-  if (isSuccess) {
-    if (meData?.data?.boards) {
-      for (const board of meData?.data?.boards || {}) {
+  // Get user data
+  const { data: userData, isSuccess: gotUserData } = useGetLoggedInUserData();
+  if (gotUserData) {
+    if (userData?.boards) {
+      for (const board of userData?.boards || {}) {
         availableBoards.push({ id: board.id, name: board.name });
       }
-      firstBoard = meData?.data?.boards[0].id;
+      firstBoard = userData?.boards[0].id;
     }
   }
 
-  // Create board mutation
-  const { mutateAsync: addBoardAsync, data: addedBoardData } = useMutation({
-    mutationFn: addBoard,
-    retry: false,
-    onError(error) {
-      console.log("Failed to log in", error);
-    },
-  });
-  let addedBoardId = addedBoardData?.data?.id;
+  // Create board
+  const { mutateAsync: createBoard } = useCreateBoard();
 
-  // Add card mutation
-  const redirect = useNavigate();
-  const { mutateAsync } = useMutation({
-    mutationFn: addCard,
-    retry: false,
-    onSuccess(data) {
-      console.log("Successfully added a card!!", data);
-      redirect(ROUTE.HOME);
-    },
-    onError(error) {
-      console.log("Failed to log in", error);
-    },
-    enabled: !!addedBoardId,
-  });
+  // Create card
+  const { mutateAsync: createCard } = useCreateCard();
 
-  // Callbacks
+  // Callback
   async function onSubmit(values) {
+    let boardId = values.selectedBoardId;
+
     if (values.boardType === "create") {
-      const board = await addBoardAsync({
-        accessToken: auth.accessToken,
+      const board = await createBoard({
         data: { name: values.boardName, private: false },
       });
 
       if (board?.status === 201 && board?.data) {
-        addedBoardId = board.data.id;
+        boardId = board.data.id;
       }
-    } else {
-      addedBoardId = values.selectedBoardId;
     }
 
-    return await mutateAsync({
-      accessToken: auth.accessToken,
-      boardId: addedBoardId,
-      data: {
-        url: values.url,
-        title: values.title,
-        thumbnail: values.thumbnail,
-        description: values.description,
-      },
-    });
+    if (boardId) {
+      return await createCard({
+        boardId: boardId,
+        data: {
+          url: values.url,
+          title: values.title,
+          thumbnail: values.thumbnail,
+          description: values.description,
+        },
+      });
+    }
   }
 
   return (
@@ -136,16 +106,7 @@ function ActualForm({ availableBoards, onUpdate }) {
   const formikProps = useFormikContext();
 
   // Mutation
-  const { mutateAsync } = useMutation({
-    mutationFn: scrapData,
-    retry: false,
-    onSuccess(data) {
-      console.log("Successfully added a card!!", data);
-    },
-    onError(error) {
-      console.log("Failed to log in", error);
-    },
-  });
+  const { mutateAsync: scrapData } = useScrapper();
 
   function handleUpdate(updatedData) {
     if (onUpdate) {
@@ -187,10 +148,7 @@ function ActualForm({ availableBoards, onUpdate }) {
   }
 
   async function extract() {
-    const data = await mutateAsync({
-      accessToken: auth.accessToken,
-      url: formikProps.values.url,
-    });
+    const data = await scrapData(formikProps.values.url);
 
     if (!data?.data) {
       return;

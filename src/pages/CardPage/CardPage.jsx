@@ -1,7 +1,6 @@
 // React
-import { useState, useContext } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
 
 // Components: Project
 import Container from "react-bootstrap/Container";
@@ -13,25 +12,17 @@ import CardComposer from "../../components/CardComposer/CardComposer";
 // Styling: Local
 import "./CardPage.css";
 
-import { AuthContext } from "../../store/AuthContext";
-import { getCard } from "../../api/app";
 import ProtectedPage from "../ProtectedPage/ProtectedPage";
+import { useGetCard } from "../../rqhooks/useGetCard";
 
 export default function CardPage() {
   const params = useParams();
-  const { auth } = useContext(AuthContext);
   const [editMode, setEditMode] = useState(false);
 
   let card = {};
 
   // ReactQuery
-  const { data, isSuccess } = useQuery({
-    queryKey: ["cards", params.cardId],
-    queryFn: async () => {
-      return await getCard(auth.accessToken, params.cardId);
-    },
-    refetchIntervalInBackground: false,
-  });
+  const { data, isSuccess } = useGetCard(params.cardId);
 
   if (isSuccess) {
     card = data?.data;

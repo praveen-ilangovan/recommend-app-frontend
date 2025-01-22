@@ -10,72 +10,72 @@ const getHeaders = () => {
   };
 }
 
-export const getMe = () => {
-  return client.get("/me/", {
+export const getMe = async () => {
+  return await client.get("/me/", {
     headers: getHeaders(),
   });
 };
 
 // Board
-export const addBoard = ({ accessToken, data }) => {
-  return client.post("/boards/", data, {
+export const addBoard = async ({ data }) => {
+  return await client.post("/boards/", data, {
     headers: getHeaders(),
   });
 };
 
-export const getBoard = (accessToken, boardId) => {
+export const getBoard = async (boardId) => {
   const endpoint = ROUTE.BOARD.replace(":boardId", boardId);
-  return client.get(endpoint, {
+  return await client.get(endpoint, {
     headers: getHeaders(),
   });
 };
 
-export const updateBoard = ({ accessToken, boardId, data }) => {
+export const updateBoard = async ({ boardId, data }) => {
   const endpoint = ROUTE.BOARD.replace(":boardId", boardId);
-  return client.put(endpoint, data, {
+  return await client.put(endpoint, data, {
     headers: getHeaders(),
   });
 };
 
-export const deleteBoard = ({ accessToken, boardId }) => {
+export const deleteBoard = async ({ boardId }) => {
   const endpoint = ROUTE.BOARD.replace(":boardId", boardId);
-  return client.delete(endpoint, {
+  return await client.delete(endpoint, {
     headers: getHeaders(),
   });
 };
 
 // Card
 
-export const addCard = ({ accessToken, boardId, data }) => {
-  return client.post(`/boards/${boardId}/cards`, data, {
+export const addCard = async ({ boardId, data }) => {
+  return await client.post(`/boards/${boardId}/cards`, data, {
     headers: getHeaders(),
   });
 };
 
-export const getCard = (accessToken, cardId) => {
+export const getCard = async (cardId) => {
   const endpoint = ROUTE.CARD.replace(":cardId", cardId);
-  return client.get(endpoint, {
+  return await client.get(endpoint, {
     headers: getHeaders(),
   });
 };
 
-export const updateCard = ({ accessToken, cardId, data }) => {
+export const updateCard = async ({ cardId, data }) => {
   const endpoint = ROUTE.CARD.replace(":cardId", cardId);
-  return client.put(endpoint, data, {
+  return await client.put(endpoint, data, {
     headers: getHeaders(),
   });
 };
 
-export const deleteCard = ({ accessToken, cardId }) => {
+export const deleteCard = async ({ cardId }) => {
   const endpoint = ROUTE.CARD.replace(":cardId", cardId);
-  return client.delete(endpoint, {
+  return await client.delete(endpoint, {
     headers: getHeaders(),
   });
 };
 
 // Scrapper
-export const scrapData = ({ accessToken, url }) => {
-  return client.get(`/scrapper/?url=${url}`, {
+export const scrapData = async (url) => {
+  return await client.get(`/scrapper/?url=${url}`, {
     headers: getHeaders(),
   });
 };

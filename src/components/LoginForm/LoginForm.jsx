@@ -1,19 +1,10 @@
-// React
-import { useContext } from "react";
-import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
-
 // Components: Project
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useFormikContext, Formik } from "formik";
 import * as yup from "yup";
 
-import { AuthContext } from "../../store/AuthContext";
-import { login } from "../../api/auth";
-
-// Data
-import { ROUTE } from "../../constants";
+import { useCreateSession } from "../../rqhooks/useCreateSession";
 
 export default function LoginForm() {
   // Validation schema
@@ -22,31 +13,10 @@ export default function LoginForm() {
     password: yup.string().required(),
   });
 
-  // Context
-  const { setAuth } = useContext(AuthContext);
-  const redirect = useNavigate();
-
-  // ReactQuery
-  const { mutateAsync } = useMutation({
-    mutationFn: login,
-    retry: false,
-    onSuccess(data) {
-      console.log("Successfully logged in!!", data.data);
-      setAuth({
-        accessToken: data.data.access_token,
-        refreshToken: data.data.refresh_token,
-        userId: data.data.id,
-        userFirstname: data.data.first_name,
-      });
-      redirect(ROUTE.HOME);
-    },
-    onError(error) {
-      console.log("Failed to log in", error);
-    },
-  });
+  const { mutateAsync: createSession } = useCreateSession();
 
   async function onSubmit(values) {
-    await mutateAsync(values);
+    await createSession(values);
   }
 
   return (

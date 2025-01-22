@@ -1,7 +1,5 @@
 // React
-import { useState, useContext } from "react";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import PropTypes from "prop-types";
 
 // Components: Project
@@ -17,9 +15,8 @@ import { faBan } from "@fortawesome/free-solid-svg-icons";
 // Styling: Local
 import "./BoardKnobControlPanel.css";
 
-import { AuthContext } from "../../store/AuthContext";
-import { updateBoard, deleteBoard } from "../../api/app";
-import { ROUTE } from "../../constants";
+import { useUpdateBoard } from "../../rqhooks/useUpdateBoard";
+import { useDeleteBoard } from "../../rqhooks/useDeleteBoard";
 
 // TODO: Form Control width adjustment
 // https://stackoverflow.com/questions/64092841/react-how-to-make-an-input-only-as-wide-as-the-amount-of-text-provided
@@ -29,9 +26,6 @@ export default function BoardKnobControlPanel({
   boardName,
   isPrivateBoard,
 }) {
-  const { auth } = useContext(AuthContext);
-  const queryClient = useQueryClient();
-
   // Board properties
   const [name, setName] = useState(boardName);
   const [isPrivate, setPrivate] = useState(isPrivateBoard);
@@ -41,36 +35,11 @@ export default function BoardKnobControlPanel({
   const [editValue, setEditValue] = useState("");
 
   // ReactQuery
-  const { mutateAsync } = useMutation({
-    mutationFn: updateBoard,
-    retry: false,
-    onSuccess(data) {
-      console.log("Successfully updated!!", data);
-    },
-    onError(error) {
-      console.log("Failed to log in", error);
-    },
-  });
-
-  const redirect = useNavigate();
-  const { mutateAsync: deleteBoardAsync } = useMutation({
-    mutationFn: deleteBoard,
-    retry: false,
-    onSuccess() {
-      // These queryClient calls doesn't seem to do much
-      queryClient.removeQueries({ queryKey: ["boards", boardId], exact: true });
-      queryClient.invalidateQueries({ queryKey: ["me", auth.userId] });
-      redirect(ROUTE.HOME);
-    },
-    onError(error) {
-      console.log("Failed to log in", error);
-    },
-  });
+  const { mutateAsync: updateBoard } = useUpdateBoard();
+  const { mutateAsync: deleteBoard } = useDeleteBoard(boardId);
 
   const callUpdateBoard = async (data) => {
-    console.log(boardId);
-    return await mutateAsync({
-      accessToken: auth.accessToken,
+    return await updateBoard({
       boardId: boardId,
       data: data,
     });
@@ -101,9 +70,7 @@ export default function BoardKnobControlPanel({
   }
 
   async function onBoardDelete() {
-    console.log("Delete board");
-    return await deleteBoardAsync({
-      accessToken: auth.accessToken,
+    return await deleteBoard({
       boardId: boardId,
     });
   }

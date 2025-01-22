@@ -1,6 +1,4 @@
 // React
-import { useContext } from "react";
-import { useQueryClient, useMutation } from "@tanstack/react-query";
 import PropTypes from "prop-types";
 
 // Components: Project
@@ -9,13 +7,9 @@ import Form from "react-bootstrap/Form";
 import { useFormikContext, Formik } from "formik";
 import * as yup from "yup";
 
-import { AuthContext } from "../../store/AuthContext";
-import { updateCard } from "../../api/app";
+import { useUpdateCard } from "../../rqhooks/useUpdateCard";
 
 export default function CardEditForm({ card, onUpdate, onSave, onCancel }) {
-  const { auth } = useContext(AuthContext);
-  const queryClient = useQueryClient();
-
   // Validation schema
   const schema = yup.object().shape({
     title: yup.string(),
@@ -24,24 +18,12 @@ export default function CardEditForm({ card, onUpdate, onSave, onCancel }) {
   });
 
   // ReactQuery
-  const { mutateAsync: updateCardAsync } = useMutation({
-    mutationFn: updateCard,
-    retry: false,
-    onSuccess(data) {
-      console.log("Successfully updated!!", data);
-      queryClient.invalidateQueries({ queryKey: ["cards", card.id] });
-    },
-    onError(error) {
-      console.log("Failed to log in", error);
-    },
-  });
+  const { mutateAsync: updateCard } = useUpdateCard(card.id);
 
   // Callback
   const onSubmit = async (values) => {
-    console.log(values);
 
-    await updateCardAsync({
-      accessToken: auth.accessToken,
+    await updateCard({
       cardId: card.id,
       data: values,
     });
@@ -51,7 +33,6 @@ export default function CardEditForm({ card, onUpdate, onSave, onCancel }) {
     }
   };
 
-  console.log("Incoming title: ", card.title);
   return (
     <Formik
       validationSchema={schema}

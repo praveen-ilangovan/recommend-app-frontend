@@ -20,8 +20,8 @@ export const registerUser = (data) => {
   });
 };
 
-export const login = ({ emailaddress, password }) => {
-  return client.post("/session/",
+export const login = async ({ emailaddress, password }) => {
+  return await client.post("/session/",
     {
       username: emailaddress,
       password: password,

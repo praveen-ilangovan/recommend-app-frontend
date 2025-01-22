@@ -1,6 +1,4 @@
 // React
-import { useContext } from "react";
-import { useQuery } from "@tanstack/react-query";
 import PropTypes from "prop-types";
 
 import Container from "react-bootstrap/Container";
@@ -9,25 +7,14 @@ import Col from "react-bootstrap/Col";
 
 // Components: Local
 import CardPreview from "../CardPreview/CardPreview";
-
-import { AuthContext } from "../../store/AuthContext";
-import { getBoard } from "../../api/app";
+import { useGetBoard } from "../../rqhooks/useGetBoard";
 
 // Styling: Local
 import "./CardGrid.css";
 
 export default function CardGrid({ boardId }) {
-  const { auth } = useContext(AuthContext);
   const cards = [];
-
-  const { data, isSuccess } = useQuery({
-    queryKey: ["boards", boardId],
-    queryFn: async () => {
-      const board1 = await getBoard(auth.accessToken, boardId);
-      return board1;
-    },
-    refetchIntervalInBackground: false,
-  });
+  const { data, isSuccess } = useGetBoard(boardId);
 
   if (isSuccess) {
     for (const card of data?.data?.cards || {}) {

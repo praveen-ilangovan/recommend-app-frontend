@@ -1,7 +1,5 @@
 // React
-import { useContext } from "react";
 import { useParams } from "react-router-dom";
-import { useQuery } from "@tanstack/react-query";
 
 // Components: Project
 import Container from "react-bootstrap/Container";
@@ -15,25 +13,17 @@ import "./BoardPage.css";
 
 import ProtectedPage from "../ProtectedPage/ProtectedPage";
 
-import { AuthContext } from "../../store/AuthContext";
-import { getBoard } from "../../api/app";
+import { useGetBoard } from "../../rqhooks/useGetBoard";
 
 export default function BoardPage() {
-  const { auth } = useContext(AuthContext);
   const params = useParams();
   let name = "";
   let isPrivateBoard = false;
 
-  const { data, isSuccess } = useQuery({
-    queryKey: ["boards", params.boardId],
-    queryFn: async () => {
-      const board1 = await getBoard(auth.accessToken, params.boardId);
-      return board1;
-    },
-    refetchIntervalInBackground: false,
-  });
+  const { data, isSuccess } = useGetBoard(params.boardId);
 
   if (isSuccess) {
+    console.log("data :", data.data.board)
     name = data?.data?.board.name;
     isPrivateBoard = data?.data?.board.private;
   }

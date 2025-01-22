@@ -1,17 +1,12 @@
-import { useMutation } from "@tanstack/react-query";
-import { useNavigate } from "react-router-dom";
-
 // Components: Project
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import { useFormikContext, Formik } from "formik";
 import * as yup from "yup";
 
-import { registerUser } from "../../api/auth";
-import { ROUTE } from "../../constants";
+import { useCreateUser } from "../../rqhooks/useCreateUser";
 
 export default function RegisterForm() {
-  const redirect = useNavigate();
 
   const schema = yup.object().shape({
     firstname: yup.string().required(),
@@ -25,22 +20,11 @@ export default function RegisterForm() {
   });
 
   // ReactQuery
-  const { mutateAsync: registerUserAsync } = useMutation({
-    mutationFn: registerUser,
-    retry: false,
-    onSuccess(data) {
-      console.log("Successfully added a card!!", data);
-      redirect(ROUTE.LOGIN);
-    },
-    onError(error) {
-      console.log("Failed to log in", error);
-    },
-  });
+  const { mutateAsync: createUser } = useCreateUser();
 
   // Callback
   async function onSubmit(values) {
-    console.log(values);
-    await registerUserAsync({
+    await createUser({
       first_name: values.firstname,
       last_name: values.lastname,
       email_address: values.emailaddress,
