@@ -18,10 +18,12 @@ export const useGetLoggedInUserData = () => {
       const data = await getMe();
       return data.data;
     },
-    onError() {
-      redirect(ROUTE.LOGIN);
+    onError(error) {
+      if (error.status === 400 || error.status === 401) {
+        redirect(ROUTE.LOGIN);
+      }
     },
-    retry: 0,
+    retry: false,
     refetchIntervalInBackground: false,
   })
 }

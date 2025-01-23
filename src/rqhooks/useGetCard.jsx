@@ -16,7 +16,7 @@ export const useGetCard = (cardId) => {
       return data;
     },
     onError(error) {
-      if (error.status === 401) {
+      if (error.status === 400 || error.status === 401) {
         redirect(ROUTE.LOGIN);
       }
       console.log("Page Not Found")

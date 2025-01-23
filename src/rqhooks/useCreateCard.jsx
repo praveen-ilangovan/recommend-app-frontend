@@ -20,6 +20,9 @@ export const useCreateCard = () => {
     },
     onError(error) {
       console.log("Failed to log in", error);
+      if (error.status === 400 || error.status === 401) {
+        redirect(ROUTE.LOGIN);
+      }
     }
   })
 };

@@ -16,7 +16,9 @@ export const useGetBoard = (boardId) => {
       return data;
     },
     onError() {
-      redirect(ROUTE.LOGIN);
+      if (error.status === 400 || error.status === 401) {
+        redirect(ROUTE.LOGIN);
+      }
     },
     retry: 0,
     refetchIntervalInBackground: false,
