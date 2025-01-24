@@ -15,7 +15,7 @@ export const useGetBoard = (boardId) => {
       const data = await getBoard(boardId);
       return data;
     },
-    onError() {
+    onError(error) {
       if (error.status === 400 || error.status === 401) {
         redirect(ROUTE.LOGIN);
       }

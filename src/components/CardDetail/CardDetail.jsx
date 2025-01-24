@@ -18,6 +18,7 @@ import "./CardDetail.css";
 import placeholderImg from "../../assets/img/placeholder-image.jpg";
 import { ROUTE } from "../../constants";
 
+import { useGetBoard } from "../../rqhooks/useGetBoard";
 import { useDeleteCard } from "../../rqhooks/useDeleteCard";
 
 export default function CardDetail({
@@ -34,9 +35,15 @@ export default function CardDetail({
 
   // Set the image to a placeholder one if thumbnail is null or undefined.
   const img = thumbnail ? thumbnail : placeholderImg;
+  let boardName = "";
 
   // ReactQuery
+  const { data: boardData, isSuccess: gotBoardData } = useGetBoard(board_id);
   const { mutateAsync: deleteCard } = useDeleteCard(id, board_id);
+
+  if (gotBoardData) {
+    boardName = boardData?.data?.board.name;
+  }
 
   const backToBoard = () => {
     const boardUrl = ROUTE.BOARD.replace(":boardId", board_id);
@@ -59,30 +66,32 @@ export default function CardDetail({
       <Card.Img variant="top" src={img} />
       <Card.Body>
         <Card.Title>{title}</Card.Title>
+        <Card.Subtitle className="mb-3 text-muted pointer" onClick={backToBoard}>{boardName}</Card.Subtitle>
         <Card.Text>{description}</Card.Text>
 
         <div className="control-panel">
           <FontAwesomeIcon
+            className="pointer"
             icon={faBorderAll}
             onClick={backToBoard}
           />
           <FontAwesomeIcon
             icon={faEdit}
-            className={editable ? "knob" : "hide"}
+            className={editable ? "knob pointer" : "hide"}
             onClick={onEdit}
           />
           <FontAwesomeIcon
             icon={faBan}
-            className={editable ? "knob" : "hide"}
+            className={editable ? "knob pointer" : "hide"}
             onClick={onDeleteClicked}
           />
           <FontAwesomeIcon
+            className="pointer"
             icon={faArrowUpRightFromSquare}
             onClick={openUrlInNewTab}
           />
-
-
         </div>
+
       </Card.Body>
     </Card>
   );

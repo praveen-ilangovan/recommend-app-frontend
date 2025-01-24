@@ -12,3 +12,8 @@ export const ROUTE = {
   BOARD_ROOT: "/boards",
   CARD_ROOT: "/cards",
 };
+
+// TOKENS
+export const ACCESS_TOKEN = "recommendAppAccessToken";
+export const REFRESH_TOKEN = "recommendAppRefreshToken";
+export const USER_DATA = "recommendAppUserData";
