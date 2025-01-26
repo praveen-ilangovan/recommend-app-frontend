@@ -11,6 +11,7 @@ import BoardPage from "./pages/BoardPage/BoardPage";
 import CardPage from "./pages/CardPage/CardPage";
 import CardComposerPage from "./pages/CardComposerPage/CardComposerPage";
 import CardEditPage from "./pages/CardEditPage/CardEditPage";
+import ErrorPage from "./pages/ErrorPage/ErrorPage";
 
 // Hooks
 import { useSessionStorage } from "./hooks/useSessionStorage";
@@ -37,6 +38,7 @@ const router = createBrowserRouter([
       { path: ROUTE.CARD, element: <CardPage /> },
       { path: ROUTE.EDIT_CARD, element: <CardEditPage /> },
       { path: ROUTE.CREATE_CARD, element: <CardComposerPage /> },
+      { path: ROUTE.ERROR, element: <ErrorPage />}
     ],
   },
 ]);

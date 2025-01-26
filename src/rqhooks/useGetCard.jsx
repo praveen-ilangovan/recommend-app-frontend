@@ -16,10 +16,12 @@ export const useGetCard = (cardId) => {
       return data;
     },
     onError(error) {
-      if (error.status === 400 || error.status === 401) {
+      if (error.status === 401) {
         redirect(ROUTE.LOGIN);
+      } else if (error.status === 404) {
+        redirect(ROUTE.ERROR)
       }
-      console.log("Page Not Found")
+      console.log("Get card failed: ", error);
     },
     retry: 0,
     refetchIntervalInBackground: false,
