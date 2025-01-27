@@ -2,6 +2,7 @@
 // Local Imports
 import { ROUTE } from "../constants";
 import { client, getAccessToken } from "./client";
+import { readAccessToken } from "../storage";
 
 const getHeaders = () => {
   return {
@@ -10,8 +11,12 @@ const getHeaders = () => {
   };
 }
 
-export const getMe = async (accessToken) => {
-  console.log("AccessToken :", getAccessToken());
+export const getMe = async () => {
+  // console.log("AccessToken from AuthData :", getAccessToken());
+  // console.log("AccessToken from sessionStorage :", readAccessToken());
+
+  // console.log("All same :", getAccessToken() === readAccessToken());
+
   return await client.get("/me/", {
     headers: getHeaders(),
   });
@@ -34,7 +39,7 @@ export const addBoard = async ({ data }) => {
   });
 };
 
-export const getBoard = async (accessToken, boardId) => {
+export const getBoard = async (boardId) => {
   const endpoint = ROUTE.BOARD.replace(":boardId", boardId);
   return await client.get(endpoint, {
     headers: getHeaders(),

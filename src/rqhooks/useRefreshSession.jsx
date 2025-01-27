@@ -8,7 +8,7 @@ import { refresh } from "../api/auth";
 
 // Local
 import { AuthContext } from "../store/AuthContext";
-import { clearRefreshToken } from "../storage";
+import { writeAccessToken, clearAccessToken, clearRefreshToken } from "../storage";
 import { ROUTE } from "../constants";
 
 export const useRefreshSession = () => {
@@ -19,20 +19,23 @@ export const useRefreshSession = () => {
     mutationFn: refresh,
     onSuccess(data) {
       setAuth({
-        accessToken: data.data.access_token,
-        refreshToken: data.data.refresh_token,
+        // accessToken: data.data.access_token,
+        // refreshToken: data.data.refresh_token,
         userId: data.data.id,
         userFirstname: data.data.first_name,
       });
+
+      writeAccessToken(data.data.access_token);
     },
     onError() {
       setAuth({
-        accessToken: null,
-        refreshToken: null,
+        // accessToken: null,
+        // refreshToken: null,
         userId: null,
         userFirstname: null,
       });
 
+      clearAccessToken();
       clearRefreshToken();
 
       redirect(ROUTE.LOGIN);

@@ -15,7 +15,7 @@ export const useGetBoard = (boardId) => {
   return useQuery({
     queryKey: ["boards", boardId],
     queryFn: async () => {
-      const data = await getBoard(auth.accessToken, boardId);
+      const data = await getBoard(boardId);
       return data;
     },
     onError(error) {
@@ -27,5 +27,6 @@ export const useGetBoard = (boardId) => {
     },
     retry: 0,
     refetchIntervalInBackground: false,
+    enabled: boardId != null
   })
 }

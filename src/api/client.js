@@ -4,7 +4,13 @@ import createAuthRefreshInterceptor from "axios-auth-refresh";
 
 // Local Imports
 import { RECOMMEND_APP_URL } from "./constants";
-import { getSessionStorageOrDefault, setSessionStorage, clearRefreshToken } from "../storage";
+import { getSessionStorageOrDefault,
+         setSessionStorage,
+         clearRefreshToken,
+         clearAccessToken,
+         writeAccessToken,
+         readRefreshToken,
+         readAccessToken } from "../storage";
 
 // Clients
 export const client = axios.create({
@@ -13,17 +19,19 @@ export const client = axios.create({
 
 // Utils
 export const getAccessToken = () => {
-  const auth = getSessionStorageOrDefault("AuthData");
-  if (auth) {
-    return auth.accessToken;
-  }
+  // const auth = getSessionStorageOrDefault("AuthData");
+  // if (auth) {
+  //   return auth.accessToken;
+  // }
+  return readAccessToken();
 }
 
 export const getRefreshToken = () => {
-  const auth = getSessionStorageOrDefault("AuthData");
-  if (auth) {
-    return auth.refreshToken;
-  }
+  // const auth = getSessionStorageOrDefault("AuthData");
+  // if (auth) {
+  //   return auth.refreshToken;
+  // }
+  readRefreshToken();
 }
 
 export const setHeaderToken = () => {
@@ -37,18 +45,38 @@ export const removeHeaderToken = () => {
 
 // Auth Refresh
 
+// const fetchNewToken = async () => {
+//   console.log("Refresh Token in fetchNewToken :", getRefreshToken());
+
+//   try {
+//     const token = await client
+//       .get("/session/refresh", {
+//         headers: {
+//           RefreshToken: "Bearer " + getRefreshToken(),
+//           "Content-Type": "application/json",
+//         },
+//       })
+//       .then(res => res.data.access_token);
+//     return token;
+//   } catch (error) {
+//     console.log("fetchNewToken:", error);
+//     return null;
+//   }
+// }
+
 const fetchNewToken = async () => {
-  console.log("Refresh Token in fetchNewToken :", getRefreshToken());
+  console.log("Refresh Token in AuthData :", getRefreshToken());
+  console.log("Refresh Token in localStorage :", readRefreshToken());
 
   try {
     const token = await client
       .get("/session/refresh", {
         headers: {
-          RefreshToken: "Bearer " + getRefreshToken(),
+          RefreshToken: "Bearer " + readRefreshToken(),
           "Content-Type": "application/json",
         },
       })
-      .then(res => res.data.access_token);
+      .then(res => res.data);
     return token;
   } catch (error) {
     console.log("fetchNewToken:", error);
@@ -57,16 +85,26 @@ const fetchNewToken = async () => {
 }
 
 const refreshSession = async (failedRequest) => {
-  const newToken = await fetchNewToken();
+  const data = await fetchNewToken();
+  const newToken = data?.access_token;
 
   if (newToken) {
     console.log("Session refreshed:", newToken);
     failedRequest.response.config.headers.Authorization = "Bearer " + newToken;
     setHeaderToken(newToken);
 
-    let authData = getSessionStorageOrDefault("AuthData");
-    authData.accessToken = newToken;
-    setSessionStorage("AuthData", authData);
+    // let authData = getSessionStorageOrDefault("AuthData");
+    // authData.accessToken = newToken;
+    // setSessionStorage("AuthData", authData);
+
+    setSessionStorage("AuthData", {
+      accessToken: data?.access_token,
+      refreshToken: data?.refresh_token,
+      userId: data?.id,
+      userFirstname: data?.first_name,
+    });
+
+    writeAccessToken(newToken);
 
     Promise.resolve(newToken);
   } else {
@@ -78,6 +116,7 @@ const refreshSession = async (failedRequest) => {
       userFirstname: null,
     });
 
+    clearAccessToken();
     clearRefreshToken();
 
     Promise.reject(new Error());
