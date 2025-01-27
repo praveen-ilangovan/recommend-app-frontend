@@ -8,6 +8,7 @@ import { refresh } from "../api/auth";
 
 // Local
 import { AuthContext } from "../store/AuthContext";
+import { clearRefreshToken } from "../storage";
 import { ROUTE } from "../constants";
 
 export const useRefreshSession = () => {
@@ -31,6 +32,8 @@ export const useRefreshSession = () => {
         userId: null,
         userFirstname: null,
       });
+
+      clearRefreshToken();
 
       redirect(ROUTE.LOGIN);
     },

@@ -15,5 +15,9 @@ export function readRefreshToken() {
 }
 
 export function writeRefreshToken(token) {
-  localStorage.setItem("recommendAppRefreshTokenV2", token)
+  localStorage.setItem("recommendAppRefreshTokenV2", token);
+}
+
+export function clearRefreshToken(token) {
+  localStorage.removeItem("recommendAppRefreshTokenV2");
 }

@@ -1,7 +1,7 @@
 
 // Local Imports
 import { client, getRefreshToken, setHeaderToken } from "./client";
-import { getSessionStorageOrDefault, setSessionStorage } from "../storage";
+import { getSessionStorageOrDefault, setSessionStorage, clearRefreshToken } from "../storage";
 
 
 // Utility
@@ -43,24 +43,24 @@ export const refresh = async (token) => {
   });
 }
 
-const fetchNewToken = async () => {
-  console.log("Refresh Token in fetchNewToken :", getRefreshToken());
+// export const fetchNewToken = async () => {
+//   console.log("Refresh Token in fetchNewToken :", getRefreshToken());
 
-  try {
-    const token = await client
-      .get("/session/refresh", {
-        headers: {
-          RefreshToken: "Bearer " + getRefreshToken(),
-          "Content-Type": "application/json",
-        },
-      })
-      .then(res => res.data.access_token);
-    return token;
-  } catch (error) {
-    console.log("fetchNewToken:", error);
-    return null;
-  }
-}
+//   try {
+//     const token = await client
+//       .get("/session/refresh", {
+//         headers: {
+//           RefreshToken: "Bearer " + getRefreshToken(),
+//           "Content-Type": "application/json",
+//         },
+//       })
+//       .then(res => res.data.access_token);
+//     return token;
+//   } catch (error) {
+//     console.log("fetchNewToken:", error);
+//     return null;
+//   }
+// }
 
 // const fetchNewToken = async () => {
 //   return await client.get("/session/refresh", {
@@ -98,28 +98,30 @@ const fetchNewToken = async () => {
 //   }
 // }
 
-export const refreshSession = async (failedRequest) => {
-  const newToken = await fetchNewToken();
+// export const refreshSession = async (failedRequest) => {
+//   const newToken = await fetchNewToken();
 
-  if (newToken) {
-    console.log("Session refreshed:", newToken);
-    failedRequest.response.config.headers.Authorization = "Bearer " + newToken;
-    setHeaderToken(newToken);
+//   if (newToken) {
+//     console.log("Session refreshed:", newToken);
+//     failedRequest.response.config.headers.Authorization = "Bearer " + newToken;
+//     setHeaderToken(newToken);
 
-    let authData = getSessionStorageOrDefault("AuthData");
-    authData.accessToken = newToken;
-    setSessionStorage("AuthData", authData);
+//     let authData = getSessionStorageOrDefault("AuthData");
+//     authData.accessToken = newToken;
+//     setSessionStorage("AuthData", authData);
 
-    Promise.resolve(newToken);
-  } else {
-    console.log("Refresh token is expired")
-    setSessionStorage("AuthData", {
-      accessToken: null,
-      refreshToken: null,
-      userId: null,
-      userFirstname: null,
-    });
+//     Promise.resolve(newToken);
+//   } else {
+//     console.log("Refresh token is expired")
+//     setSessionStorage("AuthData", {
+//       accessToken: null,
+//       refreshToken: null,
+//       userId: null,
+//       userFirstname: null,
+//     });
 
-    Promise.reject(new Error());
-  }
-}
+//     clearRefreshToken();
+
+//     Promise.reject(new Error());
+//   }
+// }

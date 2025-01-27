@@ -4,8 +4,7 @@ import createAuthRefreshInterceptor from "axios-auth-refresh";
 
 // Local Imports
 import { RECOMMEND_APP_URL } from "./constants";
-import { getSessionStorageOrDefault } from "../storage";
-import { refreshSession } from "./auth";
+import { getSessionStorageOrDefault, setSessionStorage, clearRefreshToken } from "../storage";
 
 // Clients
 export const client = axios.create({
@@ -36,7 +35,57 @@ export const removeHeaderToken = () => {
   delete client.defaults.headers.common.Authorization;
 };
 
-// createAuthRefreshInterceptor(client, refreshSession, {
-//   statusCodes: [401], // default: [ 401 ]
-//   pauseInstanceWhileRefreshing: true,
-// });
+// Auth Refresh
+
+const fetchNewToken = async () => {
+  console.log("Refresh Token in fetchNewToken :", getRefreshToken());
+
+  try {
+    const token = await client
+      .get("/session/refresh", {
+        headers: {
+          RefreshToken: "Bearer " + getRefreshToken(),
+          "Content-Type": "application/json",
+        },
+      })
+      .then(res => res.data.access_token);
+    return token;
+  } catch (error) {
+    console.log("fetchNewToken:", error);
+    return null;
+  }
+}
+
+const refreshSession = async (failedRequest) => {
+  const newToken = await fetchNewToken();
+
+  if (newToken) {
+    console.log("Session refreshed:", newToken);
+    failedRequest.response.config.headers.Authorization = "Bearer " + newToken;
+    setHeaderToken(newToken);
+
+    let authData = getSessionStorageOrDefault("AuthData");
+    authData.accessToken = newToken;
+    setSessionStorage("AuthData", authData);
+
+    Promise.resolve(newToken);
+  } else {
+    console.log("Refresh token is expired")
+    setSessionStorage("AuthData", {
+      accessToken: null,
+      refreshToken: null,
+      userId: null,
+      userFirstname: null,
+    });
+
+    clearRefreshToken();
+
+    Promise.reject(new Error());
+  }
+}
+
+
+createAuthRefreshInterceptor(client, refreshSession, {
+  statusCodes: [401], // default: [ 401 ]
+  pauseInstanceWhileRefreshing: true,
+});

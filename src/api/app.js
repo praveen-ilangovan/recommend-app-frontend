@@ -10,22 +10,22 @@ const getHeaders = () => {
   };
 }
 
-// export const getMe = async (accessToken) => {
-//   console.log("AccessToken :", getAccessToken());
-//   return await client.get("/me/", {
-//     headers: getHeaders(),
-//   });
-// };
-
 export const getMe = async (accessToken) => {
-  console.log("AccessToken in getMe :", accessToken);
+  console.log("AccessToken :", getAccessToken());
   return await client.get("/me/", {
-    headers: {
-      Authorization: "Bearer " + accessToken,
-      "Content-Type": "application/json",
-    }
+    headers: getHeaders(),
   });
 };
+
+// export const getMe = async (accessToken) => {
+//   console.log("AccessToken in getMe :", accessToken);
+//   return await client.get("/me/", {
+//     headers: {
+//       Authorization: "Bearer " + accessToken,
+//       "Content-Type": "application/json",
+//     }
+//   });
+// };
 
 // Board
 export const addBoard = async ({ data }) => {
@@ -34,12 +34,22 @@ export const addBoard = async ({ data }) => {
   });
 };
 
-export const getBoard = async (boardId) => {
+export const getBoard = async (accessToken, boardId) => {
   const endpoint = ROUTE.BOARD.replace(":boardId", boardId);
   return await client.get(endpoint, {
     headers: getHeaders(),
   });
 };
+
+// export const getBoard = async (accessToken, boardId) => {
+//   const endpoint = ROUTE.BOARD.replace(":boardId", boardId);
+//   return await client.get(endpoint, {
+//     headers: {
+//       Authorization: "Bearer " + accessToken,
+//       "Content-Type": "application/json",
+//     }
+//   });
+// };
 
 export const updateBoard = async ({ boardId, data }) => {
   const endpoint = ROUTE.BOARD.replace(":boardId", boardId);

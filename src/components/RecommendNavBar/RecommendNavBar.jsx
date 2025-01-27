@@ -17,6 +17,7 @@ import RecommendBrandName from "../RecommendBrandName/RecommendBrandName";
 
 // Context
 import { AuthContext } from "../../store/AuthContext";
+import { clearRefreshToken } from "../../storage";
 
 // Styling: Local
 import "./RecommendNavBar.css";
@@ -77,9 +78,13 @@ function SignedInUser() {
   function logout() {
     setAuth({
       accessToken: null,
+      refreshToken: null,
       userId: null,
       userFirstname: null,
     });
+
+    clearRefreshToken();
+
     redirect(ROUTE.LOGIN);
   }
 
