@@ -19,7 +19,7 @@ export default function ProtectedPage({ children }) {
       refreshSession(refreshToken);
     }
   
-  }, []);
+  }, [auth]);
 
   return <>{children}</>;
 }

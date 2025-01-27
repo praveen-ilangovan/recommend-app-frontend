@@ -25,6 +25,7 @@ import { ROUTE } from "../../constants";
 
 export default function RecommendNavBar() {
   const { auth } = useContext(AuthContext);
+  console.log("RecommendNavBar :", auth);
 
   return (
     <Navbar className="navbar-light">
@@ -36,7 +37,7 @@ export default function RecommendNavBar() {
         </Navbar.Brand>
 
         <Navbar.Collapse className="justify-content-end">
-          {!auth.accessToken ? <SignUpButtons /> : <SignedInUser />}
+          {!auth.userId ? <SignUpButtons /> : <SignedInUser />}
         </Navbar.Collapse>
       </Container>
     </Navbar>

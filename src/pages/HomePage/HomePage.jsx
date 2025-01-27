@@ -16,15 +16,6 @@ export default function HomePage() {
   const { auth } = useContext(AuthContext);
   const redirect = useNavigate();
 
-  useEffect(() => {
-
-    // If the user hasn't signed in, try refreshing the session.
-    if (!auth.userId) {
-      redirect(ROUTE.LOGIN);
-    }
-  
-  }, []);
-
   return (
     <Container fluid className="recommend-page-container">
       <UserDetail />
