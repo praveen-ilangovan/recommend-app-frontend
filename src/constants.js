@@ -11,7 +11,7 @@ export const ROUTE = {
   EDIT_CARD: "/cards/:cardId/edit",
   BOARD_ROOT: "/boards",
   CARD_ROOT: "/cards",
-  ERROR: "/error"
+  ERROR: "/error/:errorCode"
 };
 
 // TOKENS

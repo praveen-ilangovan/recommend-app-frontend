@@ -18,6 +18,8 @@ export const useGetBoard = (boardId) => {
     onError(error) {
       if (error.status === 400 || error.status === 401) {
         redirect(ROUTE.LOGIN);
+      } else if (error.status === 404 && boardId) {
+        redirect(ROUTE.ERROR.replace(":errorCode", "404"));
       }
     },
     retry: 0,

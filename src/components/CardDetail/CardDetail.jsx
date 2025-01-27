@@ -69,7 +69,7 @@ export default function CardDetail({
         <Card.Subtitle className="mb-3 text-muted pointer" onClick={backToBoard}>{boardName}</Card.Subtitle>
         <Card.Text>{description}</Card.Text>
 
-        <div className="control-panel">
+        <div className="card-control-panel">
           <FontAwesomeIcon
             className="pointer"
             icon={faBorderAll}

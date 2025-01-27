@@ -1,4 +1,5 @@
 // React
+import { useContext } from "react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 
@@ -14,18 +15,26 @@ import "./CardPage.css";
 
 import ProtectedPage from "../ProtectedPage/ProtectedPage";
 import { useGetCard } from "../../rqhooks/useGetCard";
+import { AuthContext } from "../../store/AuthContext";
 
 export default function CardPage() {
+  const { auth } = useContext(AuthContext);
   const params = useParams();
   const [editMode, setEditMode] = useState(false);
 
   let card = {};
+  let editable = false;
 
   // ReactQuery
   const { data, isSuccess } = useGetCard(params.cardId);
 
   if (isSuccess) {
-    card = data?.data;
+    card = data?.data?.card;
+
+    // Only editable if the owner of the card is the signed in user.
+    if (data?.data?.board.owner_id == auth.userId) {
+      editable = true;
+    }
   }
 
   return (
@@ -34,10 +43,10 @@ export default function CardPage() {
         <div
           className={editMode ? "card-page-hide-component" : "card-page-div"}
         >
-          <CardDetail {...card} editable onEdit={() => setEditMode(true)} />
+          <CardDetail {...card} editable={editable} onEdit={() => setEditMode(true)} />
         </div>
 
-        {Object.keys(card).length ? (
+        {Object.keys(card).length && editable ? (
           <div
             className={editMode ? "card-page-div" : "card-page-hide-component"}
           >

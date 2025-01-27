@@ -19,6 +19,7 @@ export default function BoardPage() {
   const params = useParams();
   let name = "";
   let isPrivateBoard = false;
+  let ownerId = '';
 
   const { data, isSuccess } = useGetBoard(params.boardId);
 
@@ -26,6 +27,7 @@ export default function BoardPage() {
     console.log("data :", data.data.board)
     name = data?.data?.board.name;
     isPrivateBoard = data?.data?.board.private;
+    ownerId = data?.data?.board.owner_id;
   }
 
   return (
@@ -36,6 +38,7 @@ export default function BoardPage() {
             boardId={params.boardId}
             boardName={name}
             isPrivateBoard={isPrivateBoard}
+            ownerId={ownerId}
           />
         </div>
         <div>

@@ -1,4 +1,4 @@
-.control-panel {
+.card-control-panel {
   display: flex;
   justify-content: space-between;
 }
@@ -9,8 +9,4 @@
 
 .hide {
   display: none;
-}
-
-.pointer {
-  cursor: pointer;
 }

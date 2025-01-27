@@ -1,4 +1,5 @@
 // React
+import { useContext } from "react";
 import { useState } from "react";
 import PropTypes from "prop-types";
 
@@ -17,6 +18,7 @@ import "./BoardKnobControlPanel.css";
 
 import { useUpdateBoard } from "../../rqhooks/useUpdateBoard";
 import { useDeleteBoard } from "../../rqhooks/useDeleteBoard";
+import { AuthContext } from "../../store/AuthContext";
 
 // TODO: Form Control width adjustment
 // https://stackoverflow.com/questions/64092841/react-how-to-make-an-input-only-as-wide-as-the-amount-of-text-provided
@@ -25,7 +27,11 @@ export default function BoardKnobControlPanel({
   boardId,
   boardName,
   isPrivateBoard,
+  ownerId
 }) {
+  const { auth } = useContext(AuthContext);
+  const editable = ownerId === auth.userId;
+
   // Board properties
   const [name, setName] = useState(boardName);
   const [isPrivate, setPrivate] = useState(isPrivateBoard);
@@ -98,17 +104,17 @@ export default function BoardKnobControlPanel({
           </div>
         </div>
 
-        <div className="board-control-panel-knob">
+        <div className={editable ? "board-control-panel-knob" : "hide"}>
           <div className={editMode ? "board-control-panel-field-hide" : ""}>
             <FontAwesomeIcon icon={faEdit} onClick={editBoardName} />
           </div>
         </div>
-        <div className="board-control-panel-knob">
+        <div className={editable ? "board-control-panel-knob" : "hide"}>
           <div className={editMode ? "" : "board-control-panel-field-hide"}>
             <FontAwesomeIcon icon={faSave} onClick={saveBoardName} />
           </div>
         </div>
-        <div className="board-control-panel-knob">
+        <div className={editable ? "board-control-panel-knob" : "hide"}>
           <div className={editMode ? "" : "board-control-panel-field-hide"}>
             <FontAwesomeIcon icon={faXmark} onClick={cancelEdit} />
           </div>
@@ -123,10 +129,11 @@ export default function BoardKnobControlPanel({
             label={isPrivate ? "Private" : "Public"}
             onChange={onModeChanged}
             checked={isPrivate}
+            disabled={editable ? false : true}
           />
         </div>
 
-        <div className="board-control-panel-knob">
+        <div className={editable ? "board-control-panel-knob" : "hide"}>
           <div>
             <FontAwesomeIcon icon={faBan} onClick={onBoardDelete} />
           </div>
