@@ -18,6 +18,7 @@ import { useSessionStorage } from "./hooks/useSessionStorage";
 
 // Store
 import { AuthContext } from "./store/AuthContext";
+import { UserContext } from "./store/UserContext";
 
 // Styling: Local
 import "./App.css";
@@ -54,11 +55,19 @@ function App() {
     userFirstname: null,
   });
 
+  // User state
+  const [user, setUser] = useSessionStorage("recommendAppUserData", {
+    userId: null,
+    userFirstname: null,
+  });
+
   return (
     <AuthContext.Provider value={{ auth, setAuth }}>
-      <QueryClientProvider client={queryClient}>
-        <RouterProvider router={router} />
-      </QueryClientProvider>
+      <UserContext.Provider value={{ user, setUser }}>
+        <QueryClientProvider client={queryClient}>
+          <RouterProvider router={router} />
+        </QueryClientProvider>
+      </UserContext.Provider>
     </AuthContext.Provider>
   );
 }

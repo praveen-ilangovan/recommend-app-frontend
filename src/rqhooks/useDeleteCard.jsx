@@ -8,10 +8,13 @@ import { deleteCard } from "../api/app";
 
 // Local
 import { AuthContext } from "../store/AuthContext";
+import { UserContext } from "../store/UserContext";
 import { ROUTE } from "../constants";
 
 export const useDeleteCard = (id, boardId) => {
   const { auth } = useContext(AuthContext);
+  const { user } = useContext(UserContext);
+
   const queryClient = useQueryClient();
   const redirect = useNavigate();
 
@@ -22,7 +25,7 @@ export const useDeleteCard = (id, boardId) => {
       // These queryClient calls doesn't seem to do much
       queryClient.removeQueries({ queryKey: ["cards", id] });
       queryClient.invalidateQueries({ queryKey: ["boards", boardId] });
-      queryClient.invalidateQueries({ queryKey: ["me", auth.userId] });
+      queryClient.invalidateQueries({ queryKey: ["me", user.userId] });
       redirect(ROUTE.BOARD.replace(":boardId", boardId));
     },
     onError(error) {

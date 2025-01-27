@@ -6,7 +6,7 @@ import { readAccessToken } from "../storage";
 
 const getHeaders = () => {
   return {
-    Authorization: "Bearer " + getAccessToken(),
+    Authorization: "Bearer " + readAccessToken(),
     "Content-Type": "application/json",
   };
 }

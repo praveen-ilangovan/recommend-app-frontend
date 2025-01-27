@@ -16,9 +16,12 @@ import "./CardPage.css";
 import ProtectedPage from "../ProtectedPage/ProtectedPage";
 import { useGetCard } from "../../rqhooks/useGetCard";
 import { AuthContext } from "../../store/AuthContext";
+import { UserContext } from "../../store/UserContext";
 
 export default function CardPage() {
   const { auth } = useContext(AuthContext);
+  const { user } = useContext(UserContext);
+
   const params = useParams();
   const [editMode, setEditMode] = useState(false);
 
@@ -32,7 +35,7 @@ export default function CardPage() {
     card = data?.data?.card;
 
     // Only editable if the owner of the card is the signed in user.
-    if (data?.data?.board.owner_id == auth.userId) {
+    if (data?.data?.board.owner_id == user.userId) {
       editable = true;
     }
   }

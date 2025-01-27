@@ -19,6 +19,7 @@ import "./BoardKnobControlPanel.css";
 import { useUpdateBoard } from "../../rqhooks/useUpdateBoard";
 import { useDeleteBoard } from "../../rqhooks/useDeleteBoard";
 import { AuthContext } from "../../store/AuthContext";
+import { UserContext } from "../../store/UserContext";
 
 // TODO: Form Control width adjustment
 // https://stackoverflow.com/questions/64092841/react-how-to-make-an-input-only-as-wide-as-the-amount-of-text-provided
@@ -30,7 +31,9 @@ export default function BoardKnobControlPanel({
   ownerId
 }) {
   const { auth } = useContext(AuthContext);
-  const editable = ownerId === auth.userId;
+  const { user } = useContext(UserContext);
+
+  const editable = ownerId === user.userId;
 
   // Board properties
   const [name, setName] = useState(boardName);

@@ -17,6 +17,7 @@ import RecommendBrandName from "../RecommendBrandName/RecommendBrandName";
 
 // Context
 import { AuthContext } from "../../store/AuthContext";
+import { UserContext } from "../../store/UserContext";
 import { clearAccessToken, clearRefreshToken } from "../../storage";
 
 // Styling: Local
@@ -26,6 +27,8 @@ import { ROUTE } from "../../constants";
 
 export default function RecommendNavBar() {
   const { auth } = useContext(AuthContext);
+  const { user } = useContext(UserContext);
+
   console.log("RecommendNavBar :", auth);
 
   return (
@@ -38,7 +41,8 @@ export default function RecommendNavBar() {
         </Navbar.Brand>
 
         <Navbar.Collapse className="justify-content-end">
-          {!auth.userId ? <SignUpButtons /> : <SignedInUser />}
+          {/* {!auth.userId ? <SignUpButtons /> : <SignedInUser />} */}
+          {!user.userId ? <SignUpButtons /> : <SignedInUser />}
         </Navbar.Collapse>
       </Container>
     </Navbar>
@@ -73,12 +77,19 @@ function SignUpButtons() {
 
 function SignedInUser() {
   const { auth, setAuth } = useContext(AuthContext);
+  const { user, setUser } = useContext(UserContext);
+
   const redirect = useNavigate();
 
   function logout() {
     setAuth({
       // accessToken: null,
       // refreshToken: null,
+      userId: null,
+      userFirstname: null,
+    });
+
+    setUser({
       userId: null,
       userFirstname: null,
     });
@@ -129,11 +140,11 @@ function SignedInUser() {
               style={{ backgroundColor: bgColor, color: textColor }}
               className="dot"
             >
-              {auth.userFirstname[0].toUpperCase()}
+              {user.userFirstname[0].toUpperCase()}
             </span>
           }
         >
-          <NavDropdown.Item>Hi, {auth.userFirstname}</NavDropdown.Item>
+          <NavDropdown.Item>Hi, {user.userFirstname}</NavDropdown.Item>
           <NavDropdown.Item href="/example-app/section-a/">
             Profile
           </NavDropdown.Item>
