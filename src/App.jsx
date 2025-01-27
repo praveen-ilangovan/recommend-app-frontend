@@ -14,10 +14,10 @@ import CardEditPage from "./pages/CardEditPage/CardEditPage";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
 
 // Hooks
-import { useSessionStorage } from "./hooks/useSessionStorage";
+import { useUserData } from "./storage/hooks/useUserData";
 
 // Store
-import { UserContext } from "./store/UserContext";
+import { UserContext } from "./storage/context/UserContext";
 
 // Styling: Local
 import "./App.css";
@@ -48,10 +48,7 @@ const queryClient = new QueryClient();
 
 function App() {
   // User state
-  const [user, setUser] = useSessionStorage("recommendAppUserData", {
-    userId: null,
-    userFirstname: null,
-  });
+  const [user, setUser] = useUserData();
 
   return (
     <UserContext.Provider value={{ user, setUser }}>

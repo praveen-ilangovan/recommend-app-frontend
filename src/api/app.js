@@ -2,7 +2,7 @@
 // Local Imports
 import { ROUTE } from "../constants";
 import { client, getAccessToken } from "./client";
-import { readAccessToken } from "../storage";
+import { readAccessToken } from "../storage/token";
 
 const getHeaders = () => {
   return {

@@ -18,3 +18,8 @@ export const ROUTE = {
 export const ACCESS_TOKEN = "recommendAppAccessToken";
 export const REFRESH_TOKEN = "recommendAppRefreshToken";
 export const USER_DATA = "recommendAppUserData";
+
+export const DEFAULT_USER_DATA = {
+  userId: null,
+  userFirstname: null,
+};

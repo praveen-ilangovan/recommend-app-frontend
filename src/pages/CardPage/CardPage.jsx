@@ -15,7 +15,7 @@ import "./CardPage.css";
 
 import ProtectedPage from "../ProtectedPage/ProtectedPage";
 import { useGetCard } from "../../rqhooks/useGetCard";
-import { UserContext } from "../../store/UserContext";
+import { UserContext } from "../../storage/context/UserContext";
 
 export default function CardPage() {
   const { user } = useContext(UserContext);

@@ -2,8 +2,8 @@
 import { useContext, useEffect } from "react";
 import PropTypes from "prop-types";
 
-import { UserContext } from "../../store/UserContext";
-import { readRefreshToken } from "../../storage";
+import { UserContext } from "../../storage/context/UserContext";
+import { readRefreshToken } from "../../storage/token";
 import { useRefreshSession } from "../../rqhooks/useRefreshSession";
 
 export default function ProtectedPage({ children }) {

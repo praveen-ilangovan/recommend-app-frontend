@@ -4,13 +4,8 @@ import createAuthRefreshInterceptor from "axios-auth-refresh";
 
 // Local Imports
 import { RECOMMEND_APP_URL } from "./constants";
-import { getSessionStorageOrDefault,
-         setSessionStorage,
-         clearRefreshToken,
-         clearAccessToken,
-         writeAccessToken,
-         readRefreshToken,
-         readAccessToken } from "../storage";
+import { writeUserData } from "../storage/userdata";
+import { readAccessToken, readRefreshToken, writeAccessToken, clearAccessToken, clearRefreshToken } from "../storage/token";
 
 // Clients
 export const client = axios.create({
@@ -86,7 +81,12 @@ const refreshSession = async (failedRequest) => {
     // authData.accessToken = newToken;
     // setSessionStorage("AuthData", authData);
 
-    setSessionStorage("recommendAppUserData", {
+    // setSessionStorage("recommendAppUserData", {
+    //   userId: data?.id,
+    //   userFirstname: data?.first_name,
+    // });
+
+    writeUserData({
       userId: data?.id,
       userFirstname: data?.first_name,
     });
@@ -96,7 +96,12 @@ const refreshSession = async (failedRequest) => {
     Promise.resolve(newToken);
   } else {
     console.log("Refresh token is expired")
-    setSessionStorage("recommendAppUserData", {
+    // setSessionStorage("recommendAppUserData", {
+    //   userId: null,
+    //   userFirstname: null,
+    // });
+
+    writeUserData({
       userId: null,
       userFirstname: null,
     });

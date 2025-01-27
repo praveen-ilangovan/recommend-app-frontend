@@ -16,8 +16,8 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import RecommendBrandName from "../RecommendBrandName/RecommendBrandName";
 
 // Context
-import { UserContext } from "../../store/UserContext";
-import { clearAccessToken, clearRefreshToken } from "../../storage";
+import { UserContext } from "../../storage/context/UserContext";
+import { clearAccessToken, clearRefreshToken } from "../../storage/token";
 
 // Styling: Local
 import "./RecommendNavBar.css";

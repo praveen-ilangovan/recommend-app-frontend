@@ -1,7 +1,7 @@
 
 // Local Imports
 import { client, getRefreshToken, setHeaderToken } from "./client";
-import { getSessionStorageOrDefault, setSessionStorage, clearRefreshToken } from "../storage";
+// import { getSessionStorageOrDefault, setSessionStorage, clearRefreshToken } from "../storage";
 
 
 // Utility

@@ -1,6 +1,6 @@
 import { useContext } from "react";
 
-import { UserContext } from "../../store/UserContext";
+import { UserContext } from "../../storage/context/UserContext";
 
 export default function UserDetail() {
   const { user } = useContext(UserContext);

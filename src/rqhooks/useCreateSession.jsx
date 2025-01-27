@@ -7,9 +7,9 @@ import { useNavigate } from "react-router-dom";
 import { login } from "../api/auth";
 
 // Local
-import { UserContext } from "../store/UserContext";
+import { UserContext } from "../storage/context/UserContext";
 import { ROUTE } from "../constants";
-import { writeAccessToken, writeRefreshToken } from "../storage";
+import { writeAccessToken, writeRefreshToken } from "../storage/token";
 
 export const useCreateSession = () => {
   const { setUser } = useContext(UserContext);

@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
 // Local
-import { UserContext } from "../store/UserContext";
+import { UserContext } from "../storage/context/UserContext";
 import { getMe } from "../api/app";
 import { ROUTE } from "../constants";
 

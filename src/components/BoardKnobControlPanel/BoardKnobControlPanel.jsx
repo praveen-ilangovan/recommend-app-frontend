@@ -18,7 +18,7 @@ import "./BoardKnobControlPanel.css";
 
 import { useUpdateBoard } from "../../rqhooks/useUpdateBoard";
 import { useDeleteBoard } from "../../rqhooks/useDeleteBoard";
-import { UserContext } from "../../store/UserContext";
+import { UserContext } from "../../storage/context/UserContext";
 
 // TODO: Form Control width adjustment
 // https://stackoverflow.com/questions/64092841/react-how-to-make-an-input-only-as-wide-as-the-amount-of-text-provided

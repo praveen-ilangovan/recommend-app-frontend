@@ -7,8 +7,8 @@ import { useMutation } from "@tanstack/react-query";
 import { refresh } from "../api/auth";
 
 // Local
-import { UserContext } from "../store/UserContext";
-import { writeAccessToken, clearAccessToken, clearRefreshToken } from "../storage";
+import { UserContext } from "../storage/context/UserContext";
+import { writeAccessToken, clearAccessToken, clearRefreshToken } from "../storage/token";
 import { ROUTE } from "../constants";
 
 export const useRefreshSession = () => {

@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { deleteBoard } from "../api/app";
 
 // Local
-import { UserContext } from "../store/UserContext";
+import { UserContext } from "../storage/context/UserContext";
 import { ROUTE } from "../constants";
 
 export const useDeleteBoard = (boardId) => {
