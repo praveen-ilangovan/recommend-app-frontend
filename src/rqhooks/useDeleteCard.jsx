@@ -7,12 +7,10 @@ import { useNavigate } from "react-router-dom";
 import { deleteCard } from "../api/app";
 
 // Local
-import { AuthContext } from "../store/AuthContext";
 import { UserContext } from "../store/UserContext";
 import { ROUTE } from "../constants";
 
 export const useDeleteCard = (id, boardId) => {
-  const { auth } = useContext(AuthContext);
   const { user } = useContext(UserContext);
 
   const queryClient = useQueryClient();

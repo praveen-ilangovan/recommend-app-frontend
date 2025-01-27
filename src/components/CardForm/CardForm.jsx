@@ -9,8 +9,6 @@ import InputGroup from "react-bootstrap/InputGroup";
 import { useFormikContext, Formik } from "formik";
 import * as yup from "yup";
 
-import { AuthContext } from "../../store/AuthContext";
-
 import { useGetLoggedInUserData } from "../../rqhooks/useGetLoggedInUserData";
 import { useCreateBoard } from "../../rqhooks/useCreateBoard";
 import { useCreateCard } from "../../rqhooks/useCreateCard";
@@ -31,7 +29,6 @@ export default function CardForm({ card, onUpdate }) {
   });
 
   // Get the boards and find the initial board value!
-  const { auth } = useContext(AuthContext);
   let firstBoard = "";
   const availableBoards = [];
 
@@ -102,7 +99,6 @@ export default function CardForm({ card, onUpdate }) {
 function ActualForm({ availableBoards, onUpdate }) {
   const selectBoardOptions = [];
   const [showSelectBoardField, setShowSelectBoardField] = useState(true);
-  const { auth } = useContext(AuthContext);
   const formikProps = useFormikContext();
 
   // Mutation

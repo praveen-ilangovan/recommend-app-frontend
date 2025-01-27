@@ -16,7 +16,6 @@ import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import RecommendBrandName from "../RecommendBrandName/RecommendBrandName";
 
 // Context
-import { AuthContext } from "../../store/AuthContext";
 import { UserContext } from "../../store/UserContext";
 import { clearAccessToken, clearRefreshToken } from "../../storage";
 
@@ -26,10 +25,7 @@ import "./RecommendNavBar.css";
 import { ROUTE } from "../../constants";
 
 export default function RecommendNavBar() {
-  const { auth } = useContext(AuthContext);
   const { user } = useContext(UserContext);
-
-  console.log("RecommendNavBar :", auth);
 
   return (
     <Navbar className="navbar-light">
@@ -41,7 +37,6 @@ export default function RecommendNavBar() {
         </Navbar.Brand>
 
         <Navbar.Collapse className="justify-content-end">
-          {/* {!auth.userId ? <SignUpButtons /> : <SignedInUser />} */}
           {!user.userId ? <SignUpButtons /> : <SignedInUser />}
         </Navbar.Collapse>
       </Container>
@@ -76,19 +71,11 @@ function SignUpButtons() {
 }
 
 function SignedInUser() {
-  const { auth, setAuth } = useContext(AuthContext);
   const { user, setUser } = useContext(UserContext);
 
   const redirect = useNavigate();
 
   function logout() {
-    setAuth({
-      // accessToken: null,
-      // refreshToken: null,
-      userId: null,
-      userFirstname: null,
-    });
-
     setUser({
       userId: null,
       userFirstname: null,

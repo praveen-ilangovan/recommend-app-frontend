@@ -7,13 +7,11 @@ import { useNavigate } from "react-router-dom";
 import { login } from "../api/auth";
 
 // Local
-import { AuthContext } from "../store/AuthContext";
 import { UserContext } from "../store/UserContext";
 import { ROUTE } from "../constants";
 import { writeAccessToken, writeRefreshToken } from "../storage";
 
 export const useCreateSession = () => {
-  const { setAuth } = useContext(AuthContext);
   const { setUser } = useContext(UserContext);
 
   const redirect = useNavigate();
@@ -21,13 +19,6 @@ export const useCreateSession = () => {
   return useMutation({
     mutationFn: login,
     onSuccess(data) {
-      setAuth({
-        // accessToken: data.data.access_token,
-        // refreshToken: data.data.refresh_token,
-        userId: data.data.id,
-        userFirstname: data.data.first_name,
-      });
-
       setUser({
         userId: data.data.id,
         userFirstname: data.data.first_name,

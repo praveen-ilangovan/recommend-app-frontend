@@ -12,11 +12,6 @@ const getHeaders = () => {
 }
 
 export const getMe = async () => {
-  // console.log("AccessToken from AuthData :", getAccessToken());
-  // console.log("AccessToken from sessionStorage :", readAccessToken());
-
-  // console.log("All same :", getAccessToken() === readAccessToken());
-
   return await client.get("/me/", {
     headers: getHeaders(),
   });

@@ -4,13 +4,11 @@ import { useQuery } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 
 // Local
-import { AuthContext } from "../store/AuthContext";
 import { UserContext } from "../store/UserContext";
 import { getMe } from "../api/app";
 import { ROUTE } from "../constants";
 
 export const useGetLoggedInUserData = () => {
-  const { auth } = useContext(AuthContext);
   const { user } = useContext(UserContext);
 
   const redirect = useNavigate();

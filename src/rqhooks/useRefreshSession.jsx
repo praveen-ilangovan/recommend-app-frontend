@@ -7,13 +7,11 @@ import { useMutation } from "@tanstack/react-query";
 import { refresh } from "../api/auth";
 
 // Local
-import { AuthContext } from "../store/AuthContext";
 import { UserContext } from "../store/UserContext";
 import { writeAccessToken, clearAccessToken, clearRefreshToken } from "../storage";
 import { ROUTE } from "../constants";
 
 export const useRefreshSession = () => {
-  const { setAuth } = useContext(AuthContext);
   const { setUser } = useContext(UserContext);
 
   const redirect = useNavigate();
@@ -21,13 +19,6 @@ export const useRefreshSession = () => {
   return useMutation({
     mutationFn: refresh,
     onSuccess(data) {
-      setAuth({
-        // accessToken: data.data.access_token,
-        // refreshToken: data.data.refresh_token,
-        userId: data.data.id,
-        userFirstname: data.data.first_name,
-      });
-
       setUser({
         userId: data.data.id,
         userFirstname: data.data.first_name,
@@ -36,13 +27,6 @@ export const useRefreshSession = () => {
       writeAccessToken(data.data.access_token);
     },
     onError() {
-      setAuth({
-        // accessToken: null,
-        // refreshToken: null,
-        userId: null,
-        userFirstname: null,
-      });
-
       setUser({
         userId: null,
         userFirstname: null,

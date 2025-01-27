@@ -2,14 +2,12 @@
 import { useContext, useEffect } from "react";
 import PropTypes from "prop-types";
 
-import { AuthContext } from "../../store/AuthContext";
 import { UserContext } from "../../store/UserContext";
 import { readRefreshToken } from "../../storage";
 import { useRefreshSession } from "../../rqhooks/useRefreshSession";
 
 export default function ProtectedPage({ children }) {
 
-  const { auth } = useContext(AuthContext);
   const { user } = useContext(UserContext);
 
   const refreshToken = readRefreshToken();
@@ -22,7 +20,7 @@ export default function ProtectedPage({ children }) {
       refreshSession(refreshToken);
     }
   
-  }, [auth]);
+  }, [user]);
 
   return <>{children}</>;
 }

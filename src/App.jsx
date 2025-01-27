@@ -17,7 +17,6 @@ import ErrorPage from "./pages/ErrorPage/ErrorPage";
 import { useSessionStorage } from "./hooks/useSessionStorage";
 
 // Store
-import { AuthContext } from "./store/AuthContext";
 import { UserContext } from "./store/UserContext";
 
 // Styling: Local
@@ -48,13 +47,6 @@ const router = createBrowserRouter([
 const queryClient = new QueryClient();
 
 function App() {
-  // Auth state
-  const [auth, setAuth] = useSessionStorage("AuthData", {
-    accessToken: null,
-    userId: null,
-    userFirstname: null,
-  });
-
   // User state
   const [user, setUser] = useSessionStorage("recommendAppUserData", {
     userId: null,
@@ -62,13 +54,11 @@ function App() {
   });
 
   return (
-    <AuthContext.Provider value={{ auth, setAuth }}>
-      <UserContext.Provider value={{ user, setUser }}>
-        <QueryClientProvider client={queryClient}>
-          <RouterProvider router={router} />
-        </QueryClientProvider>
-      </UserContext.Provider>
-    </AuthContext.Provider>
+    <UserContext.Provider value={{ user, setUser }}>
+      <QueryClientProvider client={queryClient}>
+        <RouterProvider router={router} />
+      </QueryClientProvider>
+    </UserContext.Provider>
   );
 }
 

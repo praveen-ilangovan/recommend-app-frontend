@@ -18,7 +18,6 @@ import "./BoardKnobControlPanel.css";
 
 import { useUpdateBoard } from "../../rqhooks/useUpdateBoard";
 import { useDeleteBoard } from "../../rqhooks/useDeleteBoard";
-import { AuthContext } from "../../store/AuthContext";
 import { UserContext } from "../../store/UserContext";
 
 // TODO: Form Control width adjustment
@@ -30,7 +29,6 @@ export default function BoardKnobControlPanel({
   isPrivateBoard,
   ownerId
 }) {
-  const { auth } = useContext(AuthContext);
   const { user } = useContext(UserContext);
 
   const editable = ownerId === user.userId;

@@ -19,18 +19,10 @@ export const client = axios.create({
 
 // Utils
 export const getAccessToken = () => {
-  // const auth = getSessionStorageOrDefault("AuthData");
-  // if (auth) {
-  //   return auth.accessToken;
-  // }
   return readAccessToken();
 }
 
 export const getRefreshToken = () => {
-  // const auth = getSessionStorageOrDefault("AuthData");
-  // if (auth) {
-  //   return auth.refreshToken;
-  // }
   readRefreshToken();
 }
 
@@ -65,9 +57,6 @@ export const removeHeaderToken = () => {
 // }
 
 const fetchNewToken = async () => {
-  console.log("Refresh Token in AuthData :", getRefreshToken());
-  console.log("Refresh Token in localStorage :", readRefreshToken());
-
   try {
     const token = await client
       .get("/session/refresh", {
@@ -97,13 +86,6 @@ const refreshSession = async (failedRequest) => {
     // authData.accessToken = newToken;
     // setSessionStorage("AuthData", authData);
 
-    setSessionStorage("AuthData", {
-      // accessToken: data?.access_token,
-      // refreshToken: data?.refresh_token,
-      userId: data?.id,
-      userFirstname: data?.first_name,
-    });
-
     setSessionStorage("recommendAppUserData", {
       userId: data?.id,
       userFirstname: data?.first_name,
@@ -114,13 +96,6 @@ const refreshSession = async (failedRequest) => {
     Promise.resolve(newToken);
   } else {
     console.log("Refresh token is expired")
-    setSessionStorage("AuthData", {
-      // accessToken: null,
-      // refreshToken: null,
-      userId: null,
-      userFirstname: null,
-    });
-
     setSessionStorage("recommendAppUserData", {
       userId: null,
       userFirstname: null,
