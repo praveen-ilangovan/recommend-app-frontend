@@ -9,6 +9,7 @@ import { login } from "../api/auth";
 // Local
 import { AuthContext } from "../store/AuthContext";
 import { ROUTE } from "../constants";
+import { writeRefreshToken } from "../storage";
 
 export const useCreateSession = () => {
   const { setAuth } = useContext(AuthContext);
@@ -23,6 +24,9 @@ export const useCreateSession = () => {
         userId: data.data.id,
         userFirstname: data.data.first_name,
       });
+
+      writeRefreshToken(data.data.refresh_token);
+
       redirect(ROUTE.HOME);
     },
     retry: false

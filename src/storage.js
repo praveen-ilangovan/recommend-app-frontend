@@ -9,3 +9,11 @@ export function getSessionStorageOrDefault(key, defaultValue) {
 export function setSessionStorage(key, value) {
   sessionStorage.setItem(key, JSON.stringify(value));
 }
+
+export function readRefreshToken() {
+  return localStorage.getItem("recommendAppRefreshTokenV2");
+}
+
+export function writeRefreshToken(token) {
+  localStorage.setItem("recommendAppRefreshTokenV2", token)
+}

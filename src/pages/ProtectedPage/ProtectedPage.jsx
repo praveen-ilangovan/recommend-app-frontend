@@ -5,12 +5,15 @@ import PropTypes from "prop-types";
 
 import { AuthContext } from "../../store/AuthContext";
 import { isTokenExpired } from "../../api/auth";
+import { readRefreshToken } from "../../storage";
 
 import { ROUTE } from "../../constants";
 
 export default function ProtectedPage({ children }) {
-  // const { auth, setAuth } = useContext(AuthContext);
-  // const redirect = useNavigate();
+  const { auth, setAuth } = useContext(AuthContext);
+  const redirect = useNavigate();
+
+  console.log("Refresh Token :", readRefreshToken());
 
   // useEffect(() => {
   //   const isLoggedIn = () => {
