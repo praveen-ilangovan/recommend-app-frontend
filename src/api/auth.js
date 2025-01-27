@@ -34,7 +34,18 @@ export const login = async ({ emailaddress, password }) => {
   );
 };
 
+export const refresh = async (token) => {
+  return await client.get("/session/refresh", {
+    headers: {
+      RefreshToken: "Bearer " + token,
+      "Content-Type": "application/json",
+    },
+  });
+}
+
 const fetchNewToken = async () => {
+  console.log("Refresh Token in fetchNewToken :", getRefreshToken());
+
   try {
     const token = await client
       .get("/session/refresh", {

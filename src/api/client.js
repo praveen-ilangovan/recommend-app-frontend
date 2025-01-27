@@ -36,7 +36,7 @@ export const removeHeaderToken = () => {
   delete client.defaults.headers.common.Authorization;
 };
 
-createAuthRefreshInterceptor(client, refreshSession, {
-  statusCodes: [401], // default: [ 401 ]
-  pauseInstanceWhileRefreshing: true,
-});
+// createAuthRefreshInterceptor(client, refreshSession, {
+//   statusCodes: [401], // default: [ 401 ]
+//   pauseInstanceWhileRefreshing: true,
+// });

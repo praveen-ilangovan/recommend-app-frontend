@@ -10,9 +10,20 @@ const getHeaders = () => {
   };
 }
 
-export const getMe = async () => {
+// export const getMe = async (accessToken) => {
+//   console.log("AccessToken :", getAccessToken());
+//   return await client.get("/me/", {
+//     headers: getHeaders(),
+//   });
+// };
+
+export const getMe = async (accessToken) => {
+  console.log("AccessToken in getMe :", accessToken);
   return await client.get("/me/", {
-    headers: getHeaders(),
+    headers: {
+      Authorization: "Bearer " + accessToken,
+      "Content-Type": "application/json",
+    }
   });
 };
 

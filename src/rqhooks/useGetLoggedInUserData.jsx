@@ -15,7 +15,7 @@ export const useGetLoggedInUserData = () => {
   return useQuery({
     queryKey: ["me", auth.userId],
     queryFn: async () => {
-      const data = await getMe();
+      const data = await getMe(auth.accessToken);
       return data.data;
     },
     onError(error) {
@@ -25,5 +25,6 @@ export const useGetLoggedInUserData = () => {
     },
     retry: false,
     refetchIntervalInBackground: false,
+    enabled: auth.userId != null
   })
 }

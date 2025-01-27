@@ -1,46 +1,25 @@
 // React
 import { useContext, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
 
 import { AuthContext } from "../../store/AuthContext";
-import { isTokenExpired } from "../../api/auth";
 import { readRefreshToken } from "../../storage";
-
-import { ROUTE } from "../../constants";
+import { useRefreshSession } from "../../rqhooks/useRefreshSession";
 
 export default function ProtectedPage({ children }) {
-  const { auth, setAuth } = useContext(AuthContext);
-  const redirect = useNavigate();
 
-  console.log("Refresh Token :", readRefreshToken());
+  const { auth } = useContext(AuthContext);
+  const refreshToken = readRefreshToken();
+  const { mutate: refreshSession } = useRefreshSession();
 
-  // useEffect(() => {
-  //   const isLoggedIn = () => {
-  //     console.log("Running isLoggedIn..");
+  useEffect(() => {
 
-  //     // If there is no access token, redirect to the login page
-  //     if (!auth.accessToken) {
-  //       redirect(ROUTE.LOGIN);
-  //     }
-
-  //     // If there is an access token, but it is expired, then redirect
-  //     if (auth.accessToken && isTokenExpired(auth.accessToken)) {
-  //       setAuth({ accessToken: null, userId: null, userFirstname: null });
-  //       redirect(ROUTE.LOGIN);
-  //     }
-  //   };
-
-  //   isLoggedIn();
-
-  //   //Implementing the setInterval method
-  //   const interval = setInterval(() => {
-  //     isLoggedIn();
-  //   }, 30000);
-
-  //   //Clearing the interval
-  //   return () => clearInterval(interval);
-  // }, []);
+    // If the user hasn't signed in, try refreshing the session.
+    if (!auth.userId) {
+      refreshSession(refreshToken);
+    }
+  
+  }, []);
 
   return <>{children}</>;
 }
