@@ -6,12 +6,12 @@ import { UserContext } from "../../storage/context/UserContext";
 import { readRefreshToken } from "../../storage/token";
 import { useRefreshSession } from "../../rqhooks/useRefreshSession";
 
-export default function ProtectedPage({ children }) {
+export default function ProtectedPage({ redirectUponError, children }) {
 
   const { user } = useContext(UserContext);
 
   const refreshToken = readRefreshToken();
-  const { mutate: refreshSession } = useRefreshSession();
+  const { mutate: refreshSession } = useRefreshSession(redirectUponError);
 
   useEffect(() => {
 

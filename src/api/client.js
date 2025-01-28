@@ -5,7 +5,8 @@ import createAuthRefreshInterceptor from "axios-auth-refresh";
 // Local Imports
 import { RECOMMEND_APP_URL } from "./constants";
 import { writeUserData } from "../storage/userdata";
-import { readAccessToken, readRefreshToken, writeAccessToken, clearAccessToken, clearRefreshToken } from "../storage/token";
+import { readAccessToken, readRefreshToken, writeAccessToken, clearTokens } from "../storage/token";
+import { DEFAULT_USER_DATA } from "../constants";
 
 // Clients
 export const client = axios.create({
@@ -53,20 +54,14 @@ const refreshSession = async (failedRequest) => {
       userId: data?.id,
       userFirstname: data?.first_name,
     });
-
     writeAccessToken(newToken);
 
     Promise.resolve(newToken);
   } else {
     console.log("Refresh token is expired")
 
-    writeUserData({
-      userId: null,
-      userFirstname: null,
-    });
-
-    clearAccessToken();
-    clearRefreshToken();
+    writeUserData(DEFAULT_USER_DATA);
+    clearTokens();
 
     Promise.reject(new Error());
   }

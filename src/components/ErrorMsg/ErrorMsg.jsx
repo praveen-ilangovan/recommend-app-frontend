@@ -9,6 +9,7 @@ import { faHouse } from "@fortawesome/free-solid-svg-icons";
 import pageNotFoundImg from "../../assets/img/404.jpg";
 import accessDeniedImg from "../../assets/img/access_denied.png"
 import placeholderImg from "../../assets/img/placeholder-image.jpg";
+
 import { ROUTE } from "../../constants";
 
 // Styling: Local
@@ -32,7 +33,7 @@ const MESSAGES = {
   }
 }
 
-export default function ErrorMsg({code}) {
+export default function ErrorMsg({ code }) {
   const redirect = useNavigate();
   const key = code in MESSAGES ? code : 'DEFAULT';
 

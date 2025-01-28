@@ -19,7 +19,6 @@ import { UserContext } from "../../storage/context/UserContext";
 
 export default function CardPage() {
   const { user } = useContext(UserContext);
-
   const params = useParams();
   const [editMode, setEditMode] = useState(false);
 
@@ -39,7 +38,7 @@ export default function CardPage() {
   }
 
   return (
-    <ProtectedPage>
+    <ProtectedPage redirectUponError={ false }>
       <Container fluid className="recommend-page-container">
         <div
           className={editMode ? "card-page-hide-component" : "card-page-div"}

@@ -5,7 +5,7 @@ import HomePage from "../HomePage/HomePage";
 
 export default function LandingPage() {
   return (
-    <ProtectedPage>
+    <ProtectedPage redirectUponError={true}>
       <HomePage />
     </ProtectedPage>
   );

@@ -31,7 +31,7 @@ export default function BoardPage() {
   }
 
   return (
-    <ProtectedPage>
+    <ProtectedPage redirectUponError={ false }>
       <Container fluid className="recommend-page-container">
         <div className="board-page-control-panel">
           <BoardKnobControlPanel

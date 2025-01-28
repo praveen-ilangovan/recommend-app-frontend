@@ -23,10 +23,8 @@ export const useCreateSession = () => {
         userId: data.data.id,
         userFirstname: data.data.first_name,
       });
-
       writeAccessToken(data.data.access_token);
       writeRefreshToken(data.data.refresh_token);
-
       redirect(ROUTE.HOME);
     },
     retry: false

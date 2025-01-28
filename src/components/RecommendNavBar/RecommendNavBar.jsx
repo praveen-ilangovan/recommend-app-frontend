@@ -17,12 +17,12 @@ import RecommendBrandName from "../RecommendBrandName/RecommendBrandName";
 
 // Context
 import { UserContext } from "../../storage/context/UserContext";
-import { clearAccessToken, clearRefreshToken } from "../../storage/token";
+import { clearTokens } from "../../storage/token";
 
 // Styling: Local
 import "./RecommendNavBar.css";
 
-import { ROUTE } from "../../constants";
+import { ROUTE, DEFAULT_USER_DATA } from "../../constants";
 
 export default function RecommendNavBar() {
   const { user } = useContext(UserContext);
@@ -76,14 +76,8 @@ function SignedInUser() {
   const redirect = useNavigate();
 
   function logout() {
-    setUser({
-      userId: null,
-      userFirstname: null,
-    });
-
-    clearAccessToken();
-    clearRefreshToken();
-
+    setUser(DEFAULT_USER_DATA);
+    clearTokens();
     redirect(ROUTE.LOGIN);
   }
 

@@ -25,3 +25,9 @@ export function writeRefreshToken(token) {
 export function clearRefreshToken() {
   clearFromStorage(REFRESH_TOKEN, true);
 }
+
+// Utils
+export function clearTokens() {
+  clearAccessToken();
+  clearRefreshToken();
+}

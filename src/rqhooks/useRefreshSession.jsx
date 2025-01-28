@@ -8,10 +8,10 @@ import { refresh } from "../api/auth";
 
 // Local
 import { UserContext } from "../storage/context/UserContext";
-import { writeAccessToken, clearAccessToken, clearRefreshToken } from "../storage/token";
-import { ROUTE } from "../constants";
+import { writeAccessToken, clearTokens } from "../storage/token";
+import { ROUTE, DEFAULT_USER_DATA } from "../constants";
 
-export const useRefreshSession = () => {
+export const useRefreshSession = (redirectUponError=false) => {
   const { setUser } = useContext(UserContext);
 
   const redirect = useNavigate();
@@ -23,19 +23,14 @@ export const useRefreshSession = () => {
         userId: data.data.id,
         userFirstname: data.data.first_name,
       });
-
       writeAccessToken(data.data.access_token);
     },
     onError() {
-      setUser({
-        userId: null,
-        userFirstname: null,
-      });
-
-      clearAccessToken();
-      clearRefreshToken();
-
-      redirect(ROUTE.LOGIN);
+      setUser(DEFAULT_USER_DATA);
+      clearTokens();
+      if (redirectUponError) {
+        redirect(ROUTE.LOGIN);
+      }
     },
     retry: false
   });
