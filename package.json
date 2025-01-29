@@ -8,7 +8,9 @@
     "build": "vite build",
     "lint": "eslint .",
     "fmt": "prettier --write src",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "dbuild": "docker build -t praveen/recommend-app-frontend .",
+    "drun": "docker run --rm -it -p 80:80 praveen/recommend-app-frontend"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^6.7.2",
