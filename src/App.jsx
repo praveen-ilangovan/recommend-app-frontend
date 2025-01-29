@@ -10,7 +10,6 @@ import RegisterPage from "./pages/RegisterPage/RegisterPage";
 import BoardPage from "./pages/BoardPage/BoardPage";
 import CardPage from "./pages/CardPage/CardPage";
 import CardComposerPage from "./pages/CardComposerPage/CardComposerPage";
-import CardEditPage from "./pages/CardEditPage/CardEditPage";
 import ErrorPage from "./pages/ErrorPage/ErrorPage";
 
 // Hooks
@@ -36,7 +35,6 @@ const router = createBrowserRouter([
       { path: ROUTE.REGISTER, element: <RegisterPage /> },
       { path: ROUTE.BOARD, element: <BoardPage /> },
       { path: ROUTE.CARD, element: <CardPage /> },
-      { path: ROUTE.EDIT_CARD, element: <CardEditPage /> },
       { path: ROUTE.CREATE_CARD, element: <CardComposerPage /> },
       { path: ROUTE.ERROR, element: <ErrorPage />}
     ],
