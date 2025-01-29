@@ -20,6 +20,8 @@ export const useGetCard = (cardId) => {
         redirect(ROUTE.LOGIN);
       } else if (error.status === 404) {
         redirect(ROUTE.ERROR.replace(":errorCode", "404"));
+      } else if (error.status === 403) {
+        redirect(ROUTE.ERROR.replace(":errorCode", "403"));
       }
       console.log("Get card failed: ", error);
     },
