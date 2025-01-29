@@ -1,0 +1,11 @@
+.card-view-div {
+  margin: 20px;
+  display: flex; /* or inline-flex */
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.card-view-hide-component {
+  display: none;
+}
