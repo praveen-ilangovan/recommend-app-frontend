@@ -39,7 +39,7 @@ export default function CardForm({ card, onUpdate }) {
       for (const board of userData?.boards || {}) {
         availableBoards.push({ id: board.id, name: board.name });
       }
-      firstBoard = userData?.boards[0].id;
+      firstBoard = availableBoards.length ? userData?.boards[0].id : "";
     }
   }
 
