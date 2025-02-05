@@ -13,7 +13,11 @@ export default function LoginForm() {
     password: yup.string().required(),
   });
 
-  const { mutateAsync: createSession } = useCreateSession();
+  const { mutateAsync: createSession, isError, error } = useCreateSession();
+
+  if (isError && error.status === 400) {
+    alert("Login failed. Please check your authentication details");
+  }
 
   async function onSubmit(values) {
     await createSession(values);
